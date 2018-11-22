@@ -1,0 +1,106 @@
+.x-home-from-container{
+    width: 100%;
+    height: calc(100% - 88px);
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+   
+}
+@media screen and (max-width: 1600px){
+        .btn-group-container{
+            text-align:center;
+            margin-left: 80px;
+        }
+        .x-home-form{
+            width: 500px;
+            height: auto;
+            .el-date-editor.el-input{
+                width:100%;
+            }
+        }
+}
+@media screen and (min-width:1600px){
+    .x-home-form{
+        width:688px;
+        height: auto;
+        .el-select-dropdown__item{
+            font-size: 42px;
+            height: 60px;
+            line-height:60px;
+        }
+        .btn-group-container{
+            text-align:center;
+            margin-top:20px;
+        }
+        .btn-default{
+            width:257px;
+            border-radius:8px;
+            height:70px;
+            line-height:30px;
+            font-size: 30px;
+            border: 1px solid #20a0ff;
+            background-color: #ffffff;
+            color: #20a0ff;
+            &:first-child{
+                margin-right: 40px;
+            }
+        }
+        .btn-blue{
+             background-color: #20a0ff;
+             color: #ffffff;
+        }
+        label.el-form-item__label{
+            font-family: PingFangSC-Medium;
+            font-size: 38px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #5e6d82;
+            line-height: 60px;
+            height: 60px;
+        }
+        .el-date-editor.el-input{
+            width:100%;
+        }
+        input.el-input__inner{
+            height: 60px;
+            line-height: 60px;
+            border-radius: 8px;
+            border: solid 1px #c0ccda;
+            // max-width: 500px;
+            font-family: PingFangSC-Medium;
+            font-size: 36px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #20a0ff;
+        }
+        .el-radio-group{
+            .el-radio__inner{
+                width: 27px;
+                height: 27px;
+            }
+            .el-radio__inner::after{
+                width: 10px;
+                height: 10px;
+            }
+            label.el-radio{
+                height: 60px;
+                line-height: 60px;
+                .el-radio__input{
+                    line-height: 60px;
+                }
+                .el-radio__label{
+                    font-family: PingFangSC-Regular;
+                    font-size: 34px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    letter-spacing: 0px;
+                }
+            }
+        }
+    }
+}

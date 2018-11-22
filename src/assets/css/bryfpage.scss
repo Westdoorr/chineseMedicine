@@ -1,0 +1,268 @@
+/*全局样式  主要是修改element的样式 局部样式无法修改element 组件样式 通过添加最外层的容器避免重盖*/
+.bryf-container{
+    display: flex;
+    .info-container{
+      width: 840px;
+    }
+    .info-container .wzwt-info-container .wzwt-input-container textarea{
+        font-family: PingFangSC-Medium;
+        font-size: 30px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #1f2d3d;
+        height: 235px;
+        padding: 15px;
+        resize: none;
+    }
+    .info-container .bqms-info-container .bqms-input-container textarea{
+        font-family: PingFangSC-Medium;
+        font-size: 30px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #475669;
+        height: 380px;
+        padding: 15px;
+        resize: none;
+    }
+    .basicInfo_select{
+        width: 100%;
+        border: 0px;
+        .el-select__tags{
+            max-width: 100% !important;
+            min-width: 100% !important;
+        }
+        .el-input.el-input--suffix.is-focus input{
+            border: 0px;
+            width: 100%;
+            padding: 0px;
+        }
+        .el-input.el-input--suffix input{
+            border: 0px;
+        }
+        span.el-input__suffix{
+            display: none
+        }
+    }
+    .btn-default{
+        width: 200px;
+        height: 70px;
+        border: solid 1px #20a0ff;
+        border-radius: 8px;
+        span{
+            font-family: PingFangSC-Regular;
+            font-size: 30px;
+            font-weight: normal;
+            font-stretch: normal;
+            line-height: 23.8px;
+            letter-spacing: 0px;
+            color: #20a0ff;
+        }
+    }
+    .btn-blue{
+        background-color:#20a0ff;
+        span{
+            color: #ffffff;
+        }
+    }
+    .btn-border-red{
+         border: solid 1px #ff4949!important;
+         span{
+             color: #ff4949!important;
+         }
+    }
+    .mainReList-container-div{
+        .btn-default{
+            width: 200px;
+            height: 65px;
+            border: solid 1px #20a0ff;
+            background-color: #ffffff;
+            border-radius: 8px;
+                span{
+                    font-family: PingFangSC-Regular;
+                    font-size: 30px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    line-height: 23.8px;
+                    letter-spacing: 0px;
+                    color: #20a0ff;
+                }
+        }
+        .zf-btn-delete {
+            width: 60px;
+            height: 60px;
+            padding: 12px 12px;
+            margin-top: 5px;
+            margin-left: 18px;
+            i{
+                font-size: 30px;
+            }
+        }
+    }
+    .zf-search-info{
+        width: 100%;
+        height: 55px;
+        line-height: 55px;
+        display: flex;
+        .icon{
+          //margin-top: 5px;
+          width: 55px;
+          height:55px;
+          margin-right: 6px;
+          img{
+            width: 55px;
+            height: 55px;
+          }
+          .icon_rk{
+              width: 100%;
+              height: 100%;
+               //background:url(../img/ic_ruku1.png);
+        }
+        }
+        span{
+            height: 42px;
+            font-family: PingFangSC-Medium;
+            font-size: 30px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #475669;
+        }
+        span[name="zfname"]{
+            display: inline-block;
+            width: 90px;
+            padding-right: 10px;
+        }
+        span:nth-child(4){
+            padding-right: 10px;
+        }
+        :nth-child(6){
+            padding-right: 10px;
+        }
+        .new-yfmc{
+            width: 215px;
+            input.el-input__inner{
+                width: 215px;
+                height: 55px;
+                border-radius: 8px;
+                border: solid 1px #c0ccda;
+                background-color: #ffffff;
+                font-family: PingFangSC-Medium;
+                font-size: 30px;
+                line-height: 32px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #475669;
+            }
+        }
+        .ywfs{
+             width: 80px;
+             margin: 0px 20px 0px 0px;
+             text-align: center;
+             input.el-input__inner{
+                width: 80px;
+                height: 55px;
+                border-radius: 8px;
+                border: solid 1px #c0ccda;
+                background-color: #ffffff;
+                font-family: PingFangSC-Medium;
+                font-size: 30px;
+                line-height: 55px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                text-align: center;
+                color: #475669;
+               margin-left: 10px;
+            }
+        }
+        .ywbz{
+            display: block;
+            width: 277px;
+            margin: 0px 6px 0px 0px;
+            input.el-input__inner{
+                width: 100%;
+                height: 55px;
+                border-radius: 8px;
+                border: solid 1px #c0ccda;
+                background-color: #ffffff;
+                font-family: PingFangSC-Medium;
+                font-size: 30px;
+                line-height: 32px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #475669;
+            }
+        }
+        .rk-checkbox{
+            span.el-checkbox__inner{
+                width: 40px;
+                height: 40px;
+            }
+            span.el-checkbox__input.is-checked{
+                width: 40px;
+                height: 40px;
+
+                span.el-checkbox__inner{
+                    width: 40px;
+                    height: 40px;
+                    padding-right: 0px;
+                    border-radius: 8px;
+                }
+                span.el-checkbox__inner::after{
+                    height: 23px;
+                    left: 15px;
+                    top: 4px;
+                    width: 8px;
+
+                }
+            }
+            span.el-checkbox__label{
+                font-family: PingFangSC-Medium;
+                font-size: 30px;
+                font-weight: normal;
+                font-stretch: normal;
+                line-height: 33.6px;
+                letter-spacing: 0px;
+                color: #475669;
+                vertical-align: middle;
+            }
+        }
+      .el-button:focus, .el-button:hover {
+        color: #d540ff;
+        border-color: #b3d8ff;
+        background-color: #ecf5ff;
+      }
+    }
+    .yf-fs-info{
+        display: flex;
+        align-items: center;
+        span{
+            font-family: PingFangSC-Medium;
+            font-size: 30px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #475669;
+        }
+        .yf-fs-all{
+            width: 88px;
+            height: 60px;
+            margin: 0px 15px;
+            input{
+                font-family: PingFangSC-Medium;
+                font-size: 30px;
+                line-height: 32px;
+                height: 60px;
+                border-radius: 8px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #475669;
+            }
+        }
+    }
+}

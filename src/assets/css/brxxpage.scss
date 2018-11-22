@@ -1,0 +1,197 @@
+//兼容平板
+@media screen and (max-width: 1024px) {
+    .brxx-info-container{
+        height: calc(100% - 168px);
+        max-height: calc(100% - 168px);
+        overflow-y: auto;
+        .age-sm-screen{
+            label{
+            max-width: 50px !important; 
+            }
+            .el-form-item__content{
+                margin-left: 50px !important;
+            }
+        }
+        .el-form-item__label{
+            width: 70px !important;
+        }
+        .el-form-item__content{
+            margin-left: 70px !important;
+        }
+        .el-checkbox+.el-checkbox{
+            margin-left: 0px;
+        }
+        .el-checkbox{
+            margin-right: 20px;
+        }
+    }
+}
+//特殊划分为两列
+@media screen and (min-width:1024px) and (max-width:1600px){
+    .suffix-input-width{
+        width: calc(100% - 24px);
+    }
+}
+.brxx-info-container{
+    padding: 40px 6%;
+    height: calc(100% - 168px);
+    max-height: calc(100% - 168px);
+    overflow-y: auto;
+    .two-col-container{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        .frist-col-container,.seconde-col-container{
+            width: 50%;
+        }
+        .seconde-col-container{
+            padding-left: 10px;
+        }
+       
+    }
+     
+}
+@media screen and (min-width:1600px){
+    li.el-select-dropdown__item {
+        font-size: 42px;
+        height: 60px;
+        line-height: 60px;
+    }
+    .brxx-info-container{
+        .el-select{
+            width: 100%;
+        }
+        .btn-blue{
+            width:200px;
+            border-radius:8px;
+            height:70px;
+            line-height:30px;
+            font-size: 30px;
+        }
+        .btn-default{
+            width:200px;
+            border-radius:8px;
+            height:70px;
+            line-height:30px;
+            font-size: 30px;
+            border: 1px solid #20a0ff;
+            background-color: #ffffff;
+            color: #20a0ff;
+        }
+        .seconde-col-container .el-row{
+            &:last-child{
+                .el-form-item{
+                    margin-bottom: 0px;
+                }
+            }
+        }
+        label.el-form-item__label{
+            font-family: PingFangSC-Medium;
+            font-size: 38px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #5e6d82;
+            line-height: 60px;
+            height: 60px;
+        }
+        input.el-input__inner{
+            height: 60px;
+            line-height: 60px;
+            border-radius: 8px;
+            border: solid 1px #c0ccda;
+            // max-width: 500px;
+            font-family: PingFangSC-Medium;
+            font-size: 36px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #20a0ff;
+        }
+        .suffix-input-width{
+            width: calc(100% - 55px);
+        }
+        .suffix-input-span{
+                font-family: PingFangSC-Medium;
+                font-size: 38px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #5e6d82;
+                height: 60px;
+        }
+        .col-no-padding{
+            padding: 0px 0px !important;
+        }
+        .el-checkbox-group{
+            span.el-checkbox__input{
+                line-height: 3;
+                vertical-align: middle;
+            }
+            span.el-checkbox__inner{
+                    width: 27px;
+                    height: 27px;
+                    border-radius: 6.8px;
+            }
+            .el-checkbox__input.is-checked .el-checkbox__inner::after{
+                height: 18px;
+                left: 8px;
+                top: 0px;
+                width: 10px;
+            }
+            .el-checkbox__label{
+                font-family: PingFangSC-Regular;
+                font-size: 34px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #1f2d3d;
+                line-height: 34px;
+            }
+            .el-checkbox__input.is-checked+.el-checkbox__label{
+                color: #409EFF;
+            }
+            .el-checkbox{
+                margin-right: 20px;
+                margin-left: 0px;
+            }
+            .el-checkbox+ .el-checkbox{
+                margin-left: 0px;
+            }
+        }
+        .el-radio-group{
+            .el-radio__inner{
+                width: 27px;
+                height: 27px;
+            }
+            .el-radio__inner::after{
+                width: 10px;
+                height: 10px;
+            }
+            label.el-radio{
+                height: 60px;
+                line-height: 60px;
+                .el-radio__input{
+                    line-height: 60px;
+                }
+                .el-radio__label{
+                    font-family: PingFangSC-Regular;
+                    font-size: 34px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    letter-spacing: 0px;
+                }
+            }
+        }
+        
+        
+        textarea{
+            font-family: PingFangSC-Medium;
+            font-size: 36px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0px;
+            color: #20a0ff;
+        }
+    }
+}

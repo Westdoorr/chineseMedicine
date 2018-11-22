@@ -1,0 +1,131 @@
+
+.no-padding{
+    padding: 0px 0px;
+  }
+  .full-width{
+    width: 100%;
+  }
+  .normal-btn-primary{
+    width: 200px;
+    height: 70px;
+    background-color: #20a0ff;
+    border-radius: 8px;
+    text-align: center;
+    span{
+      width: 146px;
+      height: 24px;
+      font-family: PingFangSC-Regular;
+      font-size: 30px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 23.8px;
+      letter-spacing: 0px;
+      color: #ffffff;
+    }
+  }
+  .normal-btn-default{
+    width: 200px;
+    height: 70px;
+    border-radius: 8px;
+    border: solid 1px #20a0ff;
+    background-color: #ffffff;
+    text-align: center;
+    span{
+      width: 170px;
+      height: 27px;
+      font-family: PingFangSC-Regular;
+      font-size: 30px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 23.8px;
+      letter-spacing: 0px;
+      color: #20a0ff;
+    }
+  }
+
+  .from-container-div{
+    position: relative;
+    width: 100%;
+    height: calc(100% - 88px);
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    align-items: center;
+    button.el-button.el-button--default.normal-btn-default span::before{
+      content: '*';
+      color: #f56c6c;
+      margin-right: 4px;
+    }
+  }
+  .el-select-dropdown__item{
+      font-size: 42px;
+      height: 60px;
+      line-height:60px;
+  }
+  .base-form-c{
+    width: 736px;
+    height: auto;
+    margin-top:130px;
+    p.el-select-dropdown__empty{
+        font-size: 42px;
+        line-height: 60px;
+    }
+    .el-form-item{
+      margin-bottom: 30px;
+
+    }
+    .el-form-item__label{
+      float: left;
+      font-family: PingFangSC-Medium;
+      font-size: 42px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: #5e6d82;
+      padding: 0;
+      line-height: 72px;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-right: 30px;
+    }
+    .el-input__inner{
+          height: 72px;
+          line-height: 72px;
+          border-radius: 8px;
+          font-size:38px;
+	        border: solid 1px #c0ccda;
+          color: #20a0ff;
+    }
+    .el-radio-group {
+        height: 72px;
+        display: inline-block;
+        line-height: 88px;
+        vertical-align: middle;
+        font-size: 0;
+    }
+    .el-radio__input{
+        line-height: 41px;
+    }
+    .el-radio__inner{
+          width: 27px;
+          height: 27px;
+    }
+    .el-radio__inner::after{
+       width: 10px;
+                height: 10px;
+    }
+    .el-radio__label{
+      width: 34px;
+      height: 48px;
+      font-family: PingFangSC-Regular;
+      font-size: 34px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: #1f2d3d;
+    }
+
+
+  }

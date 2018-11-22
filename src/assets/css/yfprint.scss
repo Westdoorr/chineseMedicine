@@ -1,0 +1,172 @@
+// html{
+//     font-size:10px;
+//     margin: 0px;
+//     padding: 0px;
+// }
+// body{
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     margin: 0px;
+// }
+@page :pseudo-class {
+    size: A5;
+    margin:0;
+}
+.print-container{
+
+    width: 720px;
+    height: 1050px;
+    max-width: 1050;
+    overflow: hidden;
+    // padding: 35px;
+    margin: 0px auto;
+        .label-tag{
+        padding: 0px 10px;
+        font-family: SourceHanSerifCN-Bold;
+        font-size: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 2px;
+        color: #d02929;
+    }
+    .font-content{
+        font-family: SourceHanSerifCN-Medium;
+        font-size: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 2px;
+        color: #000000;
+    }
+    .font-color-red{
+        font-family: SourceHanSerifCN-Bold;
+        font-size: 20px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 5px;
+        color: #d02929;
+    }
+    .print-header-container{
+        padding: 0px 10px 10px 10px;
+        border-bottom: solid 2px #d02929;
+        .print-img-container{
+            text-align: center;
+            margin:12px 0px;
+            img{
+                margin: 0 auto;
+            }
+        }
+        .print-br-info{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .print-foot-container{
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: solid 2px #d02929;
+        .underline{
+            display: inline-block;
+            width: 171px;
+            border-bottom: 2px solid #d02929;
+        }
+        .yf-underline{
+            display: inline-block;
+            width: 139px;
+            border-bottom: 2px solid #d02929;
+            font-family: SourceHanSerifCN-Bold;
+            font-size: 19.8px;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 2px;
+            color: #d02929;
+            text-align: center;
+        }
+        .frist-foot-item{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .seconed-foot-item{
+            display: flex;
+            justify-content: space-between;
+            .logo-img-container{
+                width: 273px;
+                height: 138px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .attention{
+                width: 440px;
+                margin-top: 10px;
+                .attention-frist{
+                    padding-bottom: 10px;
+                    border-bottom: 2px dashed #d02929;
+                }
+
+                .attention-li{
+                    font-family: SourceHanSerifCN-Bold;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    letter-spacing: 0px;
+                    color: #d02929;
+                }
+                .attention-address{
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    .print-info-container{
+            height: 740px;
+            max-height: 740px;
+            min-height:740px;
+        .yf-item{
+                padding: 10px 0px;
+                border-bottom: 1px dashed #d02929;
+            .yw-title{
+                font-family: SourceHanSerifCN-Bold;
+                font-size: 18px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #d02929;
+            }
+            .yw-list{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                .yw-item{
+                        display: flex;
+                        flex-direction: column;
+                        width: 168px;
+                        padding-top: 5px;
+                        .yw-bz{
+                            display: inline-block;
+                            height: 19px;
+                            font-family: SourceHanSerifCN-Bold;
+                            font-size: 13px;
+                            font-weight: normal;
+                            font-stretch: normal;
+                            letter-spacing: 0px;
+                            color: #d02929;
+                        }
+                        .yw-name{
+                            font-family: SourceHanSerifCN-Medium;
+                            font-size: 22px;
+                            font-weight: normal;
+                            font-stretch: normal;
+                            letter-spacing: 1.1px;
+                            color: #000000;
+                        }
+                }
+            }
+        }
+            .yf-item:last-child{
+            border-bottom: 0px dashed #d02929;
+        }
+
+    }
+}

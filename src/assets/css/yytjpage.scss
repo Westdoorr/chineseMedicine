@@ -1,0 +1,156 @@
+.sjtj-yytj-container{
+    padding: 40px;
+    margin: 0px;
+    .search-row-btn-group{
+      padding: 0px;
+      .btn-default{
+        border: solid 1px #20a0ff;
+        height: 70px;
+        span{
+          font-family: PingFangSC-Regular;
+          font-size: 30px;
+          font-weight: normal;
+          font-stretch: normal;
+          line-height: 23.8px;  
+          letter-spacing: 0px;
+          color: #20a0ff;
+        }
+      }
+      .wzqk-btn{
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      //   background-color: #f0f9ff;
+        border: solid 1px #dcdfe6;
+        span{
+            color: #303133;
+        }
+      }
+      .yytj-btn{
+        margin-left: -6px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        background-color: #f0f9ff;
+        border-right: solid 1px #20a0ff;
+        border-top: solid 1px #20a0ff;
+        border-bottom: solid 1px #20a0ff;
+        span{
+          color: #303133;
+        }
+      }
+    }
+  
+    .search-row{
+      width: 100%;
+      max-width: 1581px;;
+      margin-left: 170px;
+      height: 72px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .search-input-item{
+          width: 384px;
+          input.el-input__inner{
+          font-family: PingFangSC-Regular;
+          font-size: 34px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #1f2d3d;
+          line-height: 70px;
+          height: 70px;
+          }
+          i.el-icon-search{
+          font-size: 27px;
+          }
+    }
+    .yytj-range-date{
+        width: 510px;
+        height: 72px;
+        i{
+          font-size: 25px;
+        }
+        input{
+          width: 45%;
+          font-family: PingFangSC-Regular;
+          font-size: 34px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #1f2d3d;
+        }
+        span.el-range-separator{
+          font-size: 30px;
+          line-height: 70px;
+          width: 6%;
+        }
+      }
+    }
+    .btn-font-default{
+      font-family: PingFangSC-Regular;
+      font-size: 34px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 34px;
+      letter-spacing: 0px;
+      color: #20a0ff;
+    }
+    .bnt-font-color{
+      color: #ff4949;
+    }
+  
+    .table-continer{
+        max-width: 1520px;
+        max-height:714px;
+        margin-left: 203px;
+        overflow-y:  auto;
+        overflow-x: hidden;
+        display: flex;
+        .el-table{
+            overflow: visible;
+        }
+        .el-table tr{
+            max-height: 56.67px;
+            height: 56.67px;
+            min-height: 56.67px;
+        }
+        .el-table__header-wrapper{
+          background: #e5e9f2;
+          border: 1px solid #ebeef5;
+        }
+        .el-table__body-wrapper{
+          overflow: hidden;
+          min-height: 0px;
+          border-left: 1px solid #ebeef5;
+        }
+        .el-table .headerClassname,rowClassname {
+          background: #f0f9eb;
+          height: 76px;
+      }
+      .el-table .headerClassname th{
+          background-color: #e5e9f2;
+  
+      }
+      .el-table .headerClassname th>.cell{
+          font-family: PingFangSC-Medium;
+          font-size: 32px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #475669;
+          line-height: 42px;
+      }
+      .el-table .rowClassname .cell{
+          font-family: PingFangSC-Regular;
+          font-size: 34px;
+          line-height: 34px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #1f2d3d;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+      }
+    }
+  }

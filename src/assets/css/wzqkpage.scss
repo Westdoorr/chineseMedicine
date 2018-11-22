@@ -1,0 +1,179 @@
+.sjtj-wzqk-container{
+    padding: 40px;
+    margin: 0px;
+    .search-row-btn-group{
+      padding: 0px;
+      .btn-default{
+        border: solid 1px #20a0ff;
+        height: 70px;
+        span{
+          font-family: PingFangSC-Regular;
+          font-size: 30px;
+          font-weight: normal;
+          font-stretch: normal;
+          line-height: 23.8px;  
+          letter-spacing: 0px;
+          color: #20a0ff;
+        }
+      }
+      .wzqk-btn{
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        background-color: #f0f9ff;
+      }
+      .yytj-btn{
+        margin-left: -6px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        border-right: solid 1px #dcdfe6;
+        border-top: solid 1px #dcdfe6;
+        border-bottom: solid 1px #dcdfe6;
+        span{
+          color: #303133;
+        }
+      }
+    }
+    .search-row.flex-justify-content{
+      justify-content:space-between;
+    }
+    .search-row{
+      width: 100%;
+      height: 72px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      .wzrq-input{
+        width: 510px;
+        height: 72px;
+        i{
+          font-size: 25px;
+        }
+        input{
+          width: 45%;
+          font-family: PingFangSC-Regular;
+          font-size: 34px;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0px;
+          color: #1f2d3d;
+        }
+        span.el-range-separator{
+          font-size: 30px;
+          line-height: 70px;
+          width: 6%;
+        }
+      }
+      span[name="wzGjrs"]{
+        font-family: PingFangSC-Regular;
+        font-size: 28px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #8492a6;
+      }
+    }
+    .foot-container{
+      width: 100%;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .page-container{
+        text-align: center;
+        width: 768px;
+        margin-top: 0px;
+          .el-pager li{
+            width: 48px;
+            height: 47px;
+            line-height: 47px;
+            border: solid 1px #d3dce6;
+            margin: 0px;
+          }
+          .el-pagination button{
+            width: 48px;
+            height: 47px;
+          }
+          span.el-pagination__total{
+              font-family: HelveticaNeue;
+              font-size: 22px;
+              height: 47px;
+              line-height: 47px;
+              font-weight: normal;
+              font-stretch: normal;
+              letter-spacing: 0px;
+              color: #475669;
+          }
+          span.el-pagination__jump{
+            font-family: HelveticaNeue;
+            font-size: 22px;
+              height: 47px;
+              line-height: 47px;
+              font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #475669;
+              input {
+                font-family: HelveticaNeue;
+                font-size: 22px;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0px;
+                color: #475669;
+              }
+          }
+      }
+    }
+    .btn-font-default{
+      font-family: PingFangSC-Regular;
+      font-size: 34px;
+      font-weight: normal;
+      font-stretch: normal;
+      line-height: 34px;
+      letter-spacing: 0px;
+      color: #20a0ff;
+    }
+    .bnt-font-color{
+      color: #ff4949;
+    }
+  
+    .table-continer{
+        max-height: 520px;
+        overflow:  auto;
+        .el-table__header-wrapper{
+          background: #e5e9f2;
+        }
+        .el-table__body-wrapper{
+          max-height: 440px;
+          overflow-y:auto;
+        }
+    }
+    .el-table .headerClassname,rowClassname {
+      background: #f0f9eb;
+      height: 76px;
+    }
+    .el-table .headerClassname th{
+      background-color: #e5e9f2;
+  
+    }
+    .el-table .headerClassname th>.cell{
+        font-family: PingFangSC-Medium;
+        font-size: 32px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #475669;
+        line-height: 32px;
+    }
+    .el-table .rowClassname .cell{
+      font-family: PingFangSC-Regular;
+      font-size: 34px;
+      line-height: 34px;
+      font-weight: normal;
+      font-stretch: normal;
+      letter-spacing: 0px;
+      color: #1f2d3d;
+      overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+  }
