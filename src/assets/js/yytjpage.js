@@ -18,23 +18,45 @@ export default {
       }
     },
     created () {
-        //获取页面的初始化数据  
+        //获取页面的初始化数据
         this.initPage();
     },
     watch: {
       rangeDate:function(newQuestion, oldQuestion){
         if(this.rangeDate){
-          this.search_obj.startDate = this.$common.dateFormatStr(this.rangeDate[0],'yyyy-MM-dd');   
-          this.search_obj.endDate = this.$common.dateFormatStr(this.rangeDate[1],'yyyy-MM-dd'); 
+          this.search_obj.startDate = this.$common.dateFormatStr(this.rangeDate[0],'yyyy-MM-dd');
+          this.search_obj.endDate = this.$common.dateFormatStr(this.rangeDate[1],'yyyy-MM-dd');
         }else{
-          this.search_obj.startDate = null;   
-          this.search_obj.endDate = null; 
+          this.search_obj.startDate = null;
+          this.search_obj.endDate = null;
         }
-           
+
       },
 
     },
     methods: {
+
+      //下载表格
+      downLoad(){
+        var _that = this;
+        var param ={patientId:brid};
+        this.$http.post('/inquiry/newInquiry',param,).then(function (response) {
+            const blob = new Blob([res.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8'})
+            const downloadElement = document.createElement('a')
+            const href = window.URL.createObjectURL(blob)
+            downloadElement.href = href
+            downloadElement.download = '任务统计.xls'
+            document.body.appendChild(downloadElement)
+            downloadElement.click()
+            document.body.removeChild(downloadElement) // 下载完成移除元素
+            window.URL.revokeObjectURL(href) // 释放掉blob对象
+        }).catch(function (error) {
+          console.log(error);
+        });
+
+      },
+
+      //
       rowClassname() {
         return "rowClassname";
       },
@@ -164,7 +186,7 @@ export default {
             if(arry[index] && arry[index].yindex){
               arry[index].yindex = index*3 + type;
             }else{
-              
+
               arry[index].yindex = null;
             }
           }

@@ -11,7 +11,7 @@
           font-size: 30px;
           font-weight: normal;
           font-stretch: normal;
-          line-height: 23.8px;  
+          line-height: 23.8px;
           letter-spacing: 0px;
           color: #20a0ff;
         }
@@ -38,11 +38,11 @@
         }
       }
     }
-  
+
     .search-row{
       width: 100%;
-      max-width: 1581px;;
-      margin-left: 170px;
+      max-width: 1680px;;
+      margin-left: 120px;
       height: 72px;
       margin-bottom: 20px;
       display: flex;
@@ -98,7 +98,7 @@
     .bnt-font-color{
       color: #ff4949;
     }
-  
+
     .table-continer{
         max-width: 1520px;
         max-height:714px;
@@ -129,7 +129,7 @@
       }
       .el-table .headerClassname th{
           background-color: #e5e9f2;
-  
+
       }
       .el-table .headerClassname th>.cell{
           font-family: PingFangSC-Medium;

@@ -668,7 +668,7 @@ export default {
     }
     ,computed: {
         getPersonInfo:function(){
-            var result_str =this.yfdata.gender+" , "+this.yfdata.resisdence+" , "+this.yfdata.date+" , "+this.yfdata.age+"岁 , 第"+this.yfdata.times+"次";
+            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+this.yfdata.times+"次";
             return result_str;
         }
     }
