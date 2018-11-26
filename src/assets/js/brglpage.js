@@ -125,6 +125,7 @@ export default {
          */
       newInquiry_new(brid){
         var _that = this;
+
         var param ={patientId:brid};
         this.$http.post('/inquiry/newInquiry',param).then(function (response) {
           if(response.code=="1"){

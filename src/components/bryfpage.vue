@@ -4,17 +4,16 @@
             <div class="bqms-info-container">
               <span class="person-info">{{yfdata.pName+","+getPersonInfo}}</span>
                 <div class="titile-container"  style="display: flex; justify-content: space-between;">
-                  <div class="" @click="setActiveSyle(2)">
+                  <div class="container" @click="setActiveSyle(2)">
                      <span>病情描述</span>
-                      <span>
-                          <i v-bind:class="[b_isActive ? 'el-icon-caret-top' : 'el-icon-caret-bottom']"></i>
+                     <span>
+                        <i v-bind:class="[b_isActive ? 'el-icon-caret-top' : 'el-icon-caret-bottom']"></i>
                         <!-- <i class="el-icon-caret-bottom"></i> -->
-                      </span>
+                     </span>
                   </div>
                   <div class="time1">
-                    <el-input class="el-input1" v-model="addTime" placeholder="时间"></el-input>
+                      <el-input class="el-input1" v-model="yfdata.inquiryDate" placeholder="时间"></el-input>
                   </div>
-
                 </div>
                 <div v-bind:class="[{ 'isdisplaynone': b_isActive }, 'bqms-input-container']">
                 <!-- <div class="bqms-input-container"> -->
@@ -29,7 +28,7 @@
                 </div>
             </div>
             <div class="wzwt-info-container">
-              <div class="titile-container" style="margin-top: 10px;font-size: 30px;">
+              <div class="titile-container" style="margin-top: 10px;font-size: 30px;color: #475669;">
                       <span @click="setActiveSyle(1)">
                           诊断标签
                       </span>
@@ -85,6 +84,7 @@
                            <span name="zfname">副方{{vindex+1}}</span>
                           <el-input class="new-yfmc"  @keyup.enter.native="addfyfyw($event,vindex,mrindex)"></el-input>
                           <el-input class="ywfs"  @change="updateZfAmount(mrindex)" v-model="vice.amount"></el-input><span>&nbsp;付</span>
+                          <el-input class="ywbz" v-model="vice.remarks" placeholder="备注"></el-input>
                           <el-button class="btn-default icon icon_rk" v-model="vice.isStock" type="primary" @click="viceRuKu(mrindex,vindex)" style="padding: 0px; border: none">
                              <img v-if="vice.isStock" src="../assets/img/ic_ruku1.png">
                              <img src="../assets/img/ic_ruku.png" v-else>
@@ -107,7 +107,8 @@
                 <div style="clear: none; width: 100%; overflow:hidden;">
                   <div class="yf-fs-info" style=" float: left">
                       <span>共计</span>
-                      <el-input class="yf-fs-all" v-model="allTotal"></el-input>
+                      <!--<el-input class="yf-fs-all" v-model="allTotal"></el-input>-->
+                      <el-input class="yf-fs-all" v-model="yfdata.amount"></el-input>
                       <span>付</span>
                   </div>
                   <div class="yf-header-container" style=" float: right">
@@ -177,6 +178,7 @@
                     height: auto;
                     margin-top:10px;
                     /*height: 233px;*/
+
                 }
             }
             .bqms-info-container{
@@ -184,6 +186,7 @@
                 height: auto;
                 .bqms-input-container{
                     margin-top: 10px;
+                  font-size: 34px;
                 }
               .titile-container{
                 margin-top: 10px;
@@ -195,16 +198,19 @@
                   letter-spacing: 0px;
                   color: #475669;
                 }
+
                 .time1{
-                  width: 287px;
+                  width: 387px;
                   height: 45px;
                   font-size: 28px;
-                  .el-input1{
+                  .el-input{
                     height: 45px;
                     font-size: 28px;
                     /*border: 1px solid #000;*/
-                    .el-input__inner{
-                      border:none
+                    .el-input .el-input__inner{
+                      /*border:none*/
+                      height: 50px;
+                      border: 1px solid #00ff00;
                     }
                   }
                 }
@@ -272,17 +278,17 @@
         overflow: hidden;
         .yp-item{
             width:244px;
-            height: 55px;
+            height: 60px;
             box-sizing: border-box;
-            line-height: 55px;
+            line-height: 60px;
             overflow: hidden;
             input{
               width:244px;
-              height: 55px;
+              height: 60px;
               box-sizing: border-box;
               padding: 5px 15px;
               font-family: PingFangSC-Regular;
-              font-size: 30px;
+              font-size: 40px;
               color: #475669;
               border: 1px solid #c0ccda;
               border-bottom: 0px;

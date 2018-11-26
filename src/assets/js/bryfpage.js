@@ -2,6 +2,8 @@ export default {
     name:"bryfpage"
     ,data() {
         return {
+            count:0, //第几次
+
             allTotal:0,
             diagnoseLabels:null,
             d_isActive:false,
@@ -20,6 +22,8 @@ export default {
                 "gender":"",
                 "date":"",
                 "address":"",
+                "amount":null, //主方数
+                "inquiryDate":null,
                 mainReList: [
                     {
                     "amount": null,
@@ -668,7 +672,8 @@ export default {
     }
     ,computed: {
         getPersonInfo:function(){
-            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+this.yfdata.times+"次";
+          // console.log(this.yfdata)
+            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+parseInt(this.yfdata.times+this.count)+"次";
             return result_str;
         }
     }
@@ -818,6 +823,7 @@ export default {
      */
     initPage:function(){
         var prePathParams = JSON.parse(window.localStorage.getItem("prePathParams"));
+
         console.log("传输的数据",prePathParams)
         // this.is_display_xjzd = true;
         // this.is_display_fh = prePathParams.is_display_xj;
@@ -825,14 +831,16 @@ export default {
         // this.is_display_zd = true;
         if(prePathParams.path == "brglpage"){
           console.log("从病人管理页面来")
+          this.count=1
           this.is_display_fh = prePathParams.is_display_xj;
           this.is_display_xj = prePathParams.is_display_fh;
           console.log(this.is_display_xj)
             //排除从病人管理的新建复诊
-            // if(prePathParams.data.xzfz != "new"){
-            //     this.is_display_fh = false;
-            //     this.is_display_zd = true;
-            // }
+            if(prePathParams.data.xzfz == "new"){
+                this.count=1
+                // this.is_display_fh = false;
+                // this.is_display_zd = true;
+            }
             // if(prePathParams.path=="grblglpage" && prePathParams.data.xzfz != "new"){
             //     this.is_display_xjzd = false;
             //     this.is_display_fh = false; //返回
@@ -846,7 +854,10 @@ export default {
           this.is_display_xj =false
           this.is_display_zd =false
         }
+        else if(prePathParams.path == "xjczbr"){
+           this.count=1
 
+        }
         else{
             this.is_display_fh = true;
             this.is_display_zd = false;
@@ -929,6 +940,7 @@ export default {
      */
     setSubmitYfData:function(yfdata){
         //生成新的对象 避免改到原本的数据值
+       console.log(yfdata)
         var tmpObj = JSON.parse(JSON.stringify(yfdata));
         for(var i in tmpObj.mainReList){
             var recipeDetailList = new Array();
@@ -954,6 +966,7 @@ export default {
                 tmpObj.mainReList[i].viceReList[m].viceMeList = viceYWlist;
                 delete tmpObj.mainReList[i].viceReList[m].viceRecipeDetailList;
             }
+            console.log(tmpObj)
         }
         return tmpObj;
     },
@@ -995,6 +1008,7 @@ export default {
         var btn_switch = false;
         var loading = this.$common.openLoading("正在新增/修改问诊信息，请稍候",_that);
         var param = _that.setSubmitYfData(_that.yfdata);
+        console.log(param)
         this.SubmitDiagnoseLabels().then((data) => {
             if(typeof data.code == "undefined" || data.code!="1"){
                 loading.close();
@@ -1002,6 +1016,7 @@ export default {
                 btn_switch = true;
             }else{
                 _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
+                  console.log(response)
                     loading.close();
                     if(response.code =="1"){
                         _that.$common.openSuccessMsgBox("操作成功",_that);
@@ -1035,6 +1050,8 @@ export default {
             _that.$http.get("/inquiry/getInquiryLabels?inquiryId="+lastinquiryId).then(function (response) {
                 if(response.code == "1"){
                     var d_str = JSON.stringify(response.data.diagnoseLabels);
+                    console.log("复诊")
+                    console.log(d_str)
                     if(d_str == "[]"){
                         _that.diagnoseLabels = null;
                     }else{
@@ -1051,6 +1068,7 @@ export default {
             var url = "/inquiry/getInquiryInfo?inquiryId="+lastinquiryId;
             _that.$http.get(url)
             .then(function (response) {
+              console.log(response)
                 if(response.code == "1"){
                     var yfdataInfo = response.data.inquiryInfo;
                     if(JSON.stringify(yfdataInfo.mainReList) === '[]'){
@@ -1108,6 +1126,7 @@ export default {
             var url = "/inquiry/getInquiryInfo?inquiryId="+inquiryId;
             _that.$http.get(url)
             .then(function (response) {
+              console.log(response)
                 if(response.code == "1"){
                     var yfdataInfo = response.data.inquiryInfo;
                     if(JSON.stringify(yfdataInfo.mainReList) === '[]'){
@@ -1575,6 +1594,7 @@ export default {
         this.is_display_xjzd = true;
         this.is_display_xj = true;
         this.is_display_fh = true;
+        this.count = 1
         setTimeout(function(){
            loading.close();
         },2500);

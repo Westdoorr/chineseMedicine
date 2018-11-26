@@ -178,6 +178,7 @@ export default {
                 var prePathParams = new Object();
                 prePathParams.path = 'xjczbr';
                 prePathParams.data = {};
+                prePathParams.count = 1;
                 //缓存 跳转页面的参数
                 _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
                 _that.$common.GotoPage("bryfpage",brinfo,_that);
