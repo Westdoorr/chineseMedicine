@@ -3,7 +3,7 @@
         <div class="info-container">
             <div class="bqms-info-container">
               <span class="person-info">{{yfdata.pName+","+getPersonInfo}}</span>
-                <div class="titile-container"  style="display: flex; justify-content: space-between;">
+                <div class="titile-container"  style="display: flex; justify-content: space-between; ">
                   <div class="container" @click="setActiveSyle(2)">
                      <span>病情描述</span>
                      <span>
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="wzwt-info-container">
-              <div class="titile-container" style="margin-top: 10px;font-size: 30px;color: #475669;">
+              <div class="titile-container" style="margin-top: 10px;font-size: 30px;color: #475669;font-family: PingFangSC-Medium;">
                       <span @click="setActiveSyle(1)">
                           诊断标签
                       </span>
@@ -143,7 +143,9 @@
     /*左侧两个文本框样式*/
     .bryf-container{
         height: calc(100% - 148px);
-        padding: 20px 35px;
+        padding: 20px 0px;
+        width: 1835px;
+        margin: 0 auto;
         display: flex;
         overflow-y: auto;
         .person-info{
@@ -163,6 +165,7 @@
                 border-radius: 8px;
                 border: solid 1px #c0ccda;
                 overflow: hidden;
+          font-weight: bold;
         }
         .info-container{
             flex: 0 0 838px;
@@ -187,6 +190,7 @@
                 .bqms-input-container{
                     margin-top: 10px;
                   font-size: 34px;
+
                 }
               .titile-container{
                 margin-top: 10px;
@@ -203,7 +207,7 @@
                   width: 387px;
                   height: 45px;
                   font-size: 28px;
-                  .el-input{
+                  .el-input1{
                     height: 45px;
                     font-size: 28px;
                     /*border: 1px solid #000;*/
@@ -269,13 +273,14 @@
     .mainMeList-container{
         width:976px;
         height: auto;
-        margin-top:14px;
-        margin-bottom:17px;
+        /*padding-bottom: 1px;*/
+        margin-top:15px;
+        margin-bottom:18px;
         display: flex;
         flex-wrap:wrap;
         border-bottom: 1px solid #c0ccda;
         border-right:1px solid #c0ccda;
-        overflow: hidden;
+        /*overflow: hidden;*/
         .yp-item{
             width:244px;
             height: 60px;
@@ -295,7 +300,7 @@
               border-right: 0px;
             }
             input:focus{
-               border-color: #fff;
+              border-color: #fff;
             }
         }
 }
