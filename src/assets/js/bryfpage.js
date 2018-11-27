@@ -672,7 +672,7 @@ export default {
     ,computed: {
         getPersonInfo:function(){
           // console.log(this.yfdata)
-            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+parseInt(this.yfdata.times+this.count)+"次";
+            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+parseInt(this.yfdata.times)+"次";
             return result_str;
         }
     }
@@ -830,13 +830,12 @@ export default {
         // this.is_display_zd = true;
         if(prePathParams.path == "brglpage"){
           console.log("从病人管理页面来")
-          this.count=1
           this.is_display_fh = prePathParams.is_display_xj;
           this.is_display_xj = prePathParams.is_display_fh;
           console.log(this.is_display_xj)
             //排除从病人管理的新建复诊
             if(prePathParams.data.xzfz == "new"){
-                this.count=1
+                // this.count=1
                 this.yfdata.inquiryDate = prePathParams.data.inquiryDate
                 this.yfdata.date = prePathParams.data.date
                 // this.is_display_fh = false;
@@ -856,12 +855,12 @@ export default {
           this.is_display_zd =false
         }
         else if(prePathParams.path == "xjczbr"){
-           this.count=1
+
            if(prePathParams.type == "new"){
              this.count=0
            }
            else {
-
+             // this.count=1
            }
         }
         else if(prePathParams.path == "newwz"){
@@ -869,6 +868,7 @@ export default {
           this.count=0
         }
         else{
+
             this.is_display_fh = true;
             this.is_display_zd = false;
         }
