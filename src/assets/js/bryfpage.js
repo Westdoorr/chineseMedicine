@@ -3,7 +3,6 @@ export default {
     ,data() {
         return {
             count:0, //第几次
-
             allTotal:0,
             diagnoseLabels:null,
             d_isActive:false,
@@ -378,7 +377,7 @@ export default {
                             ]
                         },
             mbMainObj:{
-                    "amount": 0,
+                    "amount": null,
                     "isStock": true,
                     "remarks": "",
                     "mainMeList": null,
@@ -898,7 +897,7 @@ export default {
         var model_list = new Array();
         model_list.push(this.mbMainObj);
         this.yfdata.mainReList=model_list;
-        this.allTotal = this.getAllTotal(this.yfdata);
+        this.yfdata.amount = this.getAllTotal(this.yfdata);
         this.$common.openSuccessMsgBox("清除成功!",this);
     },
     /**
@@ -943,30 +942,37 @@ export default {
        console.log(yfdata)
         var tmpObj = JSON.parse(JSON.stringify(yfdata));
         for(var i in tmpObj.mainReList){
-            var recipeDetailList = new Array();
-            console.log(i);
-            for(var j in tmpObj.mainReList[i].recipeDetailList){
+            if(tmpObj.mainReList[i].amount ==""||tmpObj.mainReList[i].amount ==null){
+              this.$message.error('主方付数不能为空');
+              return false;
+            }
+            else {
+              var recipeDetailList = new Array();
+              console.log(i);
+              for(var j in tmpObj.mainReList[i].recipeDetailList){
                 //主方药物对象 转化成为  字符串数组
                 if(tmpObj.mainReList[i].recipeDetailList[j].medicine!=""){
-                    recipeDetailList.push(tmpObj.mainReList[i].recipeDetailList[j].medicine);
+                  recipeDetailList.push(tmpObj.mainReList[i].recipeDetailList[j].medicine);
                 }
-            }
-            //更新已经完成的字符串数组
-            tmpObj.mainReList[i].mainMeList = recipeDetailList;
-            //去除已转的冗余数据
-            delete tmpObj.mainReList[i].recipeDetailList;
-            for(var m in tmpObj.mainReList[i].viceReList){
+              }
+              //更新已经完成的字符串数组
+              tmpObj.mainReList[i].mainMeList = recipeDetailList;
+              //去除已转的冗余数据
+              delete tmpObj.mainReList[i].recipeDetailList;
+              for(var m in tmpObj.mainReList[i].viceReList){
                 var viceYWlist = new Array();
                 var viceRecipeDetailList = tmpObj.mainReList[i].viceReList[m].viceRecipeDetailList;
                 for(var n in viceRecipeDetailList){
-                    if(viceRecipeDetailList[n].medicine!=""){
-                        viceYWlist.push(viceRecipeDetailList[n].medicine);
-                    }
+                  if(viceRecipeDetailList[n].medicine!=""){
+                    viceYWlist.push(viceRecipeDetailList[n].medicine);
+                  }
                 }
                 tmpObj.mainReList[i].viceReList[m].viceMeList = viceYWlist;
                 delete tmpObj.mainReList[i].viceReList[m].viceRecipeDetailList;
+              }
+              console.log(tmpObj)
             }
-            console.log(tmpObj)
+
         }
         return tmpObj;
     },
@@ -1006,36 +1012,41 @@ export default {
     submitYfData:function(){
         var _that = this;
         var btn_switch = false;
-        var loading = this.$common.openLoading("正在新增/修改问诊信息，请稍候",_that);
         var param = _that.setSubmitYfData(_that.yfdata);
         console.log(param)
-        this.SubmitDiagnoseLabels().then((data) => {
-            if(typeof data.code == "undefined" || data.code!="1"){
-                loading.close();
-                _that.$common.openErrorMsgBox("基本信息的诊断标签保存失败！",_that);
-                btn_switch = true;
-            }else{
-                _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
-                  console.log(response)
-                    loading.close();
-                    if(response.code =="1"){
-                        _that.$common.openSuccessMsgBox("操作成功",_that);
-                        _that.openMegBox("是否打印处方",'printYfPage');
-                    }else{
-                        _that.$common.openErrorMsgBox(response.msg,_that);
-                    }
+        if(param !=false){
 
-                }).catch(function (error) {
-                    loading.close();
-                  setTimeout(function(){
-                    _that.$common.openErrorMsgBox(error,_that);
-                    }, 1000);
-                });
+          console.log("共计",param)
+          var loading = this.$common.openLoading("正在新增/修改问诊信息，请稍候",_that);
+          this.SubmitDiagnoseLabels().then((data) => {
+            if(typeof data.code == "undefined" || data.code!="1"){
+              loading.close();
+              _that.$common.openErrorMsgBox("基本信息的诊断标签保存失败！",_that);
+              btn_switch = true;
+            }else{
+              _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
+                console.log(response)
+                loading.close();
+                if(response.code =="1"){
+                  _that.$common.openSuccessMsgBox("操作成功",_that);
+                  _that.openMegBox("是否打印处方",'printYfPage');
+                }else{
+                  _that.$common.openErrorMsgBox(response.msg,_that);
+                }
+
+              }).catch(function (error) {
+                loading.close();
+                setTimeout(function(){
+                  _that.$common.openErrorMsgBox(error,_that);
+                }, 1000);
+              });
             }
-        }, (error) => {
+          }, (error) => {
             loading.close();
             _that.$common.openErrorMsgBox(error,_that);
-        });
+          });
+        }
+
     },
     /**
      * 获取复诊药方数据
@@ -1080,14 +1091,14 @@ export default {
                         yfdataInfo.inquiryId = inquiryId;
                          yfdataInfo = _that.setDefaultAmount(yfdataInfo);
                         _that.yfdata = yfdataInfo;
-                        _that.allTotal = _that.getAllTotal(yfdataInfo);
+                        _that.yfdata.amount = _that.getAllTotal(yfdataInfo);
                     }else{
                         //主方数据不为空，规范数据然后赋值
                           yfdataInfo = _that.setDefaultAmount(yfdataInfo);
                           yfdataInfo = _that.normalYwArry(yfdataInfo);
                           yfdataInfo.inquiryId = inquiryId;
                         _that.yfdata = yfdataInfo;
-                        _that.allTotal = _that.getAllTotal(yfdataInfo);
+                        _that.yfdata.amount = _that.getAllTotal(yfdataInfo);
                     }
                 }else{
                     _that.$common.openErrorMsgBox(response.msg,_that);
@@ -1122,11 +1133,12 @@ export default {
             }).catch(function(error){
                  _that.$common.openErrorMsgBox(error,_that);
             });
+
             //获取药方数据
             var url = "/inquiry/getInquiryInfo?inquiryId="+inquiryId;
             _that.$http.get(url)
             .then(function (response) {
-              console.log(response)
+              console.log('初诊数据',response)
                 if(response.code == "1"){
                     var yfdataInfo = response.data.inquiryInfo;
                     if(JSON.stringify(yfdataInfo.mainReList) === '[]'){
@@ -1137,13 +1149,13 @@ export default {
                         yfdataInfo.mainReList = mbMainList;
                         yfdataInfo = _that.setDefaultAmount(yfdataInfo);
                         _that.yfdata = yfdataInfo;
-                        _that.allTotal = _that.getAllTotal(yfdataInfo);
+                        _that.yfdata.amount = _that.getAllTotal(yfdataInfo);
                     }else{
                         //主方数据不为空，规范数据然后赋值
                           yfdataInfo = _that.normalYwArry(yfdataInfo);
                           yfdataInfo = _that.setDefaultAmount(yfdataInfo);
-                        _that.yfdata = yfdataInfo;
-                        _that.allTotal = _that.getAllTotal(yfdataInfo);
+                          _that.yfdata = yfdataInfo;
+                          _that.yfdata.amount = _that.getAllTotal(yfdataInfo);
                     }
                 }else{
                     _that.$common.openErrorMsgBox(response.msg,_that);
@@ -1268,7 +1280,7 @@ export default {
      *  */
     deleteZf:function(mindex){
         this.yfdata.mainReList.splice(mindex,1);
-        this.allTotal = this.getAllTotal(this.yfdata);
+        _that.yfdata.amount = this.getAllTotal(this.yfdata);
         this.$common.openSuccessMsgBox("主方移除成功!",this);
     },
 
@@ -1377,7 +1389,7 @@ export default {
      * 更新总付数
      *  */
     updateAmount:function(e){
-        this.allTotal = this.getAllTotal(this.yfdata);
+        this.yfdata.amount = this.getAllTotal(this.yfdata);
     },
     updateZfAmount:function(mrindex){
         var zf_total_num = null;
@@ -1602,6 +1614,6 @@ export default {
     }
     ,beforeMount () {
         //绑定数据前计算总付数
-       this.allTotal = this.getAllTotal(this.yfdata);
+       this.yfdata.amount = this.getAllTotal(this.yfdata);
     }
 }
