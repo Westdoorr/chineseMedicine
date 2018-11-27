@@ -823,7 +823,6 @@ export default {
      */
     initPage:function(){
         var prePathParams = JSON.parse(window.localStorage.getItem("prePathParams"));
-
         console.log("传输的数据",prePathParams)
         // this.is_display_xjzd = true;
         // this.is_display_fh = prePathParams.is_display_xj;
@@ -838,6 +837,8 @@ export default {
             //排除从病人管理的新建复诊
             if(prePathParams.data.xzfz == "new"){
                 this.count=1
+                this.yfdata.inquiryDate = prePathParams.data.inquiryDate
+                this.yfdata.date = prePathParams.data.date
                 // this.is_display_fh = false;
                 // this.is_display_zd = true;
             }
@@ -856,7 +857,16 @@ export default {
         }
         else if(prePathParams.path == "xjczbr"){
            this.count=1
+           if(prePathParams.type == "new"){
+             this.count=0
+           }
+           else {
 
+           }
+        }
+        else if(prePathParams.path == "newwz"){
+          console.log("新建问诊")
+          this.count=0
         }
         else{
             this.is_display_fh = true;
@@ -1060,6 +1070,7 @@ export default {
         if(lastinquiryId){
             //获取诊断标签
             _that.$http.get("/inquiry/getInquiryLabels?inquiryId="+lastinquiryId).then(function (response) {
+
                 if(response.code == "1"){
                     var d_str = JSON.stringify(response.data.diagnoseLabels);
                     console.log("复诊")
@@ -1076,11 +1087,16 @@ export default {
             }).catch(function(error){
                  _that.$common.openErrorMsgBox(error,_that);
             });
+          // var brinfo = {pId:brid,inquiryId:response.data.inquiryId};
+          // var url= "/inquiry/getLatestInquiryInfo?patientId="+brinfo.pId;
+
             //获取药方信息
-            var url = "/inquiry/getInquiryInfo?inquiryId="+lastinquiryId;
+            //  var url = "/inquiry/getInquiryInfo?inquiryId="+lastinquiryId;
+            //这修改了东西
+             var url= "/inquiry/getLatestInquiryInfo?patientId="+r_params.data.pId
             _that.$http.get(url)
             .then(function (response) {
-              console.log(response)
+              console.log("获取最后一次日期",response)
                 if(response.code == "1"){
                     var yfdataInfo = response.data.inquiryInfo;
                     if(JSON.stringify(yfdataInfo.mainReList) === '[]'){

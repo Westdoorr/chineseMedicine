@@ -148,10 +148,12 @@ export default {
        */
       getLastInquiry(brinfo){
           var url= "/inquiry/getLatestInquiryInfo?patientId="+brinfo.pId;
+         // var brinfo = {pId:brid,inquiryId:response.data.inquiryId};
           var _that = this;
           var inquiryID = '';
           this.$http.get(url)
             .then(function (response) {
+              console.log("请求日期",response)
               if(response.code == "1"){
                   if(JSON.stringify(response.data)!="{}"){
                       if(response.data.inquiryInfo.inquiryId){
@@ -173,6 +175,8 @@ export default {
                       prePathParams.is_display_xj = true //去掉返回
                       prePathParams.is_display_fh = true //去掉返回
                       prePathParams.data.xzfz = "new";
+                      prePathParams.data.inquiryDate = response.data.inquiryInfo.inquiryDate;
+                      prePathParams.data.date = response.data.inquiryInfo.date;
                       //缓存 跳转页面的参数
                       _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
                       _that.$common.GotoPage("bryfpage",brinfo,_that);

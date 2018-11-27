@@ -173,11 +173,13 @@ export default {
                 var pathParams = new Object();
                 pathParams.path = 'bryfpage';
                 pathParams.data = brinfo;
+                // pathParams.type = "new";
                 //缓存 目标跳转页面的参数
                 _that.$store.dispatch("setPathParams", JSON.stringify(pathParams));
                 var prePathParams = new Object();
                 prePathParams.path = 'xjczbr';
                 prePathParams.data = {};
+                prePathParams.type = 'new';
                 //缓存 跳转页面的参数
                 _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
                 _that.$common.GotoPage("bryfpage",brinfo,_that);
@@ -299,6 +301,7 @@ export default {
             var loading = this.$common.openLoading("复诊诊中",_that);
             var param = p_data;
             this.$http.post('/index/revisit',param).then(function (response) {
+                  console.log("复诊",response)
                 if(response.code == "1"){
                     if(response.data.isRepeat==0){
                         //代表没有重复条件的病人

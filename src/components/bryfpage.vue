@@ -205,7 +205,7 @@
                 }
 
                 .time1{
-                  width: 387px;
+                  width: 397px;
                   height: 45px;
                   font-size: 28px;
                   .el-input1{
