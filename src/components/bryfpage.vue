@@ -83,7 +83,8 @@
                      <div class="zf-search-info">
                            <span name="zfname">副方{{vindex+1}}</span>
                           <el-input class="new-yfmc"  @keyup.enter.native="addfyfyw($event,vindex,mrindex)"></el-input>
-                          <el-input class="ywfs"  @change="updateZfAmount(mrindex)" v-model="vice.amount"></el-input><span>&nbsp;付</span>
+                          <!--<el-input class="ywfs"  @change="updateZfAmount(mrindex)" v-model="vice.amount"></el-input><span>&nbsp;付</span>-->
+                          <el-input class="ywfs"  v-model="vice.amount"></el-input><span>&nbsp;付</span>
                           <el-input class="ywbz" v-model="vice.remarks" placeholder="备注"></el-input>
                           <el-button class="btn-default icon icon_rk" v-model="vice.isStock" type="primary" @click="viceRuKu(mrindex,vindex)" style="padding: 0px; border: none">
                              <img v-if="vice.isStock" src="../assets/img/ic_ruku1.png">

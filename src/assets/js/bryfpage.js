@@ -721,7 +721,7 @@ export default {
 
   mounted() {
     //页面打开就滚动到88处
-    this.scrollWindow()
+    // this.scrollWindow()
 
 
     //刷新
@@ -734,6 +734,7 @@ export default {
     //滚动条滚动
     window.addEventListener('scroll', this.handleScroll)
   },
+
   methods: {
     scrollWindow(){
         window.scrollTo(100,88);
@@ -1037,7 +1038,7 @@ export default {
               }).catch(function (error) {
                 loading.close();
                 setTimeout(function(){
-                  _that.$common.openErrorMsgBox(error,_that);
+                  _that.$amount.openErrorMsgBox(error,_that);
                 }, 1000);
               });
             }
@@ -1272,7 +1273,7 @@ export default {
      */
     deleteFf:function(mindex,vindex){
         this.yfdata.mainReList[mindex].viceReList.splice(vindex,1);
-        this.updateZfAmount(mindex);
+        // this.updateZfAmount(mindex);
         this.$common.openSuccessMsgBox("副方移除成功!",this);
     },
     /**
@@ -1391,21 +1392,21 @@ export default {
     updateAmount:function(e){
         this.yfdata.amount = this.getAllTotal(this.yfdata);
     },
-    updateZfAmount:function(mrindex){
-        var zf_total_num = null;
-         var mainRelist = this.yfdata.mainReList;
-         for(var j in mainRelist[mrindex].viceReList){
-            var ff_num = 0;
-            if(!mainRelist[mrindex].viceReList[j].amount || mainRelist[mrindex].viceReList[j].amount==""){
-                ff_num = 0;
-            }else{
-                ff_num = parseInt(mainRelist[mrindex].viceReList[j].amount);
-            }
-            zf_total_num = zf_total_num+ff_num;
-        }
-        this.yfdata.mainReList[mrindex].amount = zf_total_num;
-        this.updateAmount();
-    },
+    // updateZfAmount:function(mrindex){
+    //     var zf_total_num = null;
+    //      var mainRelist = this.yfdata.mainReList;
+    //      for(var j in mainRelist[mrindex].viceReList){
+    //         var ff_num = 0;
+    //         if(!mainRelist[mrindex].viceReList[j].amount || mainRelist[mrindex].viceReList[j].amount==""){
+    //             ff_num = 0;
+    //         }else{
+    //             ff_num = parseInt(mainRelist[mrindex].viceReList[j].amount);
+    //         }
+    //         zf_total_num = zf_total_num+ff_num;
+    //     }
+    //     this.yfdata.mainReList[mrindex].amount = zf_total_num;
+    //     this.updateAmount();
+    // },
     /**
      * 新增副方药物
      * e 触发事件
@@ -1439,7 +1440,7 @@ export default {
                 obj.remarks = "最后用，与主方同用";
             }
           this.yfdata.mainReList[mrindex].viceReList.push(obj);
-          this.updateZfAmount(mrindex);
+          // this.updateZfAmount(mrindex);
           this.$common.openSuccessMsgBox("新增副方成功!",this);
       },
     /**
