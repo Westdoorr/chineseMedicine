@@ -33,14 +33,13 @@ export default {
       },
       handleClick(row) {
           var _that = this;
-          var brinfo = {pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:'',pname:this.search_obj.pname};
+          var brinfo = {pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:'',pname:this.search_obj.pname};//以前
+          var brinfo1 = {pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}; //现在
            //跳转组件并且 传递pid
            var pathParams = new Object();
            pathParams.path = 'bryfpage';
            pathParams.data = brinfo
            pathParams.fh_ = brinfo
-
-
            //缓存 目标跳转页面的参数
            _that.$store.dispatch("setPathParams", JSON.stringify(pathParams));
            var prePathParams = new Object();
@@ -50,7 +49,9 @@ export default {
             prePathParams.is_display_fh = false //去掉返回
            //缓存 跳转页面的参数
            _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
-           _that.$common.GotoPage("bryfpage",brinfo,_that);
+           // _that.$common.GotoPage("bryfpage",brinfo,_that);
+           _that.$router.push({ name:'bryfpage',params:{pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}})
+                               'bryfpage/:pId/:inquiryId/:lastinquiryId'
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);

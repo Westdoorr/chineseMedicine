@@ -48,6 +48,8 @@ export default {
         var prePathParams = {path:"brglpage",data:_that.search_obj};
         _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
         _that.$common.GotoPage(pagename,params,_that);
+
+
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -129,7 +131,8 @@ export default {
         var param ={patientId:brid};
         this.$http.post('/inquiry/newInquiry',param).then(function (response) {
           if(response.code=="1"){
-            var brinfo = {pId:brid,inquiryId:response.data.inquiryId};
+            // var brinfo = {pId:brid,inquiryId:response.data.inquiryId,};
+            var brinfo = {pId:brid,inquiryId:response.data.inquiryId,lastinquiryId:null};
             _that.getLastInquiry(brinfo);
           }else{
             _that.$common.openErrorMsgBox(response.msg,_that);

@@ -6,7 +6,7 @@ Vue.use(Router)
 
 export default new Router({
   // mode : 'history',
-  // base: '/zywzxt/', 
+  // base: '/zywzxt/',
   routes: [
     // {
     //   path: '/',
@@ -68,7 +68,7 @@ export default new Router({
           component: resolve => require(['@/components/blglpage'],resolve)
          }
          ,{
-          path:'bryfpage',
+          path:'bryfpage/:pId/:inquiryId/:lastinquiryId',
           name:'bryfpage',
           component: resolve => require(['@/components/bryfpage'],resolve)
          }

@@ -268,6 +268,7 @@ export default {
          //缓存 跳转页面的参数
          _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
          _that.$common.GotoPage("bryfpage",brinfo,_that);
+         // _that.$router.push({ name:'bryfpage',params:{pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}})
       },
       /**
        * 导出病历

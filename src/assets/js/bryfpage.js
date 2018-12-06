@@ -684,6 +684,9 @@ export default {
         // this.initDiagnoseLabel();
         this.initPage();
         //请求药方数据
+        //
+        this.params = this.$route.params
+        console.log("地址后台挂的值",this.params )
         this.getyfDate();
         // window.onbeforeunload = function(e) {
         //   console.log("刷新")
@@ -1077,9 +1080,13 @@ export default {
      */
     getfzYfData:function(){
         var _that = this;
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        var inquiryId = r_params.data.inquiryId;
-        var lastinquiryId = r_params.data.lastinquiryId;
+        // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+        // var inquiryId = r_params.data.inquiryId;
+        // var lastinquiryId = r_params.data.lastinquiryId;
+
+      var r_params =  this.params ;
+      var inquiryId = r_params.inquiryId;
+      var lastinquiryId = r_params.lastinquiryId;
         if(lastinquiryId){
             //获取诊断标签
             _that.$http.get("/inquiry/getInquiryLabels?inquiryId="+lastinquiryId).then(function (response) {
@@ -1106,7 +1113,7 @@ export default {
             //获取药方信息
             //  var url = "/inquiry/getInquiryInfo?inquiryId="+lastinquiryId;
             //这修改了东西
-             var url= "/inquiry/getLatestInquiryInfo?patientId="+r_params.data.pId
+             var url= "/inquiry/getLatestInquiryInfo?patientId="+r_params.pId
             _that.$http.get(url)
             .then(function (response) {
               console.log("获取最后一次日期",response)
@@ -1144,8 +1151,10 @@ export default {
      */
     getCzYfData:function(){
         var _that = this;
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        var inquiryId = r_params.data.inquiryId;
+        // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+          var r_params = this.params;
+
+        var inquiryId = r_params.inquiryId;
         if(inquiryId){
             //获取诊断标签数据
             _that.$http.get("/inquiry/getInquiryLabels?inquiryId="+inquiryId).then(function (response) {
@@ -1203,8 +1212,17 @@ export default {
      * */
     getyfDate:function(){
         var _that = this;
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        var lastinquiryId = r_params.data.lastinquiryId;
+        //12-6修改
+        // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+        // var lastinquiryId = r_params.data.lastinquiryId;
+        // if(lastinquiryId == "" || !lastinquiryId){
+        //     this.getCzYfData();
+        // }else{
+        //     this.getfzYfData();
+        // }
+
+       //12-6修改 (new)
+        var lastinquiryId = this.params.lastinquiryId;
         if(lastinquiryId == "" || !lastinquiryId){
             this.getCzYfData();
         }else{
@@ -1218,8 +1236,10 @@ export default {
     printYfPage(){
         var _that = this;
         var loading = _that.$common.openLoading("请稍后!",_that);
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        var inquiryId = r_params.data.inquiryId;
+        // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+        // var inquiryId = r_params.data.inquiryId;
+        var r_params = this.params;
+        var inquiryId = r_params.inquiryId;
             //获取药方数据
         var url = "/inquiry/getInquiryInfo?inquiryId="+inquiryId;
         _that.$http.get(url)
@@ -1630,8 +1650,9 @@ export default {
      */
     newInquiry_new:function(){
         var loading = this.$common.openLoading("新建问诊中,请稍等!",this);
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        var brid= r_params.data.pId;
+        // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+      var r_params = this.params
+        var brid= r_params.pId;
         this.$common.newInquiry_new(brid,this);
         this.is_display_xjzd = true;
         this.is_display_xj = true;
