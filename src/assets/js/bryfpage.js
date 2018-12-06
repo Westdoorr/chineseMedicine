@@ -691,27 +691,40 @@ export default {
         // };
         window.addEventListener("beforeunload", function (e) {
           var confirmationMessage = '确定离开此页吗？本页不需要刷新或后退';
-
           (e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
           return confirmationMessage;                                // Gecko and WebKit
         });
+
+        //返回按钮
+       /* window.addEventListener("popstate", function(){
+          console.log("监听返回");
+          // if(confirm('你确定要离开药方界面吗')==true){
+            // return true;
+            history.go(0)
+          // }
+          return false
+        })*/
     },
 
     //离开之前
-     beforeRouteLeave(to, from, next){
-       this.$confirm('是否离开当前页面', '提示', {
-         confirmButtonText: '确定',
-         cancelButtonText: '取消',
-         type: 'warning',
-         customClass:"qcMessage"
-         }).then(() => {
-           // console.log("取消绑定")
-           // window.removeEventListener("beforeunload", this.beforeunload(e));
-           next();
-         }).catch(() => {
+   beforeRouteLeave(to, from, next){
+    this.$confirm('是否离开当前页面', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+      customClass:"qcMessage"
+      }).then(() => {
+         console.log("取消绑定")
+        // window.removeEventListener("beforeunload", this.beforeunload(e));
+        next();
 
-       });
-     },
+      }).catch(() => {
+        console.log("取消跳转")
+        // next(false)
+    });
+  },
+
+
       deactivated(){
         console.log("取消绑定")
         window.removeEventListener("beforeunload",this.beforeunload);

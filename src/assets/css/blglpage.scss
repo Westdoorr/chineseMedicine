@@ -52,11 +52,11 @@
         }
     }
     .rq-input{
-      width: 510px;
+      width: 485px;
       height: 70px;
       border-radius: 8px;
       border: 1px solid #c0ccda;
-      margin-right: 40px;
+      margin-right: 10px;
       i{
         font-size: 25px;
       }
@@ -85,8 +85,8 @@
     padding: 0px 70px;
     .page-container{
       text-align: center;
-      width: 768px;
-      margin-top: 0px;
+      //width: 768px;
+      margin: 0px auto;
         .el-pager li{
           width: 48px;
           height: 47px;

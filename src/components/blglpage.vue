@@ -2,20 +2,24 @@
 <div class="blgl-container">
     <div class="search-row">
         <div class="search-input-item">
-            <el-input style="width:300px;margin-right:40px;margin-left: 130px;" v-model="search_obj.pname" placeholder="输入病人名字"></el-input>
+            <el-input style="width:300px;margin-right:10px;margin-left: 1px;" v-model="search_obj.pname" placeholder="输入病人名字"></el-input>
         </div>
         <div class="search-range-date-item">
             <el-date-picker
                 class="rq-input"
                 v-model="rangeDate"
+                :picker-options="pickerOptions1"
                 type="daterange"
+                :default-time="['00:00:00', '23:59:59']"
                 range-separator="至"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期"
+                @change="changeDate"
+            >
             </el-date-picker>
         </div>
         <div class="search-input-item">
-            <el-input style="width:435px;margin-right:40px;" v-model="search_obj.keyWords" placeholder="输入关键字"></el-input>
+            <el-input style="width:300px;margin-right:40px;" v-model="search_obj.keyWords" placeholder="输入关键字"></el-input>
         </div>
         <div class="search-row-btn-group">
           <el-button class="btn-default btn-deault-size btn-color-blue" @click="getblList">查询</el-button>
@@ -28,7 +32,7 @@
         :header-row-class-name="headerClassname"
         :row-class-name="rowClassname"
         stripe
-        style="border:1px solid #ebeef5;overflow-y:auto;height:100%;"
+        style="border:1px solid #ebeef5;overflow-y:auto;height:100%; width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="60"></el-table-column>
         <el-table-column prop="index" width="100px" label="序号" >
@@ -64,6 +68,7 @@
     </div>
     <div class="search-row-btn-group">
        <el-button class="btn-default btn-deault-size btn-color-blue" @click="exportBlList">导出病历</el-button>
+       <el-button class="btn-default btn-deault-size btn-color-blue" @click="exportWord">导出word</el-button>
     </div>
   </div>
 </div>

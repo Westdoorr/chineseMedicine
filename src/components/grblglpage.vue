@@ -14,11 +14,11 @@
             :header-row-class-name="headerClassname"
             :row-class-name="rowClassname"
             stripe
-            style="width:968px;border:1px solid #ebeef5;overflow-y:auto;"
+            style="width:1300px;border:1px solid #ebeef5;overflow-y:auto;"
             @selection-change="handleSelectionChange">
             <el-table-column
                 type="selection"
-                width="96">
+                min-width="96">
             </el-table-column>
             <el-table-column
             prop="times"
@@ -33,7 +33,7 @@
             <el-table-column
             prop="inquiryDate"
             label="最近就诊时间"
-            width="260">
+            min-width="260">
             </el-table-column>
             <el-table-column
             label="操作">
@@ -58,11 +58,12 @@
     </div>
     <div class="search-row-btn-group">
        <el-button class="btn-blue" @click="exportBlList">导出病历</el-button>
+      <el-button class="btn-blue" @click="exportWord">导出word</el-button>
        <el-button class="btn-default"  @click="GobackPage()">返回</el-button>
     </div>
   </div>
-  
-</div> 
+
+</div>
 </template>
 <style lang="scss">
     @import '../assets/css/grblglpage.scss';

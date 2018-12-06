@@ -4,7 +4,7 @@ export default {
         if (!value) {
           callback();
         } else {
-          const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+          const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
           //   校验护照
           const re1 = /^[a-zA-Z]{5,17}$/;
           const re2 = /^[a-zA-Z0-9]{5,17}$/;
@@ -133,7 +133,7 @@ export default {
     methods: {
          /**
      * 跳转病历管理页面
-     * 
+     *
      */
     gotoBlglpage() {
         //跳转组件并且 传递pid
@@ -199,14 +199,15 @@ export default {
     },
     /**
      * 依据选择的省份渲染 城市
-     * 
-     * @param {any} type 
+     *
+     * @param {any} type
      */
     setCityList(type){
         if(type == 1){
             this.city = this.$common.setCityList(this.basicInfo.incuProvince,this);
             this.basicInfo.incuCity = null;
-            
+            console.log( this.city)
+
         }else{
             this.sourceCity = this.$common.setCityList(this.basicInfo.sourceProvince,this);
             this.basicInfo.sourceCity = null;
@@ -214,8 +215,8 @@ export default {
     },
      /**
       * 依据选择的国家渲染 省份
-      * 
-      * @param {any} type 
+      *
+      * @param {any} type
       */
      setProList(type){
         if(type  == 1){
@@ -230,7 +231,7 @@ export default {
      },
       /**
        * 处理病人的出生地和来源地数据的绑定
-       * 
+       *
        */
       detailBrbrth(obj){
         if(obj.sourceProvince){
@@ -246,7 +247,7 @@ export default {
                 this.s_country = 0;
                 this.sourceProvince = this.$common.setProList(this.s_country,this);
                 this.sourceCity = this.$common.setCityList(obj.sourceProvince,this);
-                
+
             }
         }
         if(obj.incuProvince){
@@ -254,7 +255,7 @@ export default {
             this.province = this.$common.setProList(this.b_country,this);
             this.city = this.$common.setCityList(obj.incuProvince,this);
         }
-       
+
       },
       /**
        * 设置空数组
@@ -274,7 +275,7 @@ export default {
                 }else{
                     obj[key] = "";
                 }
-                
+
             }
         }
         var arry_name = ["eatingHabits","heredityHistory","infectionHistory","contactHistory","meAllergy","allergy"];
@@ -309,14 +310,14 @@ export default {
                     }
                     obj[arry_name[key]]=temp_arry;
                 }
-                
+
             }
         }
         return obj;
       },
       /**
        * 获取病人信息
-       * 
+       *
        */
       getBrxxinfo(){
          var param = JSON.parse(window.localStorage.getItem("pathParams"));
@@ -350,12 +351,12 @@ export default {
       opencomfigMethod(msg,method_name,method_params){
         this.$common.openComfigDialog(msg,method_name,method_params,this);
       },
-      /** 
+      /**
        * 表单提交
-       * 
+       *
       */
       onSubmit(){
-        var _that = this; 
+        var _that = this;
         this.$refs["formName"].validate((valid) => {
             if (valid) {
                 var params = _that.setSuBmitParams(this.basicInfo);

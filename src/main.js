@@ -35,21 +35,25 @@ Vue.prototype.$exportPrint = exportPrint;
 Vue.prototype.$http= axios;
 //定义全局属性给公共部分js
 Vue.prototype.$common = common;
+ // //全局守卫
+ /* router.beforeEach((to, from, next) => {
+    console.log(to)
+    console.log(from)
+    console.log(next)
+    if(from.path == "/Index/bryfpage"){
+       console.log("你确定要离开药方界面吗")
+      //  this.showPriseP = false
+      // console.log(this.showPriseP )
+      if(confirm('你确定要离开药方界面吗')==true){
+        // return true;
+        next();
 
-// // //全局守卫
-// router.beforeEach((to, from, next) => {
-//   // console.log(to)
-//   // console.log(from)
-//   // console.log(next)
-//   if(to.path == "/Index/bryfpage"){
-//      console.log("你正在进入药方界面")
-//      this.showPriseP = false
-//     console.log(this.showPriseP )
-//      next();
-//   }else {
-//     next();
-//   }
-// })
+      }
+
+    }else {
+      next();
+    }
+  })*/
 
 
 var gc = new Vue({

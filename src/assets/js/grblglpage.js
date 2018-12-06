@@ -217,35 +217,83 @@ export default {
           var _that = this;
           var params_obj = {};
           params_obj.inquiryIdList =[];
-		  params_obj.all = false;
-		  params_obj.patientId = null;
-        if(JSON.stringify(this.multipleSelectionAll)=='[]'){
-            _that.$common.openErrorMsgBox("请选中要导出的病历信息",_that);
-            return false;
-        }else{
-            for(var i=0;i<this.multipleSelectionAll.length;i++){
+          params_obj.all = false;
+          params_obj.patientId = null;
+         if(JSON.stringify(this.multipleSelectionAll)=='[]'){
+             _that.$common.openErrorMsgBox("请选中要导出的病历信息",_that);
+             return false;
+         }else{
+             for(var i=0;i<this.multipleSelectionAll.length;i++){
                 params_obj.inquiryIdList.push(this.multipleSelectionAll[i].inquiryId);
+             }
+         }
+         console.log(JSON.stringify(params_obj));
+         var url = "/dataStatistics/getInquiryInfoList";
+		     var loading = _that.$common.openLoading("病历导出中，请耐心等待",_that);
+          _that.$http.post(url, params_obj).then(function (response) {
+                  loading.close();
+                  if(response.code == "1"){
+                      //打印的请求数据成功 把数据传递给打印控件；
+            if(response.data.inquiryInfo && JSON.stringify(response.data.inquiryInfo)!="{}"){
+              _that.$exportPrint(response.data.inquiryInfo,{});
             }
-        }
-        console.log(JSON.stringify(params_obj));
-        var url = "/dataStatistics/getInquiryInfoList";
-		var loading = _that.$common.openLoading("病历导出中，请耐心等待",_that);
-        _that.$http.post(url, params_obj).then(function (response) {
-                loading.close();
-                if(response.code == "1"){
-                    //打印的请求数据成功 把数据传递给打印控件；
-					if(response.data.inquiryInfo && JSON.stringify(response.data.inquiryInfo)!="{}"){
-						_that.$exportPrint(response.data.inquiryInfo,{});
-					}
 
-                }else{
-                    _that.$common.openErrorMsgBox(response.msg,_that);
-                }
-            }).catch(function (error) {
-				loading.close();
+                  }else{
+                      _that.$common.openErrorMsgBox(response.msg,_that);
+                  }
+              }).catch(function (error) {
+			  	loading.close();
                 _that.$common.openErrorMsgBox(error,_that);
 
             });
+      },
+
+      /**
+       * 导出word
+       *
+       */
+      exportWord(){
+        var _that = this;
+        var params_obj = {};
+        params_obj.inquiryIdList =[];
+        params_obj.all = false;
+        params_obj.patientId = null;
+        if(JSON.stringify(this.multipleSelectionAll)=='[]'){
+          _that.$common.openErrorMsgBox("请选中要导出的病历信息",_that);
+          return false;
+        }else{
+          for(var i=0;i<this.multipleSelectionAll.length;i++){
+            params_obj.inquiryIdList.push(this.multipleSelectionAll[i].inquiryId);
+          }
+        }
+        // console.log(JSON.stringify(params_obj));
+         console.log(params_obj);
+        var url = "/index/getPatientInfoWord?all=false"
+        params_obj.inquiryIdList.forEach((p)=>{
+               url+="&inquiryIdList="+p
+        })
+        console.log(url)
+        // var url = "/index/getPatientInfoWord?inquiryIdList=533&inquiryIdList=534&all=false";
+        var loading = _that.$common.openLoading("病历word文档导出中，请耐心等待",_that);
+         _that.$http.post(url,{}).then(function (response) {
+           console.log(response)
+            loading.close();
+           let blob = new Blob([response], {type: `application/msword` //word文档为msword,pdf文档为pdf
+           });
+           let objectUrl = URL.createObjectURL(blob);
+           let link = document.createElement("a");
+           let fname = `病人病例`; //下载文件的名字
+           link.href = objectUrl;
+           link.setAttribute("download", fname);
+           document.body.appendChild(link);
+           link.click();
+        }).catch(function (error) {
+          loading.close();
+          _that.$common.openErrorMsgBox(error,_that);
+
+        });
       }
+
+
     }
 }

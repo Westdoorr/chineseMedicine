@@ -24,17 +24,24 @@ export default {
         }
       },
       created () {
-
+        this.setProList("0");
+        this.setCityList("24");
+        this.form.country = "0";
+        this.form.sourceProvince = 24;
+        this.form.sourceCity =1348;
       },
+
       beforeMount () {
          //获取地址请求
         this.getPlace();
       },
+
       computed: {
           birthday() {
       　　　　return this.form.birthday
       　　}
       },
+
       watch: {
           birthday(newValue, oldValue) {
       　　　　var age  = this.$common.GetAgeByBrithday(newValue);
@@ -52,7 +59,18 @@ export default {
 
       methods: {
         opencomfigMethod(msg,method_name,method_params){
-          this.$common.openComfigDialog(msg,method_name,method_params,this);
+          if(this.form.age == 0){
+              // console.log("不能为0")
+            this.$message({
+              showClose: true,
+              message: '年龄不能为0',
+              type: 'error'
+            });
+          }
+          else {
+            this.$common.openComfigDialog(msg,method_name,method_params,this);
+          }
+
         },
         //联动设置 城市 设置为外国时表单的值
         setCityList(value){
@@ -78,7 +96,8 @@ export default {
           if(selectvalue=="0"){
             //代表国内
             var proNameList = this.$store.getters.gettersPlaceData.placeList;
-            proNameList = proNameList.slice(1,proNameList.length-1);
+            // proNameList = proNameList.slice(1,proNameList.length-1); //这个没有截取完字符串
+            proNameList = proNameList.slice(1,proNameList.length); //
             this.province = proNameList;
           }else{
             //国外
@@ -103,8 +122,8 @@ export default {
            var placeData = this.$store.getters.gettersPlaceData;
             if(placeData && JSON.stringify(placeData) == "{}"){
               var _that = this;
-              this.$http.get('/index/getPlace')
-              .then(function (response) {
+              this.$http.get('/index/getPlace').then(function (response) {
+                console.log("地址",response)
                 if(response.code=="1"){
                   placeData = response.data;
                   placeData.placeList[0].cityList = _that.updateWgzdm(placeData.placeList[0].cityList);

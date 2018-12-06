@@ -1,7 +1,7 @@
 <template>
 <div class="sjtj-yytj-container">
     <div class="search-row">
-      <div class="search-row-btn-group"><el-button class="btn-default" @click="downLoad" style="width:100px">导出</el-button></div>
+      <div class="search-row-btn-group"><el-button class="btn-default" @click="exportExcel" style="width:100px">导出</el-button></div>
         <div class="search-row-btn-group">
           <el-button class="btn-default wzqk-btn" @click="gotoWzqkPage(wzqkpage)">每日问诊情况</el-button>
           <el-button class="btn-default yytj-btn">用药统计</el-button>

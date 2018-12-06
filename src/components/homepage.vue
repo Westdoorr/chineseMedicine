@@ -16,7 +16,7 @@
               <el-col :span="6"><el-input class="full-width" v-model="form.age"  placeholder="请输入"></el-input></el-col>
               <el-col :span="18">
                 <label class="el-form-item__label" style="width: 124px;padding-left:20px;padding-right:20px;">生日</label>
-                <el-input class="index-input" v-model="form.birthday" @blur="changeBirdate" style="width: calc(100% - 124px);" placeholder="日期yyyy/mm/dd"></el-input>
+                <el-input class="index-input" v-model="form.birthday" @blur="changeBirdate" style="width: calc(100% - 124px);" placeholder="yyyy-mm-dd"></el-input>
                 <!--<el-date-picker type="date" placeholder="请选择日期" v-model="form.birthday" format="yyyy/MM/dd" style="width: calc(100% - 124px);"></el-date-picker>-->
               </el-col>
             </el-row>

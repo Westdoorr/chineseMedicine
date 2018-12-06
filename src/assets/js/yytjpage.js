@@ -104,6 +104,7 @@ export default {
         _that.$http.get(url,{
             params: search_obj
            }).then(function (response) {
+             console.log(response)
                if(response.code == "1"){
                    _that.setThreeList(response.data.pageInfo.list);
                }else{
@@ -124,59 +125,69 @@ export default {
         _that.$common.GotoPage(pagename,pathParams,_that);
       },
       setThreeList(list){
+        console.log(list.length)
+        if(list.length>0){
           //第一步 判断是否整除3
           if(JSON.stringify(list) != "[]"){
-              //第二步 不能整除 补齐整除数组
-              if(list.length%3 != 0){
-                var min_number = Math.floor(list.length/3);
-                var arry1 = new Array(),
-                    arry2 = new Array(),
-                    arry3 = new Array();
-                var l_number = list.length%3;
-                if(min_number!=0){
-                   arry1 = list.slice(0,min_number);
-                   arry2 = list.slice(min_number,2*min_number);
-                   arry3 = list.slice(2*min_number,3*min_number);
-                }else{
-                  l_number = list.length;
-                }
-                if(l_number==1){
-                  arry1.push(list[list.length-1]);
-                  var temp_obj = new Object();
-                  temp_obj.dose = null;
-                  temp_obj.medicine = null;
-                  arry2.push(temp_obj);
-                  var temp_obj1 = new Object();
-                  temp_obj1.dose = null;
-                  temp_obj1.medicine = null;
-                  arry3.push(temp_obj1);
-                }else{
-                  arry1.push(list[list.length-2]);
-                  arry2.push(list[list.length-1]);
-                  var temp_obj1 = new Object();
-                  temp_obj1.dose = null;
-                  temp_obj1.medicine = null;
-                  arry3.push(temp_obj1);
-                }
-                arry1=this.setYwListIndex(arry1,1);
-                arry2=this.setYwListIndex(arry2,2);
-                arry3=this.setYwListIndex(arry3,3);
-                this.tableData.list1 =arry1;
-                this.tableData.list2 = arry2;
-                this.tableData.list3 = arry3;
+            //第二步 不能整除 补齐整除数组
+            if(list.length%3 != 0){
+              var min_number = Math.floor(list.length/3);
+              var arry1 = new Array(),
+                arry2 = new Array(),
+                arry3 = new Array();
+              var l_number = list.length%3;
+              if(min_number!=0){
+                arry1 = list.slice(0,min_number);
+                arry2 = list.slice(min_number,2*min_number);
+                arry3 = list.slice(2*min_number,3*min_number);
               }else{
-                var index = list.length/3;
-                var arry1 = list.slice(0,index),
-                    arry2 = list.slice(index,index*2),
-                    arry3 = list.slice(index*2,list.length);
-                  arry1=this.setYwListIndex(arry1,1);
-                  arry2=this.setYwListIndex(arry2,2);
-                  arry3=this.setYwListIndex(arry3,3);
-                  this.tableData.list1 =arry1;
-                  this.tableData.list2 = arry2;
-                  this.tableData.list3 = arry3;
+                l_number = list.length;
+              }
+              if(l_number==1){
+                arry1.push(list[list.length-1]);
+                var temp_obj = new Object();
+                temp_obj.dose = null;
+                temp_obj.medicine = null;
+                arry2.push(temp_obj);
+                var temp_obj1 = new Object();
+                temp_obj1.dose = null;
+                temp_obj1.medicine = null;
+                arry3.push(temp_obj1);
+              }else{
+                arry1.push(list[list.length-2]);
+                arry2.push(list[list.length-1]);
+                var temp_obj1 = new Object();
+                temp_obj1.dose = null;
+                temp_obj1.medicine = null;
+                arry3.push(temp_obj1);
+              }
+              arry1=this.setYwListIndex(arry1,1);
+              arry2=this.setYwListIndex(arry2,2);
+              arry3=this.setYwListIndex(arry3,3);
+              this.tableData.list1 =arry1;
+              this.tableData.list2 = arry2;
+              this.tableData.list3 = arry3;
+            }else{
+              var index = list.length/3;
+              var arry1 = list.slice(0,index),
+                arry2 = list.slice(index,index*2),
+                arry3 = list.slice(index*2,list.length);
+              arry1=this.setYwListIndex(arry1,1);
+              arry2=this.setYwListIndex(arry2,2);
+              arry3=this.setYwListIndex(arry3,3);
+              this.tableData.list1 =arry1;
+              this.tableData.list2 = arry2;
+              this.tableData.list3 = arry3;
             }
           }
+
+        }
+        else {
+          this.tableData.list1 =[];
+          this.tableData.list2 = [];
+          this.tableData.list3 = [];
+        }
+
       },
       /** 对药物的列表序号排序 type　加几*/
       setYwListIndex(arry,type){
@@ -201,6 +212,35 @@ export default {
         data.list2 = this.tableData.list2;
         data.list3 = this.tableData.list3;
         this.$tablePrint(doc_obj,{"data":data,"type":"2"});
+      },
+
+      /*
+      * 导出excel
+      *
+      * */
+      exportExcel(){
+        var _that = this;
+         var url ="/dataStatistics/drugUseToExcel?startDate="+this.search_obj.startDate+"&endDate="+this.search_obj.endDate+"&medicine="+ this.search_obj.medicine+"&pageNum="+1+"&pageSize="+500;
+        var loading = _that.$common.openLoading("病历word文档导出中，请耐心等待",_that);
+        _that.$http.get(url,{responseType: 'arraybuffer'}).
+        then(function (response) {
+          console.log(url)
+          console.log(response)
+          loading.close();
+          let blob = new Blob([response], {type: `application/vnd.ms-excel`});
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          let fname = '用药统计.xls'; //下载文件的名字
+          link.href = objectUrl;
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+        }).catch(function (error) {
+          loading.close();
+          _that.$common.openErrorMsgBox(error,_that);
+
+        });
       }
+
     }
   }

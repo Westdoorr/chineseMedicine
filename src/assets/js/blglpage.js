@@ -13,6 +13,11 @@ export default {
             patientId:null,
             pageNum:1,
             pageSize:10,
+           // 新增 1.3
+            startAge:"",
+            endAge:"",
+            residence:"",
+            gender:""
         },
         multipleSelectionAll:[],//所有选中的数据包含跨页数据
         multipleSelection:[],// 当前页选中的数据
@@ -22,7 +27,13 @@ export default {
             pageNum:1,
             pageSize:10,
             total:0
-          } ,
+        } ,
+        // 禁止时间
+        pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          }
+        }
       }
     },
     //计算属性
@@ -39,6 +50,18 @@ export default {
         this.initPage();
     },
     methods: {
+      //日期改变
+      //日期控件选中时的回调
+      changeDate(val){
+        console.log(val)
+        let start,end
+        if(val=="" || val==null) {
+          this.search_obj.startDate = null
+          this.search_obj.endDate= null
+          this.rangeDate  = null
+        }
+      },
+
       // 序号
       typeIndex(index){
         console.log('序号：',index)
@@ -167,10 +190,10 @@ export default {
       getblList(){
         var _that = this;
         var search_obj = this.search_obj;
+        console.log("参数",search_obj)
         var url = "/MrManage/getMrList";
-        _that.$http.get(url,{
-            params: search_obj
-           }).then(function (response) {
+        _that.$http.get(url,{params: search_obj}).then(function (response) {
+             console.log(response)
                if(response.code=="1"){
                         _that.tableData = response.data.pageInfo;
                         console.log( _that.tableData)
@@ -290,6 +313,51 @@ export default {
                 _that.$common.openErrorMsgBox(error,_that);
 
             });
+      },
+      /**
+       * 导出word
+       *
+       */
+      exportWord(){
+        var _that = this;
+        var params_obj = {};
+        params_obj.inquiryIdList =[];
+        params_obj.all = false;
+        params_obj.patientId = null;
+        if(JSON.stringify(this.multipleSelectionAll)=='[]'){
+          _that.$common.openErrorMsgBox("请选中要导出的病历信息",_that);
+          return false;
+        }else{
+          for(var i=0;i<this.multipleSelectionAll.length;i++){
+            params_obj.inquiryIdList.push(this.multipleSelectionAll[i].inquiryId);
+          }
+        }
+        // console.log(JSON.stringify(params_obj));
+        console.log(params_obj);
+        var url = "/index/getPatientInfoWord?all=false"
+        params_obj.inquiryIdList.forEach((p)=>{
+          url+="&inquiryIdList="+p
+        })
+        console.log(url)
+        // var url = "/index/getPatientInfoWord?inquiryIdList=533&inquiryIdList=534&all=false";
+        var loading = _that.$common.openLoading("病历word文档导出中，请耐心等待",_that);
+        _that.$http.post(url,{}).then(function (response) {
+          console.log(response)
+          loading.close();
+          let blob = new Blob([response], {type: `application/msword` //word文档为msword,pdf文档为pdf
+          });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          let fname = `病人病例`; //下载文件的名字
+          link.href = objectUrl;
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+        }).catch(function (error) {
+          loading.close();
+          _that.$common.openErrorMsgBox(error,_that);
+
+        });
       }
     }
   }
