@@ -68,7 +68,8 @@ export default new Router({
           component: resolve => require(['@/components/blglpage'],resolve)
          }
          ,{
-          path:'bryfpage/:pId/:inquiryId/:lastinquiryId',
+          // path:'bryfpage/:pId/:inquiryId/:lastinquiryId',
+          path:'bryfpage',
           name:'bryfpage',
           component: resolve => require(['@/components/bryfpage'],resolve)
          }

@@ -149,8 +149,8 @@ export default{
      */
     GotoPage(pagename,param,_that) {
         _that.$router.push({
-             name: pagename,
-             params:param
+             path: pagename,
+             query:param
         });
     },
     /**
@@ -264,8 +264,9 @@ export default{
         * 新建问诊id
         */
       newInquiry_new:function(brid,_that){
-        var param ={patientId:brid};
+         var param ={patientId:brid};
         _that.$http.post('/inquiry/newInquiry',param).then(function (response) {
+          console.log(response)
           if(response.code=="1"){
             var brinfo = {pId:brid,inquiryId:response.data.inquiryId};
             _that.$common.getLastInquiry(brinfo,_that);
@@ -288,13 +289,16 @@ export default{
           _that.$http.get(url)
             .then(function (response) {
               if(response.code == "1"){
+                   console.log("获取最后一次问诊")
                   if(JSON.stringify(response.data)!="{}"){
                       if(response.data.inquiryInfo.inquiryId){
                           brinfo.lastinquiryId = response.data.inquiryInfo.inquiryId;
+                          console.log( brinfo.lastinquiryId)
                       }else{
                           brinfo.lastinquiryId = "";
                       }
                       //跳转组件并且 传递pid
+                      console.log(brinfo)
                       var pathParams = new Object();
                       pathParams.path = 'bryfpage';
                       pathParams.data = brinfo;
@@ -306,9 +310,10 @@ export default{
                       prePathParams.data.xzfz = "new";
                       //缓存 跳转页面的参数
                       _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
-                     _that.initPage();
-                      //请求药方数据
-                      _that.getyfDate();
+                      _that.$common.GotoPage("bryfpage",brinfo,_that);
+                     // _that.initPage();
+                     //  //请求药方数据
+                     //  _that.getyfDate();
                   }
               }else{
                 _that.$common.openErrorMsgBox(response.msg,_that);

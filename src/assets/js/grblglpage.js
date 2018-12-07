@@ -33,6 +33,7 @@ export default {
       },
       handleClick(row) {
           var _that = this;
+          console.log("当前行",row)
           var brinfo = {pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:'',pname:this.search_obj.pname};//以前
           var brinfo1 = {pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}; //现在
            //跳转组件并且 传递pid
@@ -49,9 +50,9 @@ export default {
             prePathParams.is_display_fh = false //去掉返回
            //缓存 跳转页面的参数
            _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
-           // _that.$common.GotoPage("bryfpage",brinfo,_that);
-           _that.$router.push({ name:'bryfpage',params:{pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}})
-                               'bryfpage/:pId/:inquiryId/:lastinquiryId'
+           _that.$common.GotoPage("bryfpage",brinfo,_that);
+           // _that.$router.push({ name:'bryfpage',params:{pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}})
+           //                     'bryfpage/:pId/:inquiryId/:lastinquiryId'
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -192,6 +193,7 @@ export default {
         _that.$http.get(url,{
             params: search_obj
            }).then(function (response) {
+          console.log("当前病人",response)
                if(response.code == "1"){
                   if(JSON.stringify(response.data.pageInfo.list)!="[]"){
                     _that.tableData = response.data.pageInfo;

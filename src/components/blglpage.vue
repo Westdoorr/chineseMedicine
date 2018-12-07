@@ -2,18 +2,30 @@
 <div class="blgl-container">
     <div class="search-row">
         <div class="search-input-item">
-            <el-input style="width:300px;margin-right:10px;margin-left: 1px;" v-model="search_obj.pname" placeholder="输入病人名字"></el-input>
+            <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.pname" placeholder="病人姓名"></el-input>
         </div>
-        <div class="search-range-date-item">
+        <div class="search-input-item">
+           <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.gender" placeholder="性别"></el-input>
+        </div>
+        <div class="search-input-item">
+           <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.residence" placeholder="来源地"></el-input>
+        </div>
+        <div class="search-input-item">
+            <el-input style="width:127px;margin-right:10px;margin-left: 1px; display: inline-block" v-model="search_obj.endAge" placeholder="年龄"></el-input>-
+            <el-input style="width:127px;margin-right:10px;margin-left: 1px;" v-model="search_obj.startAge" placeholder="年龄"></el-input>
+        </div>
+
+        <div class="search-range-date-item search-input-item1">
             <el-date-picker
                 class="rq-input"
                 v-model="rangeDate"
                 :picker-options="pickerOptions1"
                 type="daterange"
                 :default-time="['00:00:00', '23:59:59']"
-                range-separator="至"
+                range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                format="yyyy/MM/dd"
                 @change="changeDate"
             >
             </el-date-picker>

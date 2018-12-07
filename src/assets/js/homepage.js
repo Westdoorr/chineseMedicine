@@ -337,6 +337,7 @@ export default {
                           var pathParams = new Object();
                           pathParams.path = 'brglpage';
                           pathParams.data = brinfo;
+                          console.log()
                           //缓存 目标跳转页面的参数
                           _that.$store.dispatch("setPathParams", JSON.stringify(pathParams));
                           var prePathParams = new Object();

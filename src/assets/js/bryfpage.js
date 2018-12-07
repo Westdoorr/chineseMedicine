@@ -685,8 +685,10 @@ export default {
         this.initPage();
         //请求药方数据
         //
-        this.params = this.$route.params
+        this.params = this.$route.query
         console.log("地址后台挂的值",this.params )
+        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+       console.log("地址后台缓存",r_params)
         this.getyfDate();
         // window.onbeforeunload = function(e) {
         //   console.log("刷新")
@@ -733,7 +735,9 @@ export default {
         window.removeEventListener("beforeunload",this.beforeunload);
       },
 
-  watch: {},
+  watch: {
+     '$route':'fetchData'
+  },
 
   mounted() {
     //页面打开就滚动到88处
@@ -752,6 +756,27 @@ export default {
   },
 
   methods: {
+    fetchData(){
+       console.log("兼听路由改变了")
+      // this.initDiagnoseLabel();
+       this.initPage();
+        //请求药方数据
+        //
+        this.params = this.$route.query
+        console.log("地址后台挂的值",this.params )
+       var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+      console.log("地址后台缓存",r_params)
+      this.getyfDate();
+      // window.onbeforeunload = function(e) {
+      //   console.log("刷新")
+      //   return "您编辑的信息尚未保存，您确定要离开吗？"//这里内容不会显示在提示框，为了增加语义化。
+      // };
+      window.addEventListener("beforeunload", function (e) {
+        var confirmationMessage = '确定离开此页吗？本页不需要刷新或后退';
+        (e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
+        return confirmationMessage;                                // Gecko and WebKit
+      });
+    },
     scrollWindow(){
         window.scrollTo(100,88);
     },
@@ -881,6 +906,7 @@ export default {
         }
         else if(prePathParams.path == "newwz"){
           console.log("新建问诊")
+          // var prePathParams = window.localStorage.getItem("pathParams");
           this.count=0
         }
         else{
@@ -1079,21 +1105,26 @@ export default {
      * 获取复诊药方数据
      */
     getfzYfData:function(){
+
         var _that = this;
         // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        // var inquiryId = r_params.data.inquiryId;
-        // var lastinquiryId = r_params.data.lastinquiryId;
-
-      var r_params =  this.params ;
-      var inquiryId = r_params.inquiryId;
-      var lastinquiryId = r_params.lastinquiryId;
+        var r_params = this.params;
+        var inquiryId = r_params.inquiryId;
+        var lastinquiryId = r_params.lastinquiryId;
+      console.log("复诊2",r_params)
+      // var r_params =  this.params ;
+      // var inquiryId = r_params.data.inquiryId;
+      // var lastinquiryId = r_params.data.lastinquiryId;
+      console.log("复诊3",inquiryId)
+      console.log("复诊4",lastinquiryId)
         if(lastinquiryId){
+          console.log("复诊5")
             //获取诊断标签
             _that.$http.get("/inquiry/getInquiryLabels?inquiryId="+lastinquiryId).then(function (response) {
-
+                 console.log(response)
                 if(response.code == "1"){
                     var d_str = JSON.stringify(response.data.diagnoseLabels);
-                    console.log("复诊")
+
                     console.log(d_str)
                     if(d_str == "[]"){
                         _that.diagnoseLabels = null;
@@ -1214,20 +1245,25 @@ export default {
         var _that = this;
         //12-6修改
         // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        // var lastinquiryId = r_params.data.lastinquiryId;
+        var r_params =  this.params;
+        console.log("初始化",r_params)
+        var lastinquiryId = this.params.lastinquiryId;
+        if(lastinquiryId == "" || !lastinquiryId){
+            console.log("初诊")
+            this.getCzYfData();
+        }else{
+            console.log("复诊")
+            this.getfzYfData();
+        }
+
+        //
+        // var lastinquiryId = this.params.lastinquiryId;
+        // console.log(this.params.lastinquiryId)
         // if(lastinquiryId == "" || !lastinquiryId){
         //     this.getCzYfData();
         // }else{
         //     this.getfzYfData();
         // }
-
-       //12-6修改 (new)
-        var lastinquiryId = this.params.lastinquiryId;
-        if(lastinquiryId == "" || !lastinquiryId){
-            this.getCzYfData();
-        }else{
-            this.getfzYfData();
-        }
 
     },
     /**
@@ -1650,9 +1686,11 @@ export default {
      */
     newInquiry_new:function(){
         var loading = this.$common.openLoading("新建问诊中,请稍等!",this);
-        // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-      var r_params = this.params
+         // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+         var r_params = this.params
+        console.log("新建问诊的东西",r_params)
         var brid= r_params.pId;
+        console.log("新建问诊的ids",brid)
         this.$common.newInquiry_new(brid,this);
         this.is_display_xjzd = true;
         this.is_display_xj = true;

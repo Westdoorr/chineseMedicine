@@ -38,6 +38,7 @@ export default {
        * @param {string} pagename 跳转路径名
        */
       gotoyfpage(row,pagename) {
+        console.log("病人管理行",row)
         var params = {},
             _that = this,
             prePath = "";
@@ -86,6 +87,7 @@ export default {
         _that.$http.get(url,{
             params: search_obj
            }).then(function (response) {
+             console.log("病人管理列表",response)
              if(response.code =="1"){
                     _that.tableData = response.data.pageInfo;
              }else{
@@ -126,13 +128,14 @@ export default {
          * return 问诊id
          */
       newInquiry_new(brid){
+         console.log("新建复诊")
         var _that = this;
-
         var param ={patientId:brid};
+        console.log("fdsds",param)
         this.$http.post('/inquiry/newInquiry',param).then(function (response) {
           if(response.code=="1"){
             // var brinfo = {pId:brid,inquiryId:response.data.inquiryId,};
-            var brinfo = {pId:brid,inquiryId:response.data.inquiryId,lastinquiryId:null};
+            var brinfo = {pId:brid,inquiryId:response.data.inquiryId};
             _that.getLastInquiry(brinfo);
           }else{
             _that.$common.openErrorMsgBox(response.msg,_that);
