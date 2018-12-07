@@ -59,17 +59,8 @@ export default {
 
       methods: {
         opencomfigMethod(msg,method_name,method_params){
-          if(this.form.age == 0){
-              // console.log("不能为0")
-            this.$message({
-              showClose: true,
-              message: '年龄不能为0',
-              type: 'error'
-            });
-          }
-          else {
+
             this.$common.openComfigDialog(msg,method_name,method_params,this);
-          }
 
         },
         //联动设置 城市 设置为外国时表单的值
@@ -162,10 +153,11 @@ export default {
         },
         //return  false 属性有空， true时 校验通过
         allRequired(formData){
+          console.log(formData)
           var boolean_swt = true;
             //遍历对象
             for(var key in formData){
-              if(!formData[key] || formData[key] ==""){
+              if(formData[key] == null|| formData[key] ==""){
                   if(key=='sourceCity' && formData.country=="1"){
                     continue;
                   }
@@ -284,10 +276,30 @@ export default {
            var _that = this;
           //初诊数据提交，都必须填写 数据项校验
           var swt_btn = this.allRequired(this.form);
-          if(!swt_btn){
-            this.$common.openErrorMsgBox("请完整填写基本信息!",_that);
-            return;
+          console.log(this.form)
+          if(this.form.age == 0){
+            this.$message({
+                  showClose: true,
+                  message: '年龄不能为0',
+                  type: 'error'
+                });
           }
+          else {
+            if(!swt_btn){
+              this.$common.openErrorMsgBox("请完整填写基本信息!",_that);
+              return;
+            }
+
+
+          // else if(this.form.age == 0){
+          //   // console.log("不能为0")
+          //   this.$message({
+          //     showClose: true,
+          //     message: '年龄不能为0',
+          //     type: 'error'
+          //   });
+          //   return;
+          // }
           //打开加载层
           var loading = this.$common.openLoading("初诊中",_that);
           var param = this.form;
@@ -310,6 +322,7 @@ export default {
              _that.$common.openErrorMsgBox(error,_that);
             }, 1000);
           });
+          }
         },
         /**
          * 是否有病人重复
