@@ -157,7 +157,8 @@ export default {
           var boolean_swt = true;
             //遍历对象
             for(var key in formData){
-              if(formData[key] == null|| formData[key] ==""){
+              if(key === 'age') continue
+              if(formData[key] === null|| formData[key] ==""){
                   if(key=='sourceCity' && formData.country=="1"){
                     continue;
                   }
@@ -277,10 +278,10 @@ export default {
           //初诊数据提交，都必须填写 数据项校验
           var swt_btn = this.allRequired(this.form);
           console.log(this.form)
-          if(this.form.age == 0){
+          if(this.form.age < 0){
             this.$message({
                   showClose: true,
-                  message: '年龄不能为0',
+                  message: '年龄不能小于0',
                   type: 'error'
                 });
           }

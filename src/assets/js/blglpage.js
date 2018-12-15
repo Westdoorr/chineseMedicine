@@ -180,6 +180,20 @@ export default {
         if(i_params.data.patientId){
           this.search_obj.patientId = i_params.data.patientId;
         }
+        if(i_params.data.startAge){
+          this.search_obj.startAge = i_params.data.startAge;
+        }
+        if(i_params.data.endAge){
+          this.search_obj.endAge = i_params.data.endAge;
+        }
+        if(i_params.data.residence){
+          this.search_obj.residence = i_params.data.residence;
+        }
+        if(i_params.data.gender){
+          this.search_obj.gender = i_params.data.gender;
+        }
+
+
 
         this.getblList();
       },

@@ -11,8 +11,8 @@
            <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.residence" placeholder="来源地"></el-input>
         </div>
         <div class="search-input-item">
-            <el-input style="width:127px;margin-right:10px;margin-left: 1px; display: inline-block" v-model="search_obj.endAge" placeholder="年龄"></el-input>-
-            <el-input style="width:127px;margin-right:10px;margin-left: 1px;" v-model="search_obj.startAge" placeholder="年龄"></el-input>
+            <el-input style="width:127px;margin-right:10px;margin-left: 1px; display: inline-block" v-model="search_obj.startAge" placeholder="年龄"></el-input>-
+            <el-input style="width:127px;margin-right:10px;margin-left: 1px;" v-model="search_obj.endAge" placeholder="年龄"></el-input>
         </div>
 
         <div class="search-range-date-item search-input-item1">
@@ -21,7 +21,7 @@
                 v-model="rangeDate"
                 :picker-options="pickerOptions1"
                 type="daterange"
-                :default-time="['00:00:00', '23:59:59']"
+
                 range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
@@ -54,8 +54,8 @@
         <el-table-column prop="inquiryDate" label="就诊时间" width="320"></el-table-column>
         <el-table-column prop="times" label="第几次" width="140"></el-table-column>
         <el-table-column prop="gender" label="性别" width="110"></el-table-column>
-        <el-table-column prop="age" label="年龄" width="115"></el-table-column>
-        <el-table-column prop="residence" label="来源地" width="320"></el-table-column>
+        <el-table-column prop="age" label="年龄" width="175"></el-table-column>
+        <el-table-column prop="residence" label="来源地" width="260"></el-table-column>
         <el-table-column label="操作" width="510">
        <template slot-scope="scope">
             <!--<el-button @click="delDailyPatient(scope.row)" type="text" class="btn-font-default bnt-font-color">删除病历</el-button>-->

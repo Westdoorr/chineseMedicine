@@ -242,8 +242,8 @@ export default{
            var birthdayYear=birthday.getFullYear();
            var birthdayMonth=birthday.getMonth()+1;
            var birthdayDay=birthday.getDate();
-            if(todayYear-birthdayYear<0){
-                age=0;
+            if(todayYear-birthdayYear<=0){
+                age='0';
             }else{
                 if(todayMonth*1-birthdayMonth*1<0){
                     age = (todayYear*1-birthdayYear*1);

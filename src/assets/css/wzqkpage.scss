@@ -11,7 +11,7 @@
           font-size: 30px;
           font-weight: normal;
           font-stretch: normal;
-          line-height: 23.8px;  
+          line-height: 23.8px;
           letter-spacing: 0px;
           color: #20a0ff;
         }
@@ -80,7 +80,7 @@
       align-items: center;
       .page-container{
         text-align: center;
-        width: 768px;
+        width: 2000px;
         margin-top: 0px;
           .el-pager li{
             width: 48px;
@@ -135,15 +135,15 @@
     .bnt-font-color{
       color: #ff4949;
     }
-  
+
     .table-continer{
-        max-height: 520px;
+
         overflow:  auto;
         .el-table__header-wrapper{
           background: #e5e9f2;
         }
         .el-table__body-wrapper{
-          max-height: 440px;
+
           overflow-y:auto;
         }
     }
@@ -153,7 +153,7 @@
     }
     .el-table .headerClassname th{
       background-color: #e5e9f2;
-  
+
     }
     .el-table .headerClassname th>.cell{
         font-family: PingFangSC-Medium;
