@@ -21,7 +21,13 @@ const Print =function(YfData, options) {
 
 Print.prototype = {
     init: function () {
-      var content = this.getStyle() + this.getyfContent();
+      var content = this.getStyle();
+      var mainReList = this.YfData.mainReList;
+      if(JSON.stringify(mainReList)!='[]'){
+        for(var i = 0; i<mainReList.length; i++){
+          content += this.getyfContent(mainReList[i],i);
+        }
+      }
       console.log(content);
       this.writeIframe(content);
     },
@@ -43,14 +49,13 @@ Print.prototype = {
       return str;
     },
     //单页的打印内容拼接
-    getPrintHtml: function (content_str) {
-
-        return '<div class="print-container">'+this.getPrintHeader()+'<div class="print-info-container">'+content_str+'</div>'+this.getPrintFoot()+"</div>";
+    getPrintHtml: function (content_str,obj) {
+        return '<div class="print-container">'+this.getPrintHeader()+'<div class="print-info-container">'+content_str+'</div>'+this.getPrintFoot(obj)+"</div>";
     },
-  
+
     //获取打印样式头部
     getPrintHeader:function(){
-      
+
         var pName = this.YfData.pName ? this.YfData.pName:"";
         var age = this.YfData.age ? this.YfData.age : "";
         var gender = this.YfData.gender ? this.YfData.gender : "";
@@ -68,8 +73,8 @@ Print.prototype = {
         return printHeadStr;
     },
     //打印样式尾部
-    getPrintFoot:function(){
-        let printFoot = '<div class="print-foot-container"> <div class="frist-foot-item"> <div> <span class="label-tag">处方医师</span> <span class="underline"></span> </div> <div> <span class="label-tag">调配</span> <span class="yf-underline">'+this.YfData.allTotal+'</span> <span class="font-color-red">付</span> </div> </div> <div class="seconed-foot-item"> <div class="logo-img-container"> <img src="'+qrcode+'" width="126" height="125" /> <img src="'+Logo+'" width="135" height="135" /> </div> <div class="attention"> <div class="attention-frist"> <div class="attention-li">1、每张处方仅限患者本人用药；</div> <div class="attention-li">2、一天一副药，一天三次，服用时请加热；</div> <div class="attention-li">3、服药期间如有任何疑问，请及时咨询医师；</div> <div class="attention-li">4、药物服用完后，请勿自行继续服用原方；</div> </div> <div class="attention-li attention-address"> 地址：成都市武侯区丽都路2号附17号  短信预约电话：18010601111 </div> </div> </div> </div>';
+    getPrintFoot:function(obj){
+        let printFoot = '<div class="print-foot-container"> <div class="frist-foot-item"> <div> <span class="label-tag">处方医师</span> <span class="underline"></span> </div> <div> <span class="label-tag">调配</span> <span class="yf-underline">'+obj.amount+'</span> <span class="font-color-red">付</span> </div> </div> <div class="seconed-foot-item"> <div class="logo-img-container"> <img src="'+qrcode+'" width="126" height="125" /> <img src="'+Logo+'" width="135" height="135" /> </div> <div class="attention"> <div class="attention-frist"> <div class="attention-li">1、每张处方仅限患者本人用药；</div> <div class="attention-li">2、一天一副药，一天三次，服用时请加热；</div> <div class="attention-li">3、服药期间如有任何疑问，请及时咨询医师；</div> <div class="attention-li">4、药物服用完后，请勿自行继续服用原方；</div> </div> <div class="attention-li attention-address"> 地址：成都市武侯区丽都路2号附17号  短信预约电话：18010601111 </div> </div> </div> </div>';
         return printFoot;
     },
     //生成方子的对应Str
@@ -123,7 +128,7 @@ Print.prototype = {
       obj.arry = t_arry;
       return obj;
     },
-    createTable:function(type,index,t_arry,y_str,height,remarks,amount) {
+    createTable:function(type,index,t_arry,y_str,height,remarks,amount,mainRe) {
         var r_obj = new Object();
         r_obj.ywStr = y_str;
         r_obj.content_str = '';
@@ -148,7 +153,7 @@ Print.prototype = {
               var y_str = this.createYwListStr(o_obj);
               r_obj.ywStr = r_obj.ywStr + y_str;
               //生成第一页的打印内容
-              r_obj.content_str = r_obj.content_str + this.getPrintHtml(r_obj.ywStr);
+              r_obj.content_str = r_obj.content_str + this.getPrintHtml(r_obj.ywStr,mainRe);
               //重置 条件以及内容
               r_obj.tmp_height = this.autoTableHeight(new_arry);
               var n_obj= this.createdYwParams(type,index,new_arry,remarks,amount);
@@ -157,49 +162,48 @@ Print.prototype = {
           return r_obj;
           }
       },
-    /** 
+    /**
     打印内容 高度计算 自动分页 */
-    getyfContent:function(){
+    getyfContent:function(mainRe,i){
         //循环数据内容生成打印内容，计算高度是否需要分页就在创建一个打印容器
         var content_str='',
               ywStr = '',
               tmp_height = 0;
         //主方列表
-        var mainReList = this.YfData.mainReList;
-        if(JSON.stringify(mainReList)!='[]'){
-            for(var i = 0; i<mainReList.length; i++){
+        // if(JSON.stringify(mainReList)!='[]'){
+        //     for(var i = 0; i<mainReList.length; i++){
               //循环生成主方样式
-              if(JSON.stringify(mainReList[i].recipeDetailList)!='[]'){
-                  var t_obj = this.createTable(1,i,mainReList[i].recipeDetailList,ywStr,tmp_height,mainReList[i].remarks,mainReList[i].amount);
+              if(JSON.stringify(mainRe.recipeDetailList)!='[]'){
+                  var t_obj = this.createTable(1,i,mainRe.recipeDetailList,ywStr,tmp_height,mainRe.remarks,mainRe.amount,null);
                   content_str = content_str + t_obj.content_str;
                   ywStr = t_obj.ywStr;
                   tmp_height = t_obj.tmp_height;
               }
-              if(JSON.stringify(mainReList[i].viceReList)!='[]'){
+              if(JSON.stringify(mainRe.viceReList)!='[]'){
               //第二步再来生成字符串
-                  for(var j=0;j<mainReList[i].viceReList.length;j++){
-                       if(JSON.stringify(mainReList[i].viceReList[j].viceRecipeDetailList)!='[]'){
-                           var t_obj = this.createTable(2,j,mainReList[i].viceReList[j].viceRecipeDetailList,ywStr,tmp_height,mainReList[i].viceReList[j].remarks,mainReList[i].viceReList[j].amount);
+                  for(var j=0;j<mainRe.viceReList.length;j++){
+                       if(JSON.stringify(mainRe.viceReList[j].viceRecipeDetailList)!='[]'){
+                           var t_obj = this.createTable(2,j,mainRe.viceReList[j].viceRecipeDetailList,ywStr,tmp_height,mainRe.viceReList[j].remarks,mainRe.viceReList[j].amount,mainRe);
                           content_str = content_str + t_obj.content_str;
                           ywStr = t_obj.ywStr;
                           tmp_height = t_obj.tmp_height;
                        }
                   }
               }
-            }
+            // }
             if(ywStr!=""){
-              ywStr = this.getPrintHtml(ywStr);
+              ywStr = this.getPrintHtml(ywStr,mainRe);
             }
             content_str = content_str + ywStr;
             return content_str;
-        }
+        // }
     },
     writeIframe: function (content) {
       var w, doc, iframe = document.createElement('iframe'),
         f = document.body.appendChild(iframe);
       iframe.id = "myIframe";
       iframe.style = "position:absolute;width:0;height:0;top:-10px;left:-10px;";
-  
+
       w = f.contentWindow || f.contentDocument;
       doc = f.contentDocument || f.contentWindow.document;
       doc.open();
@@ -226,7 +230,7 @@ Print.prototype = {
         var cssText = doc.createTextNode(cssString);
         style.appendChild(cssText);
       }
-     
+
       var heads = doc.getElementsByTagName("head");
       if(heads.length)
         heads[0].appendChild(style);
