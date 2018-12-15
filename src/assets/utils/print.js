@@ -128,7 +128,7 @@ Print.prototype = {
       obj.arry = t_arry;
       return obj;
     },
-    createTable:function(type,index,t_arry,y_str,height,remarks,amount) {
+    createTable:function(type,index,t_arry,y_str,height,remarks,amount,mainRe) {
         var r_obj = new Object();
         r_obj.ywStr = y_str;
         r_obj.content_str = '';
@@ -153,7 +153,7 @@ Print.prototype = {
               var y_str = this.createYwListStr(o_obj);
               r_obj.ywStr = r_obj.ywStr + y_str;
               //生成第一页的打印内容
-              r_obj.content_str = r_obj.content_str + this.getPrintHtml(r_obj.ywStr);
+              r_obj.content_str = r_obj.content_str + this.getPrintHtml(r_obj.ywStr,mainRe);
               //重置 条件以及内容
               r_obj.tmp_height = this.autoTableHeight(new_arry);
               var n_obj= this.createdYwParams(type,index,new_arry,remarks,amount);
@@ -174,7 +174,7 @@ Print.prototype = {
         //     for(var i = 0; i<mainReList.length; i++){
               //循环生成主方样式
               if(JSON.stringify(mainRe.recipeDetailList)!='[]'){
-                  var t_obj = this.createTable(1,i,mainRe.recipeDetailList,ywStr,tmp_height,mainRe.remarks,mainRe.amount);
+                  var t_obj = this.createTable(1,i,mainRe.recipeDetailList,ywStr,tmp_height,mainRe.remarks,mainRe.amount,null);
                   content_str = content_str + t_obj.content_str;
                   ywStr = t_obj.ywStr;
                   tmp_height = t_obj.tmp_height;
@@ -183,7 +183,7 @@ Print.prototype = {
               //第二步再来生成字符串
                   for(var j=0;j<mainRe.viceReList.length;j++){
                        if(JSON.stringify(mainRe.viceReList[j].viceRecipeDetailList)!='[]'){
-                           var t_obj = this.createTable(2,j,mainRe.viceReList[j].viceRecipeDetailList,ywStr,tmp_height,mainRe.viceReList[j].remarks,mainRe.viceReList[j].amount);
+                           var t_obj = this.createTable(2,j,mainRe.viceReList[j].viceRecipeDetailList,ywStr,tmp_height,mainRe.viceReList[j].remarks,mainRe.viceReList[j].amount,mainRe);
                           content_str = content_str + t_obj.content_str;
                           ywStr = t_obj.ywStr;
                           tmp_height = t_obj.tmp_height;
