@@ -2,17 +2,17 @@
 <div class="blgl-container">
     <div class="search-row">
         <div class="search-input-item">
-            <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.pname" placeholder="病人姓名"></el-input>
+            <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.pname" placeholder="病人姓名" @keyup.enter.native="getblList"></el-input>
         </div>
         <div class="search-input-item">
-           <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.gender" placeholder="性别"></el-input>
+           <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.gender" placeholder="性别" @keyup.enter.native="getblList"></el-input>
         </div>
         <div class="search-input-item">
-           <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.residence" placeholder="来源地"></el-input>
+           <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.residence" placeholder="来源地" @keyup.enter.native="getblList"></el-input>
         </div>
         <div class="search-input-item">
-            <el-input style="width:127px;margin-right:10px;margin-left: 1px; display: inline-block" v-model="search_obj.startAge" placeholder="年龄"></el-input>-
-            <el-input style="width:127px;margin-right:10px;margin-left: 1px;" v-model="search_obj.endAge" placeholder="年龄"></el-input>
+            <el-input style="width:127px;margin-right:10px;margin-left: 1px; display: inline-block" v-model="search_obj.startAge" placeholder="年龄" @keyup.enter.native="getblList"></el-input>-
+            <el-input style="width:127px;margin-right:10px;margin-left: 1px;" v-model="search_obj.endAge" placeholder="年龄" @keyup.enter.native="getblList"></el-input>
         </div>
 
         <div class="search-range-date-item search-input-item1">

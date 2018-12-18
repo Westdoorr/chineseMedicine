@@ -7,7 +7,7 @@
           <el-button class="btn-default yytj-btn">用药统计</el-button>
         </div>
         <div class="search-input-item">
-          <el-input placeholder="请输入药名" v-model="search_obj.medicine">
+          <el-input placeholder="请输入药名" v-model="search_obj.medicine" @keyup.enter.native="getYytjList">
               <el-button slot="append" icon="el-icon-search" @click="getYytjList"></el-button>
           </el-input>
         </div>
