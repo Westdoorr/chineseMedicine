@@ -230,7 +230,7 @@ export default {
           let blob = new Blob([response], {type: `application/vnd.ms-excel`});
           let objectUrl = URL.createObjectURL(blob);
           let link = document.createElement("a");
-          let fname = '用药统计.xls'; //下载文件的名字
+          let fname = '用药统计.xlsx'; //下载文件的名字
           link.href = objectUrl;
           link.setAttribute("download", fname);
           document.body.appendChild(link);

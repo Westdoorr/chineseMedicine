@@ -129,6 +129,15 @@ export default {
               });
             }
         },
+        putinname(){
+          var mingzi=this.form.pname.replace(/\s*/g,"");
+          this.form.pname=mingzi;
+          if(this.form.pname.match(/^[ ]*$/)){
+            this.$common.openErrorMsgBox("请填写姓名",this);
+          }else{
+            console.log("正确")
+          }
+        },
         changeBirdate(){
             //第一步：格式化校验数据是否合理
             if(this.form.birthday){
@@ -136,9 +145,12 @@ export default {
               var reg1 = /^([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})(((0[13578]|1[02])(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)(0[1-9]|[12][0-9]|30))|(02(0[1-9]|[1][0-9]|2[0-8])))$/;
               var regExp = new RegExp(/^([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))$/);
               var regExp1 = new RegExp(reg1);
-              if(regExp.test(this.form.birthday)&&this.form.birthday.length>7){
-
-              }else if(regExp1.test(this.form.birthday)&&this.form.birthday.length>7){
+             if(regExp.test(this.form.birthday)&&this.form.birthday.length>7) {
+               if (this.isBirthday()&& this.isDayRight()){
+               }else {
+                 this.$common.openErrorMsgBox("请输入正确的日期格式",this);
+               }
+             }else if(regExp1.test(this.form.birthday)&&this.form.birthday.length>7){
                 //格式化当前日期格式
                 this.form.birthday = this.form.birthday.substring(0,4)+"-"+this.form.birthday.substring(4,6)+"-"+this.form.birthday.substring(6,8);
                 //this.$common.GetAgeByBrithday(this.form.birthday);
@@ -147,9 +159,46 @@ export default {
                 // this.form.age = null;
                 //提示  然后值清空 在填
                 this.$common.openErrorMsgBox("请输入正确的日期格式",this);
-
               }
             }
+        },
+        //判断年龄是否小于零
+        isBirthday(){
+            var date = new Date();
+            var mat={};
+            mat.M=date.getMonth()+1;//月份记得加1
+            mat.Y=date.getFullYear();
+            mat.D=date.getDate();
+            var year =parseInt(this.form.birthday.substring(0,4).replace(/\b(0+)/gi,""));
+            var month =parseInt(this.form.birthday.substring(5,7).replace(/\b(0+)/gi,""));
+            var day =parseInt(this.form.birthday.substring(8,10).replace(/\b(0+)/gi,""));
+            var yearLT = (year<mat.Y);
+            var yearEQ = (year===mat.Y);
+            var monthLT = (month<mat.M);
+            var monthEQ = (month===mat.M);
+            var dayLE = (day<=mat.D);
+            if (yearLT)
+              return true;
+            if ((!yearLT)&&yearEQ&&monthLT)
+              return true;
+            if((!yearLT)&&yearEQ&&(!monthLT)&&monthEQ&&dayLE)
+              return true;
+
+            return false;
+        },
+        //判断月份对应日期
+        isDayRight(){
+          var year =parseInt(this.form.birthday.substring(0,4).replace(/\b(0+)/gi,""));
+          var month =parseInt(this.form.birthday.substring(5,7).replace(/\b(0+)/gi,""));
+          var day =parseInt(this.form.birthday.substring(8,10).replace(/\b(0+)/gi,""));
+          if((month ===1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12)&& day > 31){
+            return false;
+          }else if((month === 4 || month ===6 || month === 9 || month === 11)&& day >30){
+            return false;
+          }else if (month===2 && day > 29){
+            return false;
+          }
+          return true;
         },
         //return  false 属性有空， true时 校验通过
         allRequired(formData){
@@ -157,6 +206,10 @@ export default {
           var boolean_swt = true;
             //遍历对象
             for(var key in formData){
+              if (!this.isBirthday() || !this.isDayRight()){
+                boolean_swt = false;
+                break;
+              }
               if(key === 'age') continue
               if(formData[key] === null|| formData[key] ==""){
                   if(key=='sourceCity' && formData.country=="1"){

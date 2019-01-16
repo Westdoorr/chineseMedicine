@@ -1086,7 +1086,6 @@ export default {
                 }else{
                   _that.$common.openErrorMsgBox(response.msg,_that);
                 }
-
               }).catch(function (error) {
                 loading.close();
                 setTimeout(function(){
