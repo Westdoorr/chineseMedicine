@@ -41,7 +41,7 @@
               <div v-bind:class="[{ 'isdisplaynone': d_isActive }, 'wzwt-input-container']">
                 <el-input
                   type="textarea"
-                  placeholder="请输入诊断标签，以逗号分隔"
+                  placeholder="请输入诊断标签，以句号分隔"
                   class="bqms"
                   v-model="diagnoseLabels" style="height:233px">
                 </el-input>
@@ -160,7 +160,7 @@
                 text-align: left;
                 padding: 0px 15px;
                 font-family: PingFangSC-Regular;
-                font-size: 32px;
+                font-size: 28px;
                 letter-spacing: 0px;
                 color: #475669;
                 border-radius: 8px;

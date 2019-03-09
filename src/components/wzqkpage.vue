@@ -36,6 +36,11 @@
         width="200">
         </el-table-column>
         <el-table-column
+          prop="gender"
+          label="性别"
+          width="120">
+        </el-table-column>
+        <el-table-column
         prop="age"
         label="年龄"
         width="200">
@@ -53,12 +58,11 @@
         <el-table-column
         prop="times"
         label="第几次"
-        width="240">
+        width="120">
         </el-table-column>
         <el-table-column
         prop="amount"
         label="付数">
-       
         </el-table-column>
     </el-table>
   </div>
@@ -79,12 +83,12 @@
        <el-button class="btn-default" @click="tableprint" style="width:200px;border-radius: 8px;">打印</el-button>
     </div>
   </div>
-</div> 
+</div>
 </template>
 <style lang="scss">
   @import "../assets/css/wzqkpage.scss"
 </style>
 
 <script src="../assets/js/wzqkpage.js">
- 
+
 </script>

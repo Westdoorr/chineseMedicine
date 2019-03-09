@@ -1,4 +1,11 @@
 //兼容平板
+.picture{
+  position: absolute;
+  margin-left: 540px;
+}
+.el-select-dropdown__wrap {
+  max-height: 800px;
+}
 @media screen and (max-width: 1024px) {
     .brxx-info-container{
         height: calc(100% - 168px);
@@ -6,7 +13,7 @@
         overflow-y: auto;
         .age-sm-screen{
             label{
-            max-width: 50px !important; 
+            max-width: 50px !important;
             }
             .el-form-item__content{
                 margin-left: 50px !important;
@@ -47,9 +54,9 @@
         .seconde-col-container{
             padding-left: 10px;
         }
-       
+
     }
-     
+
 }
 @media screen and (min-width:1600px){
     li.el-select-dropdown__item {
@@ -183,8 +190,8 @@
                 }
             }
         }
-        
-        
+
+
         textarea{
             font-family: PingFangSC-Medium;
             font-size: 36px;

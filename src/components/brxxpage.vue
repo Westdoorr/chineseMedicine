@@ -1,47 +1,47 @@
 <template>
     <div class="brxx-info-container">
         <el-form ref="formName" :rules="rules" :model="basicInfo" label-width="170px">
+          <div class="picture">
+            <img style="height: 400px;width: 280px" src="../assets/img/zhongyi1.jpg">
+          </div>
             <el-row :gutter="20">
-                <el-col :span="12">
-                    <el-form-item label="病人编号">
-                        <el-input v-model="basicInfo.patientId" placeholder="" :readonly="true"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" class="col-no-padding">
-                    <el-col :span="12">
-                    <el-form-item label="身高" prop="height">
-                        <el-input v-model.number="basicInfo.height" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">cm</span>
-                    </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="体重" prop="weight">
-                            <el-input v-model.number="basicInfo.weight" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">kg</span>
-                        </el-form-item>
-                    </el-col>
-                </el-col>
+              <el-col :span="8">
+                <el-form-item label="病人编号">
+                  <el-input v-model="basicInfo.patientId" placeholder="" :readonly="true" style="width: 86%"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6" :offset="4">
+                <el-form-item label="身高" prop="height">
+                  <el-input v-model.number="basicInfo.height" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">cm</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="体重" prop="weight">
+                  <el-input v-model.number="basicInfo.weight" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">kg</span>
+                </el-form-item>
+              </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="12">
-                    <el-form-item label="证件类型">
-                        <el-select v-model="basicInfo.certificatesType" placeholder="请选择证件类型">
-                            <el-option label="身份证" value="身份证"></el-option>
-                            <el-option label="护照" value="护照"></el-option>
-                            <el-option label="港澳通行证" value="港澳通行证"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
+              <el-col :span="8">
+                <el-form-item label="姓名">
+                  <el-input v-model="basicInfo.pname" placeholder="" style="width: 86%"></el-input>
+                </el-form-item>
+              </el-col>
+                <el-col :span="12" :offset="4">
                     <el-form-item label="职业">
                         <el-input v-model="basicInfo.occupation" placeholder=""></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="12">
-                    <el-form-item label="证件编号" prop="certificatesNumber">
-                        <el-input v-model="basicInfo.certificatesNumber" placeholder=""></el-input>
-                    </el-form-item>
-                </el-col>
+              <el-col :span="12">
+                <el-form-item label="性别">
+                  <el-radio-group v-model="basicInfo.gender">
+                    <el-radio label="男" value='男'></el-radio>
+                    <el-radio label="女" value='女'></el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
                 <el-col :span="12">
                     <el-form-item label="婚姻史">
                         <el-radio-group v-model="basicInfo.marriage">
@@ -53,12 +53,19 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="12">
-                    <el-form-item label="姓名">
-                        <el-input v-model="basicInfo.pname" placeholder=""></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
+              <el-col :span="8">
+                <el-form-item label="民族">
+                  <el-select v-model="basicInfo.national" placeholder="请选择民族" style="width: 86%">
+                    <el-option label="汉" value="汉"></el-option>
+                    <el-option label="藏" value="藏"></el-option>
+                    <el-option label="回" value="回"></el-option>
+                    <el-option label="壮" value="壮"></el-option>
+                    <el-option label="少数民族" value="少数民族"></el-option>
+                    <el-option label="国外民族" value="国外民族"></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+                <el-col :span="12" :offset="4">
                     <el-form-item label="宗教信仰">
                         <el-select v-model="basicInfo.religiousBelief" placeholder="请选择宗教">
                             <el-option label="无" value="无"></el-option>
@@ -72,72 +79,66 @@
             </el-row>
             <div class="two-col-container">
                 <div class="frist-col-container">
-                    <el-row :gutter="20"> 
-                        <el-col :span="24">
-                            <el-form-item label="性别">
-                                <el-radio-group v-model="basicInfo.gender">
-                                    <el-radio label="男" value='男'></el-radio>
-                                    <el-radio label="女" value='女'></el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                        </el-col>
+                    <el-row :gutter="20">
+                      <el-col :span="16">
+                        <el-form-item label="国籍">
+                          <el-select v-model="basicInfo.nationality" placeholder="请选择国籍" style="width: 86%">
+                            <el-option label="中国" value="中国"></el-option>
+                            <el-option label="美国" value="美国"></el-option>
+                            <el-option label="日本" value="日本"></el-option>
+                            <el-option label="英国" value="英国"></el-option>
+                            <el-option label="法国" value="法国"></el-option>
+                            <el-option label="德国" value="德国"></el-option>
+                            <el-option label="加拿大" value="加拿大"></el-option>
+                            <el-option label="澳大利亚" value="澳大利亚"></el-option>
+                            <el-option label="俄罗斯" value="俄罗斯"></el-option>
+                            <el-option label="新西兰" value="新西兰"></el-option>
+                            <el-option label="意大利" value="意大利"></el-option>
+                            <el-option label="韩国" value="韩国"></el-option>
+                            <el-option label="比利时" value="比利时"></el-option>
+                            <el-option label="瑞士" value="瑞士"></el-option>
+                            <el-option label="新加坡" value="新加坡"></el-option>
+                            <el-option label="墨西哥" value="墨西哥"></el-option>
+                            <el-option label="荷兰" value="荷兰"></el-option>
+                            <el-option label="巴西" value="巴西"></el-option>
+                            <el-option label="爱尔兰" value="爱尔兰"></el-option>
+                            <el-option label="马来西亚" value="马拉西亚"></el-option>
+                            <el-option label="丹麦" value="丹麦"></el-option>
+                            <el-option label="其他" value="其他"></el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
                     </el-row>
                      <el-row :gutter="20">
-                         <el-col :span="16">
-                              <el-form-item label="生日">
-                                <!-- <label class="el-form-item__label" style="width: 200px;">生日</label> -->
-                                <el-date-picker type="date" placeholder="请选择日期" v-model="basicInfo.birthday" format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
-                              </el-form-item>   
-                         </el-col>
-                         <el-col :span="8">
-                             <el-form-item label="年龄" label-width="100px" class="age-sm-screen" prop="age">
-                                <el-input v-model.number="basicInfo.age"  placeholder="年龄"></el-input>
-                             </el-form-item>
-                         </el-col>
+                       <el-col :span="16">
+                         <el-form-item label="证件类型">
+                           <el-select v-model="basicInfo.certificatesType" placeholder="请选择证件类型" style="width: 86%">
+                             <el-option label="身份证" value="身份证"></el-option>
+                             <el-option label="护照" value="护照"></el-option>
+                             <el-option label="港澳通行证" value="港澳通行证"></el-option>
+                           </el-select>
+                         </el-form-item>
+                       </el-col>
                      </el-row>
                      <el-row :gutter='20'>
-                         <el-col :span="24">
-                             <el-form-item label="国籍">
-                                 <el-select v-model="basicInfo.nationality" placeholder="请选择国籍">
-                                    <el-option label="中国" value="中国"></el-option>
-                                    <el-option label="美国" value="美国"></el-option>
-                                    <el-option label="日本" value="日本"></el-option>
-                                    <el-option label="英国" value="英国"></el-option>
-                                    <el-option label="法国" value="法国"></el-option>
-                                    <el-option label="德国" value="德国"></el-option>
-                                    <el-option label="加拿大" value="加拿大"></el-option>
-                                    <el-option label="澳大利亚" value="澳大利亚"></el-option>
-                                    <el-option label="俄罗斯" value="俄罗斯"></el-option>
-                                    <el-option label="新西兰" value="新西兰"></el-option>
-                                    <el-option label="意大利" value="意大利"></el-option>
-                                    <el-option label="韩国" value="韩国"></el-option>
-                                    <el-option label="比利时" value="比利时"></el-option>
-                                    <el-option label="瑞士" value="瑞士"></el-option>
-                                    <el-option label="新加坡" value="新加坡"></el-option>
-                                    <el-option label="墨西哥" value="墨西哥"></el-option>
-                                    <el-option label="荷兰" value="荷兰"></el-option>
-                                    <el-option label="巴西" value="巴西"></el-option>
-                                    <el-option label="爱尔兰" value="爱尔兰"></el-option>
-                                    <el-option label="马来西亚" value="马拉西亚"></el-option>
-                                    <el-option label="丹麦" value="丹麦"></el-option>
-                                    <el-option label="其他" value="其他"></el-option>
-                                </el-select>
-                             </el-form-item>
-                         </el-col>
+                       <el-col :span="24">
+                         <el-form-item label="证件编号" prop="certificatesNumber" style="width: 98%">
+                           <el-input v-model="basicInfo.certificatesNumber" placeholder=""></el-input>
+                         </el-form-item>
+                       </el-col>
                      </el-row>
                      <el-row :gutter='20'>
-                         <el-col :span="24">
-                             <el-form-item label="民族">
-                                 <el-select v-model="basicInfo.national" placeholder="请选择民族">
-                                    <el-option label="汉" value="汉"></el-option>
-                                    <el-option label="藏" value="藏"></el-option>
-                                    <el-option label="回" value="回"></el-option>
-                                    <el-option label="壮" value="壮"></el-option>
-                                    <el-option label="少数民族" value="少数民族"></el-option>
-                                    <el-option label="国外民族" value="国外民族"></el-option>
-                                </el-select>
-                             </el-form-item>
-                         </el-col>
+                       <el-col :span="16">
+                         <el-form-item label="生日">
+                           <!-- <label class="el-form-item__label" style="width: 200px;">生日</label> -->
+                           <el-date-picker type="date" placeholder="请选择日期" v-model="basicInfo.birthday" format="yyyy-MM-dd" style="width:80%;"></el-date-picker>
+                         </el-form-item>
+                       </el-col>
+                       <el-col :span="8" style="margin-left: -20px">
+                         <el-form-item label="年龄" label-width="100px" class="age-sm-screen" prop="age">
+                           <el-input v-model.number="basicInfo.age"  placeholder="年龄"></el-input>
+                         </el-form-item>
+                       </el-col>
                      </el-row>
                      <el-row :gutter='20'>
                          <el-col :span="24">
@@ -193,7 +194,7 @@
                      </el-row>
                 </div>
                 <div class="seconde-col-container">
-                    <el-row :gutter="20"> 
+                    <el-row :gutter="20">
                         <el-col :span="24">
                             <el-form-item label="饮食习惯" style="margin-bottom:0px;">
                                 <!--<el-checkbox-group v-model="basicInfo.eatingHabits"  @change="setCheckBox('eatingHabits')">-->
@@ -211,7 +212,7 @@
                             </el-form-item>
                          </el-col>
                     </el-row>
-                    <el-row :gutter="20"> 
+                    <el-row :gutter="20">
                         <el-col :span="24">
                             <el-form-item label="遗传病史" style="margin-bottom:0px;">
                                 <el-checkbox-group v-model="basicInfo.heredityHistory">
@@ -228,7 +229,7 @@
                             </el-form-item>
                          </el-col>
                     </el-row>
-                    <el-row :gutter="20"> 
+                    <el-row :gutter="20">
                         <el-col :span="24">
                             <el-form-item label="传染病史" style="margin-bottom:0px;">
                                 <el-checkbox-group v-model="basicInfo.infectionHistory">
@@ -359,7 +360,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    
+
                 </el-col>
                 <el-col :span="12">
                     <el-col :span="10">
@@ -369,12 +370,12 @@
 					            <el-option label="是" value="是"></el-option>
                             </el-select>
                         </el-form-item>
-                   </el-col> 
+                   </el-col>
                    <el-col :span="9">
                         <el-form-item label="戒烟时长" label-width="200px">
                             <el-input v-model.number="basicInfo.quitSmokeTime" placeholder=""></el-input>
                         </el-form-item>
-                   </el-col> 
+                   </el-col>
                 </el-col>
             </el-row>
             <el-row>
@@ -401,12 +402,12 @@
 					            <el-option label="是" value="是"></el-option>
                             </el-select>
                         </el-form-item>
-                   </el-col> 
+                   </el-col>
                    <el-col :span="9">
                         <el-form-item label="戒酒时长" label-width="200px">
                             <el-input v-model.number="basicInfo.quitDrinkTime" placeholder=""></el-input>
                         </el-form-item>
-                   </el-col> 
+                   </el-col>
                 </el-col>
             </el-row>
              <el-row>

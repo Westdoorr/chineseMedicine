@@ -10,15 +10,13 @@ export default {
             pageNum:1,
             pageSize:500
           },
-        tableData: {
-            list1:[],
-            list2:[],
-            list3:[]
-          }
+        table:[
+        ]
       }
     },
     created () {
         //获取页面的初始化数据
+      document.title = '数据统计-用药统计'
         this.initPage();
     },
     watch: {
@@ -125,60 +123,99 @@ export default {
         _that.$common.GotoPage(pagename,pathParams,_that);
       },
       setThreeList(list){
+        this.table = [];
+        console.log(list.length)
+        if(list.length>0){
+          if(JSON.stringify(list) != "[]"){
+            //第二步 不能整除 补齐整除数组
+            var number1 = Math.ceil(list.length/120)
+            console.log("数字是"+number1)
+            for(var i=0 ;i < number1;i++){
+                var arry1 = new Array();
+                var arry2 = new Array();
+                var arry3 = new Array();
+                var number2 = list.length - i*120;
+                if(number2 >40){
+                  var mid_number = 40;
+                  arry1 = list.slice(0+i*120,mid_number+i*120);
+                  arry2 = list.slice(mid_number+i*120,2*mid_number+i*120);
+                  arry3 = list.slice(2*mid_number+i*120,3*mid_number+i*120);
+                }else{
+                  arry1 = list.slice(0,number2);
+                }
+                console.log("11111111111");
+                arry1=this.setYwListIndex(arry1,1);
+                arry2=this.setYwListIndex(arry2,2);
+                arry3=this.setYwListIndex(arry3,3);
+                var obj = {
+                  list1: [],
+                  list2: [],
+                  list3: [],
+                }
+                obj.list1 = arry1;
+                obj.list2 = arry2;
+                obj.list3 = arry3;
+                this.table.push(obj)
+          }
+            console.log("table是"+this.table[0].list1[0].medicine)
+          }
+        }
+      },
+/*      setThreeList(list){
         console.log(list.length)
         if(list.length>0){
           //第一步 判断是否整除3
           if(JSON.stringify(list) != "[]"){
-            //第二步 不能整除 补齐整除数组
-            if(list.length%3 != 0){
-              var min_number = Math.floor(list.length/3);
-              var arry1 = new Array(),
-                arry2 = new Array(),
-                arry3 = new Array();
-              var l_number = list.length%3;
-              if(min_number!=0){
-                arry1 = list.slice(0,min_number);
-                arry2 = list.slice(min_number,2*min_number);
-                arry3 = list.slice(2*min_number,3*min_number);
-              }else{
-                l_number = list.length;
-              }
-              if(l_number==1){
-                arry1.push(list[list.length-1]);
-                var temp_obj = new Object();
-                temp_obj.dose = null;
-                temp_obj.medicine = null;
-                arry2.push(temp_obj);
-                var temp_obj1 = new Object();
-                temp_obj1.dose = null;
-                temp_obj1.medicine = null;
-                arry3.push(temp_obj1);
-              }else{
-                arry1.push(list[list.length-2]);
-                arry2.push(list[list.length-1]);
-                var temp_obj1 = new Object();
-                temp_obj1.dose = null;
-                temp_obj1.medicine = null;
-                arry3.push(temp_obj1);
-              }
-              arry1=this.setYwListIndex(arry1,1);
-              arry2=this.setYwListIndex(arry2,2);
-              arry3=this.setYwListIndex(arry3,3);
-              this.tableData.list1 =arry1;
-              this.tableData.list2 = arry2;
-              this.tableData.list3 = arry3;
-            }else{
-              var index = list.length/3;
-              var arry1 = list.slice(0,index),
-                arry2 = list.slice(index,index*2),
-                arry3 = list.slice(index*2,list.length);
-              arry1=this.setYwListIndex(arry1,1);
-              arry2=this.setYwListIndex(arry2,2);
-              arry3=this.setYwListIndex(arry3,3);
-              this.tableData.list1 =arry1;
-              this.tableData.list2 = arry2;
-              this.tableData.list3 = arry3;
-            }
+             //第二步 不能整除 补齐整除数组
+             if(list.length%3 != 0){
+               var min_number = Math.floor(list.length/3);
+               var arry1 = new Array(),
+                 arry2 = new Array(),
+                 arry3 = new Array();
+               var l_number = list.length%3;
+               if(min_number!=0){
+                 arry1 = list.slice(0,min_number);
+                 arry2 = list.slice(min_number,2*min_number);
+                 arry3 = list.slice(2*min_number,3*min_number);
+               }else{
+                 l_number = list.length;
+               }
+               if(l_number==1){
+                 arry1.push(list[list.length-1]);
+                 var temp_obj = new Object();
+                 temp_obj.dose = null;
+                 temp_obj.medicine = null;
+                 arry2.push(temp_obj);
+                 var temp_obj1 = new Object();
+                 temp_obj1.dose = null;
+                 temp_obj1.medicine = null;
+                 arry3.push(temp_obj1);
+               }else{
+                 arry1.push(list[list.length-2]);
+                 arry2.push(list[list.length-1]);
+                 var temp_obj1 = new Object();
+                 temp_obj1.dose = null;
+                 temp_obj1.medicine = null;
+                 arry3.push(temp_obj1);
+               }
+               arry1=this.setYwListIndex(arry1,1);
+               arry2=this.setYwListIndex(arry2,2);
+               arry3=this.setYwListIndex(arry3,3);
+               this.tableData.list1 =arry1;
+               this.tableData.list2 = arry2;
+               this.tableData.list3 = arry3;
+             }else{
+               var index = list.length/3;
+               var arry1 = list.slice(0,index),
+                 arry2 = list.slice(index,index*2),
+                 arry3 = list.slice(index*2,list.length);
+               arry1=this.setYwListIndex(arry1,1);
+               arry2=this.setYwListIndex(arry2,2);
+               arry3=this.setYwListIndex(arry3,3);
+               this.tableData.list1 =arry1;
+               this.tableData.list2 = arry2;
+               this.tableData.list3 = arry3;
+             }
           }
 
         }
@@ -188,14 +225,13 @@ export default {
           this.tableData.list3 = [];
         }
 
-      },
+      },*/
       /** 对药物的列表序号排序 type　加几*/
       setYwListIndex(arry,type){
         var num = 3;
         if(arry && arry.length>0){
           for(var index in arry){
             if(arry[index] && arry[index].yindex){
-              arry[index].yindex = index*3 + type;
             }else{
 
               arry[index].yindex = null;
@@ -207,10 +243,8 @@ export default {
       tableprint(){
         var doc_obj = document.getElementById("wzqktable");
         var data = {};
+        data.table = this.table ;
         data.rangDate = (this.search_obj.startDate ? this.search_obj.startDate : '')+' ~ '+(this.search_obj.endDate ? this.search_obj.endDate : '');
-        data.list1 = this.tableData.list1;
-        data.list2 = this.tableData.list2;
-        data.list3 = this.tableData.list3;
         this.$tablePrint(doc_obj,{"data":data,"type":"2"});
       },
 

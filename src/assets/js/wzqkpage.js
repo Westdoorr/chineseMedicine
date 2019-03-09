@@ -28,6 +28,7 @@ export default {
         }
     },
     created ()  {
+      document.title = '数据统计-问诊情况'
         this.initPage();
     },
     methods: {

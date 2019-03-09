@@ -1,6 +1,6 @@
 <style lang="scss" scoped>
     $designWidth: 1200;
-    //定义 scss函数 计算rem 
+    //定义 scss函数 计算rem
     @function px2rem($px){
         @return $px*320/$designWidth/20 + rem;
     }
@@ -102,7 +102,7 @@
                         padding-bottom: 10px;
                         border-bottom: 2px dashed #d02929;
                     }
-                    
+
                     .attention-li{
                         font-family: SourceHanSerifCN-Bold;
                         font-size: 14px;
@@ -165,7 +165,7 @@
              .yf-item:last-child{
                 border-bottom: 0px dashed #d02929;
             }
-            
+
         }
     }
 </style>
@@ -536,7 +536,7 @@
             ]
             }
         }
-        ,computed: { 
+        ,computed: {
             year:function(){
                 return this.printData.date.split("-")[0];
             },
@@ -548,10 +548,10 @@
             }
         }
         ,created () {
-        
+
         }
         ,watch: {
-            
+
         }
         ,methods: {
             //创建打印
@@ -565,7 +565,7 @@
             },
             //生成打印的页面字符串
             createPfStr:function(){
-                
+
             },
             /** 计算列表高度，高度超出后 返回false 否则返回true */
             getListHeight:function(){
@@ -585,7 +585,7 @@
                     if(allheight > 760){
                         return false;
                     }
-                } 
+                }
             }
         }
     }

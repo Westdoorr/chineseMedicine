@@ -2,6 +2,7 @@ export default {
     name:"bryfpage"
     ,data() {
         return {
+          ppname:'',
             count:0, //第几次
             allTotal:0,
             diagnoseLabels:null,
@@ -23,6 +24,7 @@ export default {
                 "address":"",
                 "amount":null, //主方数
                 "inquiryDate":null,
+                "count":"",
                 mainReList: [
                     {
                     "amount": null,
@@ -672,7 +674,7 @@ export default {
     ,computed: {
         getPersonInfo:function(){
           // console.log(this.yfdata)
-            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+parseInt(this.yfdata.times)+"次";
+            var result_str =this.yfdata.gender+", "+this.yfdata.resisdence+", "+this.yfdata.date+", "+this.yfdata.age+", 第"+parseInt(this.yfdata.times)+"次" + ", 第"+this.yfdata.count+"位";
             return result_str;
         }
     }
@@ -688,7 +690,7 @@ export default {
         this.params = this.$route.query
         console.log("地址后台挂的值",this.params )
         var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-       console.log("地址后台缓存",r_params)
+        console.log("地址后台缓存",r_params)
         this.getyfDate();
         // window.onbeforeunload = function(e) {
         //   console.log("刷新")
@@ -699,7 +701,7 @@ export default {
           (e || window.event).returnValue = confirmationMessage;     // Gecko and Trident
           return confirmationMessage;                                // Gecko and WebKit
         });
-
+        this.getinformation();
         //返回按钮
        /* window.addEventListener("popstate", function(){
           console.log("监听返回");
@@ -742,8 +744,6 @@ export default {
   mounted() {
     //页面打开就滚动到88处
     // this.scrollWindow()
-
-
     //刷新
     window.addEventListener("beforeunload",function () {
        console.log("刷新")
@@ -756,6 +756,27 @@ export default {
   },
 
   methods: {
+    getinformation:function(){
+      this.params = this.$route.query
+      console.log("地址后台挂的值",this.params )
+      var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+      console.log("地址后台缓存",r_params)
+      var that = this
+      this.$http.get(
+        '/inquiry/getInquiryInfo',{
+          params:{
+            inquiryId:this.params.inquiryId
+          }
+        })
+        .then(response =>{
+          this.ppname=response.data.inquiryInfo.pName;
+          document.title=this.ppname+"的药方";
+          console.log("名字是嘿嘿嘿" + this.ppname)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
     fetchData(){
        console.log("兼听路由改变了")
       // this.initDiagnoseLabel();
@@ -764,9 +785,9 @@ export default {
         //
         this.params = this.$route.query
         console.log("地址后台挂的值",this.params )
-       var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-      console.log("地址后台缓存",r_params)
-      this.getyfDate();
+        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+        console.log("地址后台缓存",r_params)
+        this.getyfDate();
       // window.onbeforeunload = function(e) {
       //   console.log("刷新")
       //   return "您编辑的信息尚未保存，您确定要离开吗？"//这里内容不会显示在提示框，为了增加语义化。
@@ -1039,8 +1060,9 @@ export default {
         s_parms.inquiryId = r_params.data.inquiryId;
         //转化字符串为字符数组
         if(this.diagnoseLabels){
-            var str = this.diagnoseLabels.replace(/\uff0c/g, ',');
-            var d_arry = str.split(",");
+            var str = this.diagnoseLabels.replace(/\uff0c/g, "。");
+            var d_arry = str.split("。");
+            console.log("嘻嘻嘻嘻"+d_arry)
             if(d_arry){
                 s_parms.diagnoseLabels = d_arry;
             }else{
@@ -1128,7 +1150,8 @@ export default {
                     if(d_str == "[]"){
                         _that.diagnoseLabels = null;
                     }else{
-                        _that.diagnoseLabels = d_str.replace(/[\[\]\"]*/g, '');
+                        d_str = d_str.replace(/[\[\]\"]*/g, '');
+                        _that.diagnoseLabels = d_str.replace(/[\,\"]/g, '。');
                     }
                     // _that.diagnoseLabels = JSON.stringify(response.data.diagnoseLabels);
                 }else{
@@ -1194,7 +1217,8 @@ export default {
                     if(d_str == "[]"){
                         _that.diagnoseLabels = null;
                     }else{
-                        _that.diagnoseLabels = d_str.replace(/[\[\]\"]*/g, '');
+                        d_str = d_str.replace(/[\[\]\"]*/g, '');
+                        _that.diagnoseLabels = d_str.replace(/[\,\"]/g, '。');
                     }
                 }else{
                     _that.$common.openErrorMsgBox(response.msg,_that);
@@ -1202,7 +1226,6 @@ export default {
             }).catch(function(error){
                  _that.$common.openErrorMsgBox(error,_that);
             });
-
             //获取药方数据
             var url = "/inquiry/getInquiryInfo?inquiryId="+inquiryId;
             _that.$http.get(url)

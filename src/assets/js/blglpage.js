@@ -47,7 +47,9 @@ export default {
         }
     },
     created ()  {
+      document.title = '病历管理'
         this.initPage();
+/*        this.testAge();*/
     },
     methods: {
       //日期改变
@@ -61,6 +63,22 @@ export default {
           this.rangeDate  = null
         }
       },
+/*
+      testAge(){
+        console.log("endAge"+ endAge)
+        var age = [/(^[\-0-9][0-9]*(.[0-9]+)?)$/]
+        var beginage = this.this.search_obj.startAge
+        var cutage = this.search_obj.endAge
+        if (age.test(beginage)){
+          this.search_obj.startAge = beginage + "岁";
+        }else{}
+        if(age.test(cutage)){
+          this.search_obj.endAge = cutage + "岁";
+        }
+        console.log("endAge"+ this.search_obj.endAge)
+        console.log("startAge"+ this.search_obj.startAge)
+      },
+*/
 
       // 序号
       typeIndex(index){

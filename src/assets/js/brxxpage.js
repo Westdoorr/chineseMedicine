@@ -22,6 +22,7 @@ export default {
       };
       return {
           //来源地
+        ppname:'',
         b_country:null,
         placeDate:{},
         province:[],
@@ -129,8 +130,30 @@ export default {
     },
     created () {
        this.$common.getPlace(this,this.getBrxxinfo);
+       this.getinformation();
     },
     methods: {
+      getinformation:function(){
+        this.params = this.$route.query
+        console.log("地址后台挂的值",this.params )
+        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+        console.log("地址后台缓存",r_params)
+        var that = this
+        this.$http.get(
+          '/patientManage/getPatientInfo',{
+            params:{
+              pId:this.params.pId
+            }
+          })
+          .then(response =>{
+            this.ppname=response.data.patientInfo.pname;
+            document.title=this.ppname+"的基本信息";
+            console.log("名字是嘿嘿嘿" + this.ppname)
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
          /**
      * 跳转病历管理页面
      *

@@ -1,6 +1,7 @@
 export default {
     data() {
       return {
+        ppname:'',
          basicWjxx:{
            fl:null,
            fl_remarks:null,
@@ -84,15 +85,37 @@ export default {
     }
   },
   beforeCreate () {
-    
+
   },
   created () {
     this.getWjxxData();
+    this.getinformation();
   },
   methods: {
+    getinformation:function(){
+      this.params = this.$route.query
+      console.log("地址后台挂的值",this.params )
+      var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+      console.log("地址后台缓存",r_params)
+      var that = this
+      this.$http.get(
+        '/inquiry/getInquiryInfo',{
+          params:{
+            inquiryId:this.params.inquiryId
+          }
+        })
+        .then(response =>{
+          this.ppname=response.data.inquiryInfo.pName;
+          document.title=this.ppname+"的四诊";
+          console.log("名字是嘿嘿嘿" + this.ppname)
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+    },
     /**
      * 跳转病历管理页面
-     * 
+     *
      */
     gotoBlglpage() {
       //跳转组件并且 传递pid
@@ -104,7 +127,7 @@ export default {
       //缓存 跳转页面的参数
       this.$common.GotoPage("blglpage",JSON.parse(pathParams),this);
     },
-    /** 
+    /**
      * 获取问卷信息
     */
     getWjxxData(){
@@ -192,7 +215,7 @@ export default {
         loading.close();
         console.log(error);
         setTimeout(function(){
-          _that.$common.openSuccessMsgBox(error,_that); 
+          _that.$common.openSuccessMsgBox(error,_that);
         }, 1000);
       });
     }

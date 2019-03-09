@@ -24,6 +24,7 @@ export default {
         }
       },
       created () {
+        document.title = '首页'
         this.setProList("0");
         this.setCityList("24");
         this.form.country = "0";

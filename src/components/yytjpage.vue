@@ -23,7 +23,7 @@
       </div>
         <div class="search-row-btn-group"><el-button class="btn-default" @click="tableprint" style="width:200px">打印</el-button></div>
     </div>
-    <div class="table-continer">
+    <div class="table-continer" v-for="tableData in this.table" style="margin-bottom: 80px">
         <el-table
         :data="tableData.list1"
         :header-row-class-name="headerClassname"
@@ -68,7 +68,6 @@
         </el-table-column>
     </el-table>
 
-
     <el-table
         :data="tableData.list3"
         :header-row-class-name="headerClassname"
@@ -91,11 +90,10 @@
         </el-table-column>
     </el-table>
   </div>
-
 </div>
 </template>
 <style lang="scss">
-  @import "../assets/css/yytjpage.scss"
+  @import "../assets/css/yytjpage.scss";
 </style>
 
 <script src="../assets/js/yytjpage.js">

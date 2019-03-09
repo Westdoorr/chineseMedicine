@@ -97,10 +97,11 @@ Print.prototype = {
             return '';
         }else{
             for(var i = 0; i < obj.arry.length;i++){
-                var ywobj = obj.arry[i];
-                 var remarks = ywobj.remark && ywobj.remark!="" ? "（"+ywobj.remark+"）":"";
-                 var medicine =ywobj.medicine && ywobj.medicine!="" ?  ywobj.medicine+'g':"";
-                 ywStr += '<div class="yw-item"><span class="yw-bz">'+remarks+'</span><span class="yw-name">'+medicine+'</span></div>';
+              var ywobj = obj.arry[i];
+
+              var remarks = ywobj.remark && ywobj.remark!="" ? "（"+ywobj.remark+"）":"";
+              var medicine =ywobj.medicine && ywobj.medicine!="" ?  ywobj.medicine+'g':"";
+                ywStr += '<div class="yw-item"><span class="yw-bz">'+remarks+'</span><span class="yw-name">'+medicine+'</span></div>';
             }
             ywStr = ywStr+'</div></div>';
             return title_str+ywStr
@@ -110,7 +111,7 @@ Print.prototype = {
     autoTableHeight:function(t_arry){
       if(JSON.stringify(t_arry)!='[]'){
         //添加间距以及标题高度
-        var tmp_height = 44;
+        var tmp_height = 75;
         var line_num = Math.ceil(t_arry.length/4);
         return tmp_height + line_num*53;
       }else{

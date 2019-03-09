@@ -20,6 +20,7 @@ export default {
     },
     created () {
       //获取页面的初始化数据
+      document.title = '病人管理'
       this.initPage();
     },
     methods: {
