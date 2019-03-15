@@ -27,7 +27,7 @@
                 end-placeholder="结束日期"
                 format="yyyy/MM/dd"
                 @change="changeDate"
-                @keyup.enter.native="getblList"
+                @blur="getblList"
             >
             </el-date-picker>
         </div>

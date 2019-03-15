@@ -85,7 +85,7 @@ export default{
         if(selectvalue=="0"){
           //代表国内
           var proNameList = _that.$store.getters.gettersPlaceData.placeList;
-          proNameList = proNameList.slice(1,proNameList.length-1);
+          proNameList = proNameList.slice(1);
           return JSON.parse(JSON.stringify(proNameList));
         }else{
           //国外

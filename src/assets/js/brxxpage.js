@@ -353,6 +353,8 @@ export default {
                  if(response.code == "1"){
                      _that.detailBrbrth(response.data.patientInfo);
                      _that.basicInfo = _that.setNullArray(response.data.patientInfo);
+                     console.log("1"+_that.basicInfo.sourceProvince)
+                   console.log("2"+_that.basicInfo.sourceCity)
                     // _that.basicInfo = response.data.patientInfo;
                  }else{
                      _that.$common.openErrorMsgBox(response.msg,_that);

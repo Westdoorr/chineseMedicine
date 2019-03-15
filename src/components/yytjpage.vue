@@ -18,7 +18,7 @@
                 type="daterange"
                 range-separator="至"
                 start-placeholder="开始日期"
-                end-placeholder="结束日期">
+                end-placeholder="结束日期" @blur="getYytjList">
             </el-date-picker>
       </div>
         <div class="search-row-btn-group"><el-button class="btn-default" @click="tableprint" style="width:200px">打印</el-button></div>

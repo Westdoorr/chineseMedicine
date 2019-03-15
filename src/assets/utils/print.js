@@ -59,7 +59,7 @@ Print.prototype = {
         var pName = this.YfData.pName ? this.YfData.pName:"";
         var age = this.YfData.age ? this.YfData.age : "";
         var gender = this.YfData.gender ? this.YfData.gender : "";
-        var date = this.YfData.date ? this.YfData.date : "";
+        var date = this.YfData.inquiryDate.slice(0,9) ? this.YfData.inquiryDate.slice(0,9) : "";
         var address = this.YfData.resisdence ? this.YfData.resisdence : "";
         var date_arry = new Array();
         if(date == ""){
@@ -98,11 +98,13 @@ Print.prototype = {
         }else{
             for(var i = 0; i < obj.arry.length;i++){
               var ywobj = obj.arry[i];
-
+              if(ywobj.medicine == "" &&( i == 4 || i == 8 )) break;
               var remarks = ywobj.remark && ywobj.remark!="" ? "（"+ywobj.remark+"）":"";
               var medicine =ywobj.medicine && ywobj.medicine!="" ?  ywobj.medicine+'g':"";
                 ywStr += '<div class="yw-item"><span class="yw-bz">'+remarks+'</span><span class="yw-name">'+medicine+'</span></div>';
+                console.log("xixi"+ywStr)
             }
+            console.log("222222")
             ywStr = ywStr+'</div></div>';
             return title_str+ywStr
         }
@@ -111,7 +113,7 @@ Print.prototype = {
     autoTableHeight:function(t_arry){
       if(JSON.stringify(t_arry)!='[]'){
         //添加间距以及标题高度
-        var tmp_height = 75;
+        var tmp_height = 50;
         var line_num = Math.ceil(t_arry.length/4);
         return tmp_height + line_num*53;
       }else{

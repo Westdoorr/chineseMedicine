@@ -1054,10 +1054,12 @@ export default {
      * 异步提交诊断标签
      */
     async SubmitDiagnoseLabels (){
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
+/*        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));*/
         var s_parms = {};
-        s_parms.patientId = r_params.data.pId;
-        s_parms.inquiryId = r_params.data.inquiryId;
+        // s_parms.patientId = r_params.data.pId;
+        // s_parms.inquiryId = r_params.data.inquiryId;
+       s_parms.patientId = this.$route.query.pId;
+       s_parms.inquiryId = this.$route.query.inquiryId;
         //转化字符串为字符数组
         if(this.diagnoseLabels){
             var str = this.diagnoseLabels.replace(/\uff0c/g, "。");

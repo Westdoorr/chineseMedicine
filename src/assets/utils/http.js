@@ -5,8 +5,8 @@ import qs from 'qs'
 // 测试地址
 const API = {
     //问诊
-    local:'http://127.0.0.1:8087',
-    online:'http://127.0.0.1:8087'
+    local:'http://139.129.118.14:8087',
+    online:'http://139.129.118.14:8087'
     //信息收集
     // local:'http://139.129.118.14:8086',
     // online:'http://139.129.118.14:8086'
