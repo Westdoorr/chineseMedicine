@@ -59,7 +59,7 @@ Print.prototype = {
         var pName = this.YfData.pName ? this.YfData.pName:"";
         var age = this.YfData.age ? this.YfData.age : "";
         var gender = this.YfData.gender ? this.YfData.gender : "";
-        var date = this.YfData.inquiryDate.slice(0,9) ? this.YfData.inquiryDate.slice(0,9) : "";
+        var date = this.YfData.inquiryDate.slice(0,10) ? this.YfData.inquiryDate.slice(0,10) : "";
         var address = this.YfData.resisdence ? this.YfData.resisdence : "";
         var date_arry = new Array();
         if(date == ""){
