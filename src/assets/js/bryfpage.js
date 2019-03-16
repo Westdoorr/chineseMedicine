@@ -1168,7 +1168,7 @@ export default {
             //获取药方信息
             //  var url = "/inquiry/getInquiryInfo?inquiryId="+lastinquiryId;
             //这修改了东西
-             var url= "/inquiry/getLatestInquiryInfo?patientId="+r_params.pId
+             var url= "/inquiry/getRevisitInfoVO?inquiryId="+r_params.lastinquiryId
             _that.$http.get(url)
             .then(function (response) {
               console.log("获取最后一次日期",response)
@@ -1713,7 +1713,7 @@ export default {
          // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
          var r_params = this.params
         console.log("新建问诊的东西",r_params)
-        var brid= r_params.pId;
+        var brid= {pId:r_params.pId,inquiryId:r_params.inquiryId}
         console.log("新建问诊的ids",brid)
         this.$common.newInquiry_new(brid,this);
         this.is_display_xjzd = true;

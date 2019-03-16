@@ -8,9 +8,9 @@
         </div>
         <div class="search-row-btn-group">
           <el-button class="btn-default" @click="triggerSelect">同步基本信息</el-button>
-          <input type="file"  
-           :style="{display: 'none'}"  
-           ref="fileinput" @change="selectedFile"/>  
+          <input type="file"
+           :style="{display: 'none'}"
+           ref="fileinput" @change="selectedFile"/>
         </div>
     </div>
     <div class="table-continer">
@@ -21,24 +21,29 @@
         stripe
         style="border:1px solid #ebeef5;overflow-y:auto;">
         <el-table-column
+          prop="index"
+          label="序号"
+          width="150">
+        </el-table-column>
+        <el-table-column
         prop="pName"
         label="姓名"
-        width="250">
+        width="200">
         </el-table-column>
         <el-table-column
         prop="latestDate"
         label="最近就诊时间"
-        width="363">
+        width="320">
         </el-table-column>
         <el-table-column
         prop="gender"
         label="性别"
-        width="130">
+        width="110">
         </el-table-column>
         <el-table-column
         prop="age"
         label="年龄"
-        width="130">
+        width="110">
         </el-table-column>
         <el-table-column
         prop="residence"
@@ -70,7 +75,7 @@
       :total="tableData.total">
     </el-pagination>
   </div>
-</div> 
+</div>
 </template>
 
 <style lang="scss">
@@ -78,5 +83,5 @@
 </style>
 
 <script src="../assets/js/brglpage.js">
-  
+
 </script>

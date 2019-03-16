@@ -48,12 +48,12 @@
         style="border:1px solid #ebeef5;overflow-y:auto;height:100%; width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="60"></el-table-column>
-        <el-table-column prop="index" width="90px" label="序号" >
+        <el-table-column prop="index" width="130px" label="序号" >
           <template scope="scope"><span>{{scope.$index+(tableData.pageNum - 1) * tableData.pageSize + 1}} </span></template>
         </el-table-column>
         <el-table-column prop="pName" label="姓名" width="150"></el-table-column>
-        <el-table-column prop="firstDate" label="初次就诊时间" width="250"></el-table-column>
-        <el-table-column prop="inquiryDate" label="就诊时间" width="210"></el-table-column>
+        <el-table-column prop="firstDate" label="初次就诊时间" width="220"></el-table-column>
+        <el-table-column prop="inquiryDate" label="就诊时间" width="200"></el-table-column>
         <el-table-column prop="times" label="第几次" width="120"></el-table-column>
         <el-table-column prop="gender" label="性别" width="90"></el-table-column>
         <el-table-column prop="age" label="年龄" width="120"></el-table-column>

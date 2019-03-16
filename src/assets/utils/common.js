@@ -264,11 +264,12 @@ export default{
         * 新建问诊id
         */
       newInquiry_new:function(brid,_that){
-         var param ={patientId:brid};
+         var params ={patientId:brid.pId,inquiryId:brid.inquiryId};
+         var param = {patientId:params.patientId}
         _that.$http.post('/inquiry/newInquiry',param).then(function (response) {
           console.log(response)
           if(response.code=="1"){
-            var brinfo = {pId:brid,inquiryId:response.data.inquiryId};
+            var brinfo = {pId:brid.pId,inquiryId:response.data.inquiryId,lastinquiryId:brid.inquiryId};
             _that.$common.getLastInquiry(brinfo,_that);
           }else{
             _that.$common.openErrorMsgBox(response.msg,_that);
@@ -284,7 +285,7 @@ export default{
        *
        */
       getLastInquiry(brinfo,_that){
-          var url= "/inquiry/getLatestInquiryInfo?patientId="+brinfo.pId;
+          var url= "/inquiry/getRevisitInfoVO?inquiryId="+brinfo.lastinquiryId;
           var inquiryID = '';
           _that.$http.get(url)
             .then(function (response) {
