@@ -89,12 +89,12 @@ export default {
             //代表国内
             var proNameList = this.$store.getters.gettersPlaceData.placeList;
             // proNameList = proNameList.slice(1,proNameList.length-1); //这个没有截取完字符串
-            proNameList = proNameList.slice(1,proNameList.length); //
+            proNameList = proNameList.slice(1,35); //
             this.province = proNameList;
           }else{
             //国外
             var proNameList = this.$store.getters.gettersPlaceData.placeList;
-            this.province = proNameList[0].cityList;
+            this.province = proNameList.slice(36);
           }
         },
         //重置外国的字段 不一致
@@ -118,7 +118,7 @@ export default {
                 console.log("地址",response)
                 if(response.code=="1"){
                   placeData = response.data;
-                  placeData.placeList[0].cityList = _that.updateWgzdm(placeData.placeList[0].cityList);
+/*                  placeData.placeList[0].cityList = _that.updateWgzdm(placeData.placeList[0].cityList);*/
                   _that.$store.dispatch("changePlaceData", placeData);
                   _that.placeDate = _that.$store.getters.gettersPlaceData;
                 }else{

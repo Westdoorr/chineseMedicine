@@ -42,6 +42,7 @@ export default{
       if(value){
         var btn_switch = 1;
         var proNameList = _that.$store.getters.gettersPlaceData.placeList;
+        proNameList = proNameList.slice(1,35);
          for(var key in proNameList){
             if(proNameList[key].id == value){
               btn_switch = 0;
@@ -85,12 +86,13 @@ export default{
         if(selectvalue=="0"){
           //代表国内
           var proNameList = _that.$store.getters.gettersPlaceData.placeList;
-          proNameList = proNameList.slice(1);
+          proNameList = proNameList.slice(1,35);
           return JSON.parse(JSON.stringify(proNameList));
         }else{
           //国外
           var proNameList = _that.$store.getters.gettersPlaceData.placeList;
-          return JSON.parse(JSON.stringify(proNameList[0].cityList));
+          proNameList = proNameList.slice(36);
+          return JSON.parse(JSON.stringify(proNameList));
         }
       },
       /**
@@ -124,7 +126,7 @@ export default{
             _that.$http.get(url)
             .then(function (response) {
               placeData = response.data;
-              placeData.placeList[0].cityList = _that.$common.updateWgzdm(placeData.placeList[0].cityList);
+/*              placeData.placeList[0].cityList = _that.$common.updateWgzdm(placeData.placeList[0].cityList);*/
               _that.$store.dispatch("changePlaceData", placeData);
               _that.placeDate = _that.$store.getters.gettersPlaceData;
               if(typeof callback  == 'function'){

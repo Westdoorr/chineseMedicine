@@ -264,7 +264,6 @@ export default {
                 this.s_country = 1;
                 this.sourceProvince = this.$common.setProList(this.s_country,this);
                 this.sourceCity = this.$common.setCityList(obj.sourceProvince,this);
-                obj.sourceCity = null;
             }else{
                 //1 代表 中国
                 this.s_country = 0;
