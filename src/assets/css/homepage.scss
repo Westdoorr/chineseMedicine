@@ -1,4 +1,9 @@
-
+.city .el-scrollbar .el-select-dropdown__wrap {
+  max-height: 800px;
+}
+.city .el-scrollbar {
+  height: auto;
+}
 .no-padding{
     padding: 0px 0px;
   }

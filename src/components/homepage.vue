@@ -40,7 +40,7 @@
                   </el-select>
                </el-col>
                <el-col :span="8">
-                 <el-select filterable popper-class="city" v-model="form.sourceCity" style="margin-left:10px;width:250px;">
+                 <el-select filterable popper-class="city" v-model="form.sourceCity" style="margin-left:10px;width:185px;">
                     <el-option
                         v-for="item in city"
                         :key="item.cityId"
