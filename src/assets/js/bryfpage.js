@@ -756,6 +756,9 @@ export default {
   },
 
   methods: {
+      addmedicine:function(){
+        
+      },
     getinformation:function(){
       this.params = this.$route.query
       console.log("地址后台挂的值",this.params )
@@ -1062,7 +1065,7 @@ export default {
        s_parms.inquiryId = this.$route.query.inquiryId;
         //转化字符串为字符数组
         if(this.diagnoseLabels){
-            var str = this.diagnoseLabels.replace(/\uff0c/g, "。");
+            var str = this.diagnoseLabels.replace(/\u3002/g, "。");
             var d_arry = str.split("。");
             console.log("嘻嘻嘻嘻"+d_arry)
             if(d_arry){
