@@ -2,6 +2,7 @@ import qs from 'qs'
 export default {
     data() {
       return {
+        roleuser:{},
         search_obj:{
             pname:null,
             patientId:null,
@@ -23,6 +24,7 @@ export default {
     created () {
         //获取页面的初始化数据
         this.initPage();
+        this.roleuser=this.$store.getters.gettersroleuser;
     },
     methods: {
       rowClassname() {

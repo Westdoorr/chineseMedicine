@@ -39,7 +39,7 @@ exportPrint.prototype = {
         w = iframedom.contentWindow || iframedom.contentDocument;
         doc = iframedom.contentDocument || iframedom.contentWindow.document;
       }
-      
+
       doc.open();
       //写入相应的head标签
       //遍历相应的值 循环值
@@ -50,7 +50,7 @@ exportPrint.prototype = {
       doc.close();
       //写入样式
       var cssString = '@media print{.bl-print-container{page-break-after:always;}}body{margin: 0px;padding: 0px;}.bl-print-container{width: 560px;height: 794px;min-width: 560px;min-height: 794px;}.print-item-container{width: 100%;height: auto;margin-bottom: 30px;}.title span{width: 56px;height: 20px;font-family: PingFangSC-Medium;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;}.division-line{border: 0.5px solid #000000;}.basic-container .basic-container-item{width: 100%;display: flex;justify-content:flex-start;}.basic-container .basic-container-item span{font-family: PingFangSC-Regular;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;margin-left: 20px;}.basic-container .basic-container-item span:first-child{margin-left: 0px;}.font-style{font-family: PingFangSC-Regular;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;}.yf-title{display: flex;justify-content: space-between;}.yp-item-container{display: flex;justify-content: space-between;flex-wrap: wrap;}.yp-item{width: 140px;text-align: center;font-family: PingFangSC-Regular;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;margin-bottom: 6px;}.yf-item{margin-bottom: 20px;}';
-      
+
       this.addCssByStyle(doc,cssString);
        //让页面渲染一下
        var _that = this;
@@ -68,7 +68,7 @@ exportPrint.prototype = {
           }
           oWin.document.close();
           var cssString = '@media print{.bl-print-container{page-break-after:always;}}body{margin: 0px;padding: 0px;}.bl-print-container{width: 560px;height: 794px;min-width: 560px;min-height: 794px;}.print-item-container{width: 100%;height: auto;margin-bottom: 30px;}.title span{width: 56px;height: 20px;font-family: PingFangSC-Medium;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;}.division-line{border: 0.5px solid #000000;}.basic-container .basic-container-item{width: 100%;display: flex;justify-content:flex-start;}.basic-container .basic-container-item span{font-family: PingFangSC-Regular;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;margin-left: 20px;}.basic-container .basic-container-item span:first-child{margin-left: 0px;}.font-style{font-family: PingFangSC-Regular;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;}.yf-title{display: flex;justify-content: space-between;}.yp-item-container{display: flex;justify-content: space-between;flex-wrap: wrap;}.yp-item{width: 140px;text-align: center;font-family: PingFangSC-Regular;font-size: 14px;font-weight: normal;font-stretch: normal;letter-spacing: 0px;color: #000000;margin-bottom: 6px;}.yf-item{margin-bottom: 20px;}';
-      
+
           this.addCssByStyle(oWin.document,cssString);
           oWin.print();
           setTimeout(function () {
@@ -178,13 +178,13 @@ exportPrint.prototype = {
     //     f = document.body.appendChild(iframe);
     //   iframe.id = "myIframe";
     //   iframe.style = "position:absolute;width:0;height:0;top:-10px;left:-10px;";
-  
+
     //   w = f.contentWindow || f.contentDocument;
     //   doc = f.contentDocument || f.contentWindow.document;
     //   doc.open();
     //   doc.write(content);
     //   doc.close();
-      
+
     //   var _that = this;
     //   //给图片一些加载时间
     //   setTimeout(function () {
@@ -195,7 +195,7 @@ exportPrint.prototype = {
     //   }, 2000);
     // },
     addCssByStyle(doc,cssString){
-      
+
       var style=doc.createElement("style");
       style.setAttribute("type", "text/css");
       if(style.styleSheet){// IE
@@ -204,7 +204,7 @@ exportPrint.prototype = {
         var cssText = doc.createTextNode(cssString);
         style.appendChild(cssText);
       }
-     
+
       var heads = doc.getElementsByTagName("head");
       if(heads.length){
         heads[0].appendChild(style);

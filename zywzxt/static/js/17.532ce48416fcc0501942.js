@@ -1,2 +1,0 @@
-webpackJsonp([17],{K31e:function(e,t,s){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=s("Dd8w"),r=s.n(n),i=s("NYxO"),l={name:"hello",computed:r()({},Object(i.b)(["gettersMsg"]))},u={render:function(){var e=this.$createElement,t=this._self._c||e;return t("div",{attrs:{id:"app"}},[this._v("\n    登录页面\n    "),t("h1",[this._v(this._s(this.gettersMsg))])])},staticRenderFns:[]},a=s("VU/8")(l,u,!1,null,null,null);t.default=a.exports}});
-//# sourceMappingURL=17.532ce48416fcc0501942.js.map

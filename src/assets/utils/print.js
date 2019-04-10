@@ -102,9 +102,7 @@ Print.prototype = {
               var remarks = ywobj.remark && ywobj.remark!="" ? "（"+ywobj.remark+"）":"";
               var medicine =ywobj.medicine && ywobj.medicine!="" ?  ywobj.medicine+'g':"";
                 ywStr += '<div class="yw-item"><span class="yw-bz">'+remarks+'</span><span class="yw-name">'+medicine+'</span></div>';
-                console.log("xixi"+ywStr)
             }
-            console.log("222222")
             ywStr = ywStr+'</div></div>';
             return title_str+ywStr
         }

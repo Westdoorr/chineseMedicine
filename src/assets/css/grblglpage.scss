@@ -40,6 +40,13 @@
     color: #ff4949;
   }
   .foot-container{
+    .el-pagination {
+      white-space: nowrap;
+      padding: 2px 5px;
+      color: #303133;
+      font-weight: 700;
+      margin-left: 300px;
+    }
     width: 100%;
     margin-top: 30px;
     display: flex;
@@ -47,8 +54,8 @@
     align-items: center;
   }
   .search-row-btn-group{
-    padding-left: 50px;
     width: 650px;
+    margin-right: 80px;
     .btn-blue{
       width: 200px;
       height: 70px;

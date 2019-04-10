@@ -2,6 +2,7 @@ import qs from 'qs'
 export default {
     data() {
       return {
+        userrole:{},
         yytjpage:'yytjpage',
         wzqkpage:'wzqkpage',
         rangeDate:null,
@@ -50,6 +51,7 @@ export default {
       document.title = '病历管理'
         this.initPage();
 /*        this.testAge();*/
+      this.roleuser=this.$store.getters.gettersroleuser;
     },
     methods: {
       //日期改变

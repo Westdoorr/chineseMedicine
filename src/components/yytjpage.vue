@@ -1,7 +1,7 @@
 <template>
 <div class="sjtj-yytj-container">
     <div class="search-row">
-      <div class="search-row-btn-group"><el-button class="btn-default" @click="exportExcel" style="width:100px">导出</el-button></div>
+      <div class="search-row-btn-group"><el-button class="btn-default" @click="exportExcel" style="width:100px" v-if="roleuser == 2">导出</el-button></div>
         <div class="search-row-btn-group">
           <el-button class="btn-default wzqk-btn" @click="gotoWzqkPage(wzqkpage)">每日问诊情况</el-button>
           <el-button class="btn-default yytj-btn">用药统计</el-button>
@@ -32,18 +32,25 @@
         <el-table-column
          prop="yindex"
         label="序号"
-        width="130">
+        width="100">
         </el-table-column>
         <el-table-column
         prop="medicine"
         label="药名"
-        width="200">
+        width="160">
         </el-table-column>
         <el-table-column
         prop="dose"
-        label="药量(g)"
-        width="176">
+        label="药房用量"
+        width="191">
         </el-table-column>
+          <el-table-column
+            label="药方用量"
+            width="155">
+            <template slot-scope="scope">
+              {{scope.row.notStock =="0" ? "" :"+"+scope.row.notStock}}
+            </template>
+          </el-table-column>
     </el-table>
 
     <el-table
@@ -54,18 +61,25 @@
         <el-table-column
          prop="yindex"
         label="序号"
-        width="130">
+        width="100">
         </el-table-column>
         <el-table-column
         prop="medicine"
         label="药名"
-        width="200">
+        width="160">
         </el-table-column>
         <el-table-column
         prop="dose"
-        label="药量(g)"
-        width="176">
+        label="药房用量"
+        width="191">
         </el-table-column>
+      <el-table-column
+        label="药方用量"
+        width="155">
+        <template slot-scope="scope">
+          {{scope.row.notStock =="0" ? "" :"+"+scope.row.notStock}}
+        </template>
+      </el-table-column>
     </el-table>
 
     <el-table
@@ -76,18 +90,25 @@
         <el-table-column
          prop="yindex"
         label="序号"
-        width="130">
+        width="100">
         </el-table-column>
         <el-table-column
         prop="medicine"
         label="药名"
-        width="200">
+        width="160">
         </el-table-column>
         <el-table-column
         prop="dose"
-        label="药量(g)"
-        width="176">
+        label="药房用量"
+        width="191">
         </el-table-column>
+      <el-table-column
+        label="药方用量"
+        width="155">
+        <template slot-scope="scope">
+          {{scope.row.notStock =="0" ? "" :"+"+scope.row.notStock}}
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </div>

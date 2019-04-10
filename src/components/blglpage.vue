@@ -80,7 +80,7 @@
         :total="tableData.total">
       </el-pagination>
     </div>
-    <div class="search-row-btn-group">
+    <div class="search-row-btn-group" v-if="roleuser == 2">
        <el-button class="btn-default btn-deault-size btn-color-blue" @click="exportBlList">导出病历</el-button>
        <el-button class="btn-default btn-deault-size btn-color-blue" @click="exportWord">导出word</el-button>
     </div>

@@ -5,12 +5,9 @@
           <img :src="logoImg" width="135" height="38">
       </div>
       <div class="user-info-div">
-          <div class="user-icon">
-            <img :src="picAccount" width="40" height="40">
-          </div>
           <div class="btn-group-div">
-              <span>卢玮</span>
-              <span style="color: #20a0ff;">注销</span>
+              <span>admin</span>
+            <span style="color: #20a0ff;" @click="logout">注销</span>
           </div>
           <div class="now-date-div">
             <span class="now-date">
@@ -78,7 +75,7 @@
           }
         }
       }
-    } 
+    }
     @media screen and (max-width: 758px) {
         .x_header .user-info-div .now-date-div{
             margin-left: 0px;
@@ -89,6 +86,7 @@
 <script>
  import picLogo from '@/assets/img/header/logo.png'
  import picAccount from '@/assets/img/header/accounts.png'
+ import {roleuser} from "../../store/mutations";
 export default {
     name:"headervue",
     // 父组件传递选中类型参数
@@ -100,6 +98,8 @@ export default {
     }
     ,data() {
         return {
+            rolename:{},
+            roleuser:{},
             logoImg:picLogo,
             picAccount:picAccount,
             nowdate:new Date(),
@@ -110,8 +110,8 @@ export default {
         }
     }
     //计算属性 设置属性 获取属性值
-    ,computed: { 
-        //格式化日期 
+    ,computed: {
+        //格式化日期
         formateDate:function(){
             var date = this.nowdate;
             var mat={};
@@ -129,12 +129,18 @@ export default {
         }
     }
     ,created () {
-        
+    this.roleuser=this.$store.getters.gettersroleuser;
+    this.rolename=this.$store.getters.gettersrolename;
     }
     ,watch: {
-        
+
     }
     ,methods: {
+    logout() {
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+    },
         gotopage:function(value){
             this.$emit('headCallBack', value);
         },

@@ -1,2 +1,3 @@
-export const gettersUserInfo = state => state.UserInfor;
 export const gettersPlaceData = state => state.placeDate;
+export const gettersroleuser = state => state.rolecurrent;
+export const gettersrolename = state => state.namecurrent;

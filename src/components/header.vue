@@ -10,15 +10,13 @@
               <li :class="active == '/Index/brglpage' ? 'selected' : ''"><a v-on:click="gotopage(brglpage)" >病人管理</a></li>
               <li :class="active == '/Index/blglpage' ? 'selected' : ''"><a v-on:click="gotopage(blglpage)">病历管理</a></li>
               <li :class="active == '/Index/wzqkpage' ? 'selected' : ''"><a v-on:click="gotopage(sjtjpage)" >数据统计</a></li>
+              <li :class="active == '/Index/ypglpage' ? 'selected' : ''" v-if="roleuser == 2"><a v-on:click="gotopage(ypglpage)">药品管理</a></li>
           </ul>
       </div>
       <div class="user-info-div">
-          <div class="user-icon">
-            <img :src="picAccount" width="40" height="40">
-          </div>
           <div class="btn-group-div">
-              <span>卢玮</span>
-              <span style="color: #20a0ff;">注销</span>
+              <span @click = "showUpdate()">{{rolename}}</span>
+              <span style="color: #20a0ff;" @click="logout">注销</span>
           </div>
           <div class="now-date-div">
             <span class="now-date">
@@ -27,13 +25,36 @@
             </span>
           </div>
       </div>
+  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="font-size: 30px">
+    <el-form class="small-space" :model="tempUser" label-position="left" label-width="150px" size="medium"
+             style='width: 600px; margin-left:50px;font-size: 30px'>
+      <el-form-item label="新密码">
+        <el-input type="password" v-model="tempUser.password" placeholder="不填则表示不修改">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="姓名">
+        <el-input type="text" v-model="tempUser.nickname" placeholder="不填则表示不修改">
+        </el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="updateUser">修 改</el-button>
     </div>
+  </el-dialog>
+</div>
 </template>
 
 <style lang="scss">
 @import '../assets/css/head.scss';
 </style>
-
+<style>
+  .el-dialog__title {
+    line-height: 24px;
+    font-size: 30px;
+    color: #303133;
+  }
+</style>
 <script>
  import picLogo from '@/assets/img/header/logo.png'
  import picAccount from '@/assets/img/header/accounts.png'
@@ -48,54 +69,94 @@ export default {
     }
     ,data() {
         return {
+            dialogFormVisible:false,
+            rolename:"",
+            roleuser:"",
+            tempUser:{
+            username:'',
+            nickname:'',
+            password:'',
+            role:'',
+            },
             logoImg:picLogo,
             picAccount:picAccount,
             nowdate:new Date(),
             homepage:'/Index/xjczbr',
             brglpage:'/Index/brglpage',
             blglpage:'/Index/blglpage',
-            sjtjpage:'/Index/wzqkpage'
+            sjtjpage:'/Index/wzqkpage',
+            ypglpage:'/Index/ypglpage',
         }
     }
     //计算属性 设置属性 获取属性值
     ,computed: {
         //格式化日期
         formateDate:function(){
-            var date = this.nowdate;
-            var mat={};
-            mat.M=date.getMonth()+1;//月份记得加1
-            mat.H=date.getHours();
-            mat.s=date.getSeconds();
-            mat.m=date.getMinutes();
-            mat.Y=date.getFullYear();
-            mat.D=date.getDate();
-            mat.M = mat.M.toString().length < 2 ? '0'+mat.M.toString(): mat.M.toString();
-            mat.D = mat.D.toString().length < 2 ? '0'+mat.D.toString(): mat.D.toString();
-            mat.H = mat.H.toString().length < 2 ? '0'+mat.H.toString(): mat.H.toString();
-            mat.m = mat.m .toString().length < 2 ? '0'+mat.m.toString(): mat.m .toString();
-            return mat.Y+"/"+mat.M+"/"+mat.D+" "+mat.H+":"+mat.m;
-        }
+        var date = this.nowdate;
+        var mat={};
+        mat.M=date.getMonth()+1;//月份记得加1
+        mat.H=date.getHours();
+        mat.s=date.getSeconds();
+        mat.m=date.getMinutes();
+        mat.Y=date.getFullYear();
+        mat.D=date.getDate();
+        mat.M = mat.M.toString().length < 2 ? '0'+mat.M.toString(): mat.M.toString();
+        mat.D = mat.D.toString().length < 2 ? '0'+mat.D.toString(): mat.D.toString();
+        mat.H = mat.H.toString().length < 2 ? '0'+mat.H.toString(): mat.H.toString();
+        mat.m = mat.m .toString().length < 2 ? '0'+mat.m.toString(): mat.m .toString();
+        return mat.Y+"/"+mat.M+"/"+mat.D+" "+mat.H+":"+mat.m;
+      },
     }
     ,created () {
-
+    // this.roleuser=this.$store.getters.gettersroleuser;
+    // this.rolename=this.$store.getters.gettersrolename;
+      this.roleuser = window.localStorage.getItem("role")
+      this.rolename = window.localStorage.getItem("username")
     }
     ,watch: {
 
     }
     ,methods: {
-        gotopage:function(value){
-
-            this.$emit('headCallBack', value);
-        },
-        //检查是不是为两位数字，不足补全
-        check:function(str){
-            str=str.toString();
-            if(str.length<2){
-                str='0'+ str;
-            }
-            return str;
-        }
+    showUpdate() {
+      this.tempUser.username = this.rolename;
+      this.tempUser.role = this.roleuser;
+      this.tempUser.password = '';
+      this.dialogFormVisible = true
+    },
+      updateUser() {
+       //修改用户信息
+       this.$http.post('/userManage/updateUser',{
+         username: this.rolename,
+         password: this.tempUser.password,
+         nickname: this.tempUser.nickname,
+         role : this.tempUser.role
+        }).then(response => {
+          if(response.code == 1){
+            this.dialogFormVisible = false
+            this.logout()
+          }else {}
+        })
+          .catch(function (error) {
+          console.log(error);
+          })
+      },
+      logout() {
+      this.$store.dispatch('LogOut').then(() => {
+        location.reload() // 为了重新实例化vue-router对象 避免bug
+      })
+      },
+      gotopage:function(value){
+      this.$emit('headCallBack', value);
+      },
+    //检查是不是为两位数字，不足补全
+    check:function(str){
+      str=str.toString();
+      if(str.length<2){
+        str='0'+ str;
+      }
+      return str;
     }
+  }
     ,mounted () {
         var _this = this;
         this.timer = setInterval(function(){
@@ -106,7 +167,7 @@ export default {
          if(this.timer) {
             clearInterval(this.timer);//在vue实例销毁钱，清除我们的定时器
         }
-    }
+    },
 
 }
 </script>

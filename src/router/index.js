@@ -8,19 +8,19 @@ export default new Router({
   // mode : 'history',
   // base: '/zywzxt/',
   routes: [
-    // {
-    //   path: '/',
-    //   redirect: '/Login'
-    // },
-    {
+/*     {
+       path: '/',
+       redirect: '/Login'
+     },*/
+   {
         path: '/',
         // redirect:'/xindex/xhome'
-        redirect: '/Index/xjczbr'
+        redirect: '/Login'
         // component: resolve => require(['@/components/index'],resolve)
     },
     {
       path: '/Login',
-      name: 'login',
+      name: 'Login',
       component: resolve => require(['@/components/login'],resolve)
     },
     {
@@ -83,6 +83,11 @@ export default new Router({
           name:"yytjpage",
           component: resolve => require(['@/components/yytjpage'],resolve)
         }
+         ,{
+           path:'ypglpage',
+           name:"ypglpage",
+           component: resolve => require(['@/components/ypglpage'],resolve)
+         },
        ]
     },
     {
@@ -90,6 +95,11 @@ export default new Router({
       name:"/xindex",
       component:resolve => require(['@/components/xxsj/x_index'],resolve),
       children:[
+        {
+          path:'yhglpage',
+          name:"yhglpage",
+          component: resolve => require(['@/components/xxsj/yhglpage'],resolve)
+        },
         {
           path:'xhome',
           name:'xhome',

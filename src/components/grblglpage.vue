@@ -57,8 +57,8 @@
       </el-pagination>
     </div>
     <div class="search-row-btn-group">
-       <el-button class="btn-blue" @click="exportBlList">导出病历</el-button>
-      <el-button class="btn-blue" @click="exportWord">导出word</el-button>
+       <el-button class="btn-blue" @click="exportBlList" v-if="roleuser == 2">导出病历</el-button>
+      <el-button class="btn-blue" @click="exportWord" v-if="roleuser == 2">导出word</el-button>
        <el-button class="btn-default"  @click="GobackPage()">返回</el-button>
     </div>
   </div>

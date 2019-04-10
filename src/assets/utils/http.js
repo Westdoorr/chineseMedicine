@@ -18,6 +18,7 @@ const API = {
 //production 为生产环境
 axios.defaults.baseURL = API.online;
 axios.defaults.timeout = 6000;
+axios.defaults.withCredentials = true;
 
 //http request 拦截器（对发送的数据做提前处理）
 axios.interceptors.request.use(
@@ -55,7 +56,6 @@ axios.interceptors.request.use(
               config.headers = {
                 'Content-Type': 'application/json;charset=UTF-8'
               }
-
           }
         }
       }else{

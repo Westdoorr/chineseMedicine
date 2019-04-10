@@ -1,7 +1,10 @@
-
-export const mutationsUser = (state, payload) => {
-    state.userInfo = payload.userInfo;
+export const rolename = (state, payload) => {
+  state.namecurrent = payload;
 };
+export const roleuser = (state, payload) => {
+  state.rolecurrent = payload;
+};
+
 export const mutationsPlace = (state, payload) => {
    state.placeDate = payload;
 };
@@ -21,3 +24,5 @@ export const clearPrePathParams = (state, payload) =>{
     state.prePathParams = payload;
     window.localStorage.setItem('prePathParams', JSON.stringify(state.prePathParams));
 };
+
+
