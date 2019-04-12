@@ -50,7 +50,7 @@
           label="操作"
           width="600">
           <template slot-scope="scope">
-            <el-button @click="removemedicine(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除药品</el-button>
+            <el-button @click="deleteRow(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除药品</el-button>
             <el-button @click="getpricechange(scope.$index)" type="text" class="btn-font-default bnt-font-color">价格走势</el-button>
           </template>
         </el-table-column>
@@ -76,7 +76,12 @@
         dialogpriceVisible: false,
         search_obj:{
         },
-        changes:[],
+        changes:[{
+          id:"",
+          medicineName:"",
+          unitPrice:"",
+          updateDate:""
+        }],
         keyWords:"",
         medicinelist: [{
           medicineName:1,
@@ -92,24 +97,6 @@
       this.getmedicine();
     },
     methods: {
-      drawLine(){
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = this.$echarts.init(document.getElementById('price'))
-        // 绘制图表
-        myChart.setOption({
-          title: { text: '价格走势' },
-          tooltip: {},
-          xAxis: {
-            data: this.changes.updateDate
-          },
-          yAxis: {},
-          series: [{
-            name: '销量',
-            type: 'line',
-            data: [5, 20, 36, 10, 10, 20]
-          }]
-        });
-      },
       getpricechange($index){
         var _that = this;
         _that.dialogpriceVisible = true;
@@ -122,7 +109,55 @@
           if(response.code == 1){
             _that.changes = response.data.changes
           }
-          _that.drawLine();
+          var myChart = _that.$echarts.init(document.getElementById('price'))
+          var updateDate =[];
+          var unitPrice = [];
+          for(var i=0 ;i<_that.changes.length;i++){
+            updateDate.push(_that.changes[i].updateDate)
+            unitPrice.push(_that.changes[i].unitPrice)
+          }
+          myChart.setOption({
+            title: { text: '价格走势' },
+            legend:{
+              textStyle:{
+                fontSize:30,
+              }
+            },
+            tooltip: {},
+            xAxis: {
+              data: updateDate,
+              axisLabel:{
+                interval:0,
+                rotate:10,
+                show : true,
+                textStyle:{
+                  fontSize:20,
+                }
+              },
+            },
+            yAxis: {
+              axisLabel:{
+                show : true,
+                textStyle:{
+                  fontSize:20,
+                }
+              },
+            },
+            series: [{
+              symbol: 'circle',
+              symbolSize: 10,
+              name: '价格',
+              type: 'line',
+              data: unitPrice,
+              itemStyle : {
+                normal: {
+                  label : {
+                    textStyle:{
+                      fontSize:20,
+                    },
+                    show: true}}},
+            }]
+          });
         })
           .catch(function (error) {
             console.log(error);
@@ -136,8 +171,7 @@
           type: 'warning'
         }).then(() => {
           let medicine = _that.medicinelist[$index];
-          medicine.medicineId = JSON.stringify(medicine.medicineId)
-          console.log("这是"+medicine.medicineId)
+          console.log("这是"+medicine.medicineId);
           _that.$http.delete('/medicineManage/deleteMedicine',{
             params:{
               medicineId: medicine.medicineId
@@ -158,17 +192,12 @@
           if(_that.medicinelist[i].medicineId=="" || _that.medicinelist[i].medicineId==null ){
             _that.medicinelist[i].medicineId=_that.medicinelist[i].medicineName
           }
-          console.log("名字"+_that.medicinelist[i].medicineName)
-          console.log("Id"+_that.medicinelist[i].medicineId)
-          console.log("价格"+_that.medicinelist[i].unitPrice)
-          console.log("来源地"+_that.medicinelist[i].source)
-          console.log(i)
         }
-        this.$http.post('/medicineManage/updateMedicineList',this.medicinelist)
+        this.$http.post('/medicineManage/updateMedicineList',_that.medicinelist)
       .then(function (response) {
           if(response.code == "1"){
             _that.$common.openSuccessMsgBox("修改成功",_that);
-            this.getmedicine()
+            _that.getmedicine()
           }else{
             _that.$common.openErrorMsgBox(response.msg,_that);
           }
@@ -218,8 +247,8 @@
         }
         this.medicinelist.push(obj)
       },
-      deleteRow(index, rows) {//删除改行
-        rows.splice(index, 1);
+      deleteRow(index) {//删除改行
+        this.medicinelist .splice(index, 1);
       },
       rowClassname() {
         return "rowClassname";

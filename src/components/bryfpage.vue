@@ -157,18 +157,7 @@
 <style lang="scss">
   @import '../assets/css/bryfpage.scss';
 </style>
-<style>
-  .el-dialog {
-    position: relative;
-    margin: 0 auto 50px;
-    border-radius: 2px;
-    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
-    box-shadow: 0 1px 3px rgba(0,0,0,.3);
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 100%;
-  }
-</style>
+
 <style lang ="scss">
   @import '../assets/css/yfprint.scss';
 </style>

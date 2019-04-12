@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column
           label="管理"
-          width="700">
+          width="665">
           <template slot-scope="scope">
             <el-button @click="showUpdate(scope.$index)" type="text" class="btn-font-default bnt-font-color">修改</el-button>
             <el-button @click="removeUser(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除</el-button>
