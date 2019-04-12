@@ -124,8 +124,8 @@
         <div><el-button  @click="gotoLastPage" :class="[{'isdisplaynone': is_display_fh },'btn-default']">返回</el-button></div>
         <div><el-button :class="[{'isdisplaynone': false },'btn-default btn-blue']" @click="submitYfData">确认</el-button></div>
         <!--<el-button  @click="gotoLastPage" :class="[{'isdisplaynone': is_display_fh },'btn-default']" >返回</el-button>-->
-        <div><el-button :class="[{'isdisplaynone': false },'btn-default']" @click="getrecipePrice">划价</el-button>
-          <el-dialog class="pricing" title="划价" center :visible.sync="dialogFormVisible" style="width: 1000px;margin-left: 500px" @close="clearupdata">
+        <div><el-button :class="[{'isdisplaynone': false },'btn-default']" @click="getrecipePrice">药方价格</el-button>
+          <el-dialog class="pricing" title="药方价格" center :visible.sync="dialogFormVisible" style="width: 1000px;margin-left: 500px" @close="clearupdata">
             <el-row style="font-size: 35px;margin-bottom: 50px;width: 600px;margin-left: 340px">
               <el-col  :span="12">
                 <span>实际价格</span>

@@ -776,9 +776,9 @@ export default {
         })
       .then(response =>{
         if(response.code == 1){
-          _that.dialogFormVisible = true
           _that.priceData.originalPrice = response.data.originalPrice;
           _that.priceData.actualPrice = response.data.actualPrice;
+          _that.dialogFormVisible = true
         }
       })
       .catch(function (error) {
@@ -1207,8 +1207,8 @@ export default {
               if(response.code =="1"){
                 _that.$common.openSuccessMsgBox("操作成功",_that);
                 _that.dialogStatus = 'print';
-                _that.dialogFormVisible = true;
-                this.getrecipePrice()
+                _that.getrecipePrice()
+/*                _that.dialogFormVisible = true;*/
               }else{
                 _that.$common.openErrorMsgBox(response.msg,_that);
               }

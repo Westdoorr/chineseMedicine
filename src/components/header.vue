@@ -25,21 +25,21 @@
             </span>
           </div>
       </div>
-  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="font-size: 30px">
+  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="font-size: 30px;width: 1920px">
     <el-form class="small-space" :model="tempUser" label-position="left" label-width="150px" size="medium"
-             style='width: 600px; margin-left:50px;font-size: 30px'>
-      <el-form-item label="新密码">
-        <el-input type="password" v-model="tempUser.password" placeholder="不填则表示不修改">
+             style='width: 600px; margin-left:50px'>
+      <el-form-item label="新密码" style="font-size: 30px">
+        <el-input type="password" v-model="tempUser.password" style="font-size: 30px">
         </el-input>
       </el-form-item>
-      <el-form-item label="姓名">
-        <el-input type="text" v-model="tempUser.nickname" placeholder="不填则表示不修改">
+      <el-form-item label="确认密码">
+        <el-input type="password" v-model="tempUser.checkpassword" @blur="passwordCheck" style="font-size: 30px">
         </el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="updateUser">修 改</el-button>
+      <el-button @click="dialogFormVisible = false" style="width: 150px;height: 60px;font-size: 30px">取 消</el-button>
+      <el-button type="primary" @click="updateUser" style="width: 150px;height: 60px;font-size: 30px">修 改</el-button>
     </div>
   </el-dialog>
 </div>
@@ -53,6 +53,9 @@
     line-height: 24px;
     font-size: 30px;
     color: #303133;
+  }
+  .el-form-item__label{
+    font-size: 30px;
   }
 </style>
 <script>
@@ -117,28 +120,42 @@ export default {
 
     }
     ,methods: {
+    passwordCheck() {
+      var _that = this;
+      if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+        _that.$message({
+          type: 'error',
+          message: '密码不一致'
+        });
+      }
+    },
     showUpdate() {
-      this.tempUser.username = this.rolename;
       this.tempUser.role = this.roleuser;
       this.tempUser.password = '';
       this.dialogFormVisible = true
     },
       updateUser() {
-       //修改用户信息
-       this.$http.post('/userManage/updateUser',{
-         username: this.rolename,
-         password: this.tempUser.password,
-         nickname: this.tempUser.nickname,
-         role : this.tempUser.role
-        }).then(response => {
-          if(response.code == 1){
-            this.dialogFormVisible = false
-            this.logout()
-          }else {}
-        })
-          .catch(function (error) {
-          console.log(error);
+      var _that = this;
+        if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+          _that.$message({
+            type: 'error',
+            message: '密码不一致'
+          });
+        }else {
+          _that.$http.post('/userManage/updateUser',{
+            username: _that.rolename,
+            password: _that.tempUser.password,
+            role : _that.tempUser.role
+          }).then(response => {
+            if(response.code == 1){
+              _that.dialogFormVisible = false
+              _that.logout()
+            }
           })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
       },
       logout() {
       this.$store.dispatch('LogOut').then(() => {

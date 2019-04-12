@@ -20,6 +20,8 @@ import tablePrint from '../src/assets/utils/tablePrint.js'
 //引入病历打印
 import exportPrint from '../src/assets/utils/exportPrint.js'
 import '@/permission'
+//引入绘图
+import echarts from 'echarts'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new
@@ -27,13 +29,13 @@ Vue.config.productionTip = false
 */
 Vue.use(ElementUI)
 //注册打印插件
+Vue.prototype.$echarts = echarts
 Vue.prototype.$Print= Print;
 //注册table 打印插件
 Vue.prototype.$tablePrint = tablePrint;
 Vue.prototype.$exportPrint = exportPrint;
 //定义全局变量
 Vue.prototype.$http= axios;
-Vue.prototype.$qs = qs;
 //定义全局属性给公共部分js
 Vue.prototype.$common = common;
  // //全局守卫

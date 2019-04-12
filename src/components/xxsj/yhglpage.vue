@@ -1,5 +1,5 @@
 <template>
-  <div class="brgl-container">
+  <div class="yhgl-container">
     <div class="search-row">
       <div class="addmedicine">
         <el-button type="primary" class="button-size" @click="showCreate">添加用户</el-button>
@@ -36,12 +36,12 @@
           prop="role"
           width="300">
           <template slot-scope="scope">
-            {{scope.row.role === 1 ? "管理员" : (scope.row.role === 2 ? "高级用户" : "普通用户")}}
+            {{scope.row.role === 1 ? "管理员" : scope.row.role === 2 ? "高级用户": (scope.row.role === 3 ? "普通用户" :"")}}
           </template>
         </el-table-column>
         <el-table-column
           label="管理"
-          width="600">
+          width="700">
           <template slot-scope="scope">
             <el-button @click="showUpdate(scope.$index)" type="text" class="btn-font-default bnt-font-color">修改</el-button>
             <el-button @click="removeUser(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除</el-button>
@@ -49,75 +49,46 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" class="add-user">
-      <el-form class="small-space" :model="tempUser" label-position="left" label-width="150px" size="medium"
-               style='width: 600px; margin-left:50px;font-size: 30px'>
-        <el-form-item label="用户名" required v-if="dialogStatus=='create'" >
-          <el-input type="text" v-model="tempUser.username" width="350px">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" style="font-size: 40px">
+      <el-form :model="tempUser" label-position="left" label-width="150px" size="medium"
+               style='width: 600px; margin-left:50px'>
+        <el-form-item label="用户名" required v-if="dialogStatus=='create'">
+          <el-input type="text" v-model="tempUser.username" style="width: 300px">
           </el-input>
         </el-form-item>
         <el-form-item label="密码" v-if="dialogStatus=='create'" required>
-          <el-input type="password" v-model="tempUser.password">
+          <el-input type="password" v-model="tempUser.password" style="width: 300px">
           </el-input>
         </el-form-item>
         <el-form-item label="新密码" v-else>
-          <el-input type="password" v-model="tempUser.password" placeholder="不填则表示不修改">
+          <el-input type="password" v-model="tempUser.password" style="width: 300px">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="确认密码">
+          <el-input type="password" v-model="tempUser.checkpassword" @blur="passwordCheck" style="width: 300px">
           </el-input>
         </el-form-item>
         <el-form-item label="角色" required>
-          <el-select v-model="tempUser.role" placeholder="请选择">
-            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          <el-select v-model="tempUser.role" placeholder="请选择" style="width: 300px">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" style="font-size: 30px"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="姓名" required>
-          <el-input type="text" v-model="tempUser.nickname">
+          <el-input type="text" v-model="tempUser.nickname" style="width: 300px">
           </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="success" @click="createUser">创 建</el-button>
-        <el-button type="primary" v-else @click="updateUser">修 改</el-button>
+        <el-button @click="dialogFormVisible = false" style="width: 150px;height: 60px;font-size: 30px;">取 消</el-button>
+        <el-button v-if="dialogStatus=='create'" type="primary" @click="createUser" style="width: 150px; height: 60px;font-size:30px;background-color: #3a8ee6;">创 建</el-button>
+        <el-button type="primary" v-else @click="updateUser" style="width: 150px; height: 60px;font-size:30px;background-color: #3a8ee6;">修 改</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
-<style>
-  .el-form-item__label{
-    font-size: 30px;
-  }
-  .el-dialog__title {
-    line-height: 30px;
-    font-size: 40px;
-    color: #303133;
-  }
-  .el-button--default{
-    width: 150px;
-    height: 60px;
-    font-size: 30px;
-  }
-  .el-button--success{
-    width: 150px;
-    height: 60px;
-    font-size: 30px;
-    background-color: #3a8ee6;
-  }
-  .el-button--primary{
-    width: 150px;
-    height: 60px;
-    font-size: 30px;
-    background-color: #3a8ee6;
-  }
-  .el-select-dropdown__item{
-    font-size: 20px;
-  }
-  .el-input__inner{
-    width: 300px;
-  }
-</style>
 <style lang="scss">
-  @import '../../assets/css/ypglpage.scss';
+  @import '../../assets/css/yhglpage.scss';
 </style>
 
 <script>
@@ -141,6 +112,7 @@
           username:'',
           nickname:'',
           password:'',
+          checkpassword:'',
           role:'',
         },
         options:[{
@@ -158,12 +130,29 @@
       this.getusers()
     },
     methods: {
+      passwordCheck() {
+        var _that = this;
+        if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+          _that.$message({
+            type: 'error',
+            message: '密码不一致'
+          });
+        }
+      },
       getusers(){
-        this.$http.get(
+        var _that = this;
+        var userlist;
+        _that.$http.get(
           '/userManage/getUserList')
           .then(response =>{
             if(response.code == 1){
-              this.userlist = response.data.userlist
+              userlist = response.data.userlist
+            }
+            for(let i = 0 ;i < userlist.length;i++){
+              if(userlist[i].role == 1){
+                userlist.splice(i,1)
+              }
+              _that.userlist = userlist
             }
           })
           .catch(function (error) {
@@ -171,41 +160,57 @@
           })
       },
       createUser() {
-        this.$http.post(
-          '/userManage/addUser',{
-            username: this.tempUser.username,
-            password: this.tempUser.password,
-            nickname: this.tempUser.nickname,
-            role : this.tempUser.role
-          })
-          .then(response =>{
-            if(response.code == 1){
-              this.dialogFormVisible = false
-              this.getusers()
-            }
-            else {
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        var _that = this;
+        if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+          _that.$message({
+            type: 'error',
+            message: '密码不一致'
+          });
+        }else {
+          this.$http.post(
+            '/userManage/addUser',{
+              username: _that.tempUser.username,
+              password: _that.tempUser.password,
+              nickname: _that.tempUser.nickname,
+              role : _that.tempUser.role
+            })
+            .then(response =>{
+              if(response.code == 1){
+                _that.dialogFormVisible = false
+                _that.getusers()
+              }
+              else {
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
       },
       updateUser() {
         //修改用户信息
-        this.$http.post('/userManage/updateUser',{
-          username: this.tempUser.username,
-          password: this.tempUser.password,
-          nickname: this.tempUser.nickname,
-          role : this.tempUser.role
-        }).then(response => {
-          if(response.code == 1){
-            this.dialogFormVisible = false
-            this.getusers()
-          }else {}
-        })
-          .catch(function (error) {
-            console.log(error);
+        var _that = this
+        if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+          _that.$message({
+            type: 'error',
+            message: '密码不一致'
+          });
+        }else{
+          this.$http.post('/userManage/updateUser',{
+            username: _that.tempUser.username,
+            password: _that.tempUser.password,
+            nickname: _that.tempUser.nickname,
+            role : _that.tempUser.role
+          }).then(response => {
+            if(response.code == 1){
+              _that.dialogFormVisible = false
+              _that.getusers()
+            }else {}
           })
+            .catch(function (error) {
+              console.log(error);
+            })
+        }
       },
       showUpdate($index) {
         let user = this.userlist[$index];
@@ -213,6 +218,7 @@
         this.tempUser.nickname = user.nickname;
         this.tempUser.role = user.role;
         this.tempUser.password = '';
+        this.tempUser.checkpassword = '';
         this.dialogStatus = "update"
         this.dialogFormVisible = true
       },
@@ -227,23 +233,24 @@
         this.dialogFormVisible = true
       },
       removeUser($index) {
+        var _that = this
         this.$confirm('确定删除此用户?', '提示', {
           confirmButtonText: '确定',
           showCancelButton: false,
           type: 'warning'
         }).then(() => {
-          let user = this.userlist[$index];
+          let user = _that.userlist[$index];
           user.deleteStatus = '2';
-          this.$http.delete('/userManage/deleteUser',{
+          _that.$http.delete('/userManage/deleteUser',{
             params:{
               username: user.username
             }
           }).then(response => {
             if(response.code == 1){
-              this.getusers()
+              _that.getusers()
             }
           }).catch(() => {
-            this.$message.error("删除失败")
+            _that.$message.error("删除失败")
           })
         })
       },

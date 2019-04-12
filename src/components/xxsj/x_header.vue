@@ -6,7 +6,7 @@
       </div>
       <div class="user-info-div">
           <div class="btn-group-div">
-              <span>admin</span>
+              <span @click = "showUpdate()">{{rolename}}</span>
             <span style="color: #20a0ff;" @click="logout">注销</span>
           </div>
           <div class="now-date-div">
@@ -16,6 +16,23 @@
             </span>
           </div>
       </div>
+  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="font-size: 30px">
+    <el-form class="small-space" :model="tempUser" label-position="left" label-width="150px" size="medium"
+             style='width: 600px; margin-left:50px'>
+      <el-form-item label="新密码" style="font-size: 30px">
+        <el-input type="password" v-model="tempUser.password">
+        </el-input>
+      </el-form-item>
+      <el-form-item label="确认密码">
+        <el-input type="password" v-model="tempUser.checkpassword" @blur="passwordCheck">
+        </el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogFormVisible = false" style="width: 150px;height: 60px;font-size: 30px">取 消</el-button>
+      <el-button type="primary" @click="updateUser" style="width: 150px;height: 60px;font-size: 30px">修 改</el-button>
+    </div>
+  </el-dialog>
     </div>
 </template>
 
@@ -98,6 +115,8 @@ export default {
     }
     ,data() {
         return {
+            dialogFormVisible:false,
+            tempUser:{},
             rolename:{},
             roleuser:{},
             logoImg:picLogo,
@@ -129,13 +148,52 @@ export default {
         }
     }
     ,created () {
-    this.roleuser=this.$store.getters.gettersroleuser;
-    this.rolename=this.$store.getters.gettersrolename;
+/*    this.roleuser=this.$store.getters.gettersroleuser;
+    this.rolename=this.$store.getters.gettersrolename;*/
+    this.roleuser = window.localStorage.getItem("role")
+    this.rolename = window.localStorage.getItem("username")
     }
     ,watch: {
 
     }
     ,methods: {
+    passwordCheck() {
+      var _that = this;
+      if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+        _that.$message({
+          type: 'error',
+          message: '密码不一致'
+        });
+      }
+    },
+    showUpdate() {
+      this.tempUser.role = this.roleuser;
+      this.tempUser.password = '';
+      this.dialogFormVisible = true
+    },
+    updateUser() {
+      var _that = this;
+      if(_that.tempUser.checkpassword !==_that.tempUser.password ){
+        _that.$message({
+          type: 'error',
+          message: '密码不一致'
+        });
+      }else {
+        _that.$http.post('/userManage/updateUser',{
+          username: _that.rolename,
+          password: _that.tempUser.password,
+          role : _that.tempUser.role
+        }).then(response => {
+          if(response.code == 1){
+            _that.dialogFormVisible = false
+            _that.logout()
+          }
+        })
+          .catch(function (error) {
+            console.log(error);
+          })
+      }
+    },
     logout() {
       this.$store.dispatch('LogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug

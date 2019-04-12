@@ -51,21 +51,20 @@
           width="600">
           <template slot-scope="scope">
             <el-button @click="removemedicine(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除药品</el-button>
-            <el-button @click="" type="text" class="btn-font-default">修改药品</el-button>
+            <el-button @click="getpricechange(scope.$index)" type="text" class="btn-font-default bnt-font-color">价格走势</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <el-dialog title="价格走势" :visible.sync ="dialogpriceVisible">
+        <div id="price" style="width: 500px;height: 500px">
+        </div>
+      </el-dialog>
     </div>
     <div class="foot">
       <el-button type="primary" class="button-size" @click="updatemedicine">确认修改</el-button>
     </div>
   </div>
 </template>
-<style>
-  .el-table_2_column_9{
-    color:blue;
-  }
-</style>
 <style lang="scss">
   @import '../assets/css/ypglpage.scss';
 </style>
@@ -74,9 +73,10 @@
   export default {
     data() {
       return {
-        dialogFormVisible: false,
+        dialogpriceVisible: false,
         search_obj:{
         },
+        changes:[],
         keyWords:"",
         medicinelist: [{
           medicineName:1,
@@ -92,20 +92,60 @@
       this.getmedicine();
     },
     methods: {
+      drawLine(){
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = this.$echarts.init(document.getElementById('price'))
+        // 绘制图表
+        myChart.setOption({
+          title: { text: '价格走势' },
+          tooltip: {},
+          xAxis: {
+            data: this.changes.updateDate
+          },
+          yAxis: {},
+          series: [{
+            name: '销量',
+            type: 'line',
+            data: [5, 20, 36, 10, 10, 20]
+          }]
+        });
+      },
+      getpricechange($index){
+        var _that = this;
+        _that.dialogpriceVisible = true;
+        var medicine = _that.medicinelist[$index]
+        _that.$http.get('/medicineManage/priceChange',{
+          params :{
+            medicineId : medicine.medicineId
+          }
+        }) .then(response =>{
+          if(response.code == 1){
+            _that.changes = response.data.changes
+          }
+          _that.drawLine();
+        })
+          .catch(function (error) {
+            console.log(error);
+          })
+      },
       removemedicine($index) {
+        var _that = this;
         this.$confirm('确定删除此药品?', '提示', {
           confirmButtonText: '确定',
           showCancelButton: false,
           type: 'warning'
         }).then(() => {
-          let medicine = this.medicinelist[$index];
-          this.$http.delete('/medicineManage/deleteMedicine',{
+          let medicine = _that.medicinelist[$index];
+          medicine.medicineId = JSON.stringify(medicine.medicineId)
+          console.log("这是"+medicine.medicineId)
+          _that.$http.delete('/medicineManage/deleteMedicine',{
             params:{
               medicineId: medicine.medicineId
             }
-          }).then(response => {
+          })
+            .then(response => {
             if(response.code == 1){
-              this.getmedicine()
+              _that.getmedicine()
             }
           }).catch(() => {
             this.$message.error("删除失败")
@@ -189,27 +229,6 @@
       },
       handleClick(row) {
         console.log(row);
-      },
-      //初始化当前组件
-      /**
-       * 移除病人信息
-       * @param {object} row
-       */
-      delteBrinfoM(row){
-        var _that = this;
-        var url = "/index/deletePatient?patientId="+row.pId;
-        _that.$http.delete(url).then(function (response) {
-          if(response.code =="1"){
-            _that.$common.openSuccessMsgBox("病人信息移除成功！",_that);
-            setTimeout(function(){
-              _that.getBrList();
-            },1000);
-          }else{
-            _that.$common.openErrorMsgBox(response.msg,_that);
-          }
-        }).catch(function (error) {
-          _that.$common.openErrorMsgBox(error,_that);
-        });
       },
     }
   }
