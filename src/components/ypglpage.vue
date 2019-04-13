@@ -1,5 +1,5 @@
 <template>
-  <div class="brgl-container">
+  <div class="ypgl-container">
     <div class="search-row">
       <div class="search-row-input-item">
         <el-input placeholder="请输入药品名" v-model="keyWords" @keyup.enter.native="searchmedicine">
