@@ -236,7 +236,8 @@
         var _that = this
         this.$confirm('确定删除此用户?', '提示', {
           confirmButtonText: '确定',
-          showCancelButton: false,
+          cancelButtonText: '取消',
+          showCancelButton: true,
           type: 'warning'
         }).then(() => {
           let user = _that.userlist[$index];

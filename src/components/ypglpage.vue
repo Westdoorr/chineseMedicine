@@ -56,7 +56,7 @@
         </el-table-column>
       </el-table>
       <el-dialog title="价格走势" :visible.sync ="dialogpriceVisible">
-        <div id="price" style="width: 500px;height: 500px">
+        <div id="price" style="width: 1000px;height: 500px">
         </div>
       </el-dialog>
     </div>
@@ -167,14 +167,14 @@
         var _that = this;
         this.$confirm('确定删除此药品?', '提示', {
           confirmButtonText: '确定',
-          showCancelButton: false,
+          cancelButtonText: '取消',
+          showCancelButton: true,
           type: 'warning'
         })
           .then(() => {
             let medicine = _that.medicinelist[$index];
             if(medicine.medicineId == "" || medicine.medicineId == null){
               _that.deleteRow($index)
-              console.log("jinjinjin")
             }else {
               _that.$http.delete('/medicineManage/deleteMedicine',{
                 data:{
