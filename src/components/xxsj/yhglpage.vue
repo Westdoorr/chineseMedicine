@@ -49,7 +49,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" style="font-size: 40px">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" style="font-size: 40px" @close="clearDate">
       <el-form :model="tempUser" label-position="left" label-width="150px" size="medium"
                style='width: 600px; margin-left:50px'>
         <el-form-item label="用户名" required v-if="dialogStatus=='create'">
@@ -79,7 +79,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false" style="width: 150px;height: 60px;font-size: 30px;">取 消</el-button>
+        <el-button @click="clearDate" style="width: 150px;height: 60px;font-size: 30px;">取 消</el-button>
         <el-button v-if="dialogStatus=='create'" type="primary" @click="createUser" style="width: 150px; height: 60px;font-size:30px;background-color: #3a8ee6;">创 建</el-button>
         <el-button type="primary" v-else @click="updateUser" style="width: 150px; height: 60px;font-size:30px;background-color: #3a8ee6;">修 改</el-button>
       </div>
@@ -130,6 +130,11 @@
       this.getusers()
     },
     methods: {
+      clearDate(){
+        var _that = this;
+        _that.dialogFormVisible = false;
+        _that.tempUser = {}
+      },
       passwordCheck() {
         var _that = this;
         if(_that.tempUser.checkpassword !==_that.tempUser.password ){
@@ -167,7 +172,7 @@
             message: '密码不一致'
           });
         }else {
-          this.$http.post(
+          _that.$http.post(
             '/userManage/addUser',{
               username: _that.tempUser.username,
               password: _that.tempUser.password,
@@ -176,10 +181,11 @@
             })
             .then(response =>{
               if(response.code == 1){
-                _that.dialogFormVisible = false
+                _that.clearDate();
                 _that.getusers()
               }
               else {
+                _that.$common.openErrorMsgBox(response.msg,_that);
               }
             })
             .catch(function (error) {

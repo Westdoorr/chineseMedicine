@@ -186,7 +186,7 @@
                     _that.deleteRow($index)
                   }
                 }).catch(() => {
-                this.$message.error("删除失败")
+                _that.$message.error("删除失败")
               })
             }
         })

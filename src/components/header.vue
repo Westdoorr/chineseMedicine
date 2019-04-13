@@ -25,7 +25,7 @@
             </span>
           </div>
       </div>
-  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="font-size: 30px;width: 1920px">
+  <el-dialog title="修改密码" :visible.sync="dialogFormVisible" style="font-size: 30px;width: 1920px" @close="clearDate">
     <el-form class="small-space" :model="tempUser" label-position="left" label-width="150px" size="medium"
              style='width: 600px; margin-left:50px'>
       <el-form-item label="新密码" style="font-size: 30px">
@@ -38,7 +38,7 @@
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="dialogFormVisible = false" style="width: 150px;height: 60px;font-size: 30px">取 消</el-button>
+      <el-button @click="clearDate" style="width: 150px;height: 60px;font-size: 30px">取 消</el-button>
       <el-button type="primary" @click="updateUser" style="width: 150px;height: 60px;font-size: 30px">修 改</el-button>
     </div>
   </el-dialog>
@@ -111,6 +111,11 @@ export default {
 
     }
     ,methods: {
+    clearDate(){
+      var _that = this;
+      _that.dialogFormVisible = false;
+      _that.tempUser = {}
+    },
     passwordCheck() {
       var _that = this;
       if(_that.tempUser.checkpassword !==_that.tempUser.password ){
