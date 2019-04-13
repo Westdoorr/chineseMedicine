@@ -48,16 +48,7 @@
 <style lang="scss">
 @import '../assets/css/head.scss';
 </style>
-<style>
-  .el-dialog__title {
-    line-height: 24px;
-    font-size: 30px;
-    color: #303133;
-  }
-  .el-form-item__label{
-    font-size: 30px;
-  }
-</style>
+
 <script>
  import picLogo from '@/assets/img/header/logo.png'
  import picAccount from '@/assets/img/header/accounts.png'

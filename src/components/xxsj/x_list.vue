@@ -66,10 +66,10 @@
     </div>
 </template>
 <style lang="scss">
-    @import '../../assets/css/xxsj/x_list.scss'
+    @import '../../assets/css/xxsj/x_list.scss';
 </style>
 <script src="../../assets/js/xxsj/x_list.js">
-  
+
 </script>
 
 

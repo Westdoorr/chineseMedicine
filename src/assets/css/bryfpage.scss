@@ -1,5 +1,32 @@
 /*全局样式  主要是修改element的样式 局部样式无法修改element 组件样式 通过添加最外层的容器避免重盖*/
 .bryf-container {
+  .el-message-box{
+    width: 600px;
+    height: 180px;
+    button.el-button--small {
+      height: 60px;
+      width: 120px;
+      font-size: 30px;
+      padding-left: 9px;
+    }
+    .el-message-box__title {
+      padding-left: 0;
+      margin-bottom: 0;
+      font-size: 30px;
+      line-height: 1;
+      color: #303133;
+    }
+    .el-message-box__status {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 30px!important;
+    }
+    .el-message-box__message {
+      margin-left: 20px;
+      font-size: 30px;
+    }
+  }
   .el-dialog {
     position: relative;
     margin: 0 auto 50px;

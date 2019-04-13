@@ -50,7 +50,7 @@
           label="操作"
           width="600">
           <template slot-scope="scope">
-            <el-button @click="deleteRow(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除药品</el-button>
+            <el-button @click="removemedicine(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除药品</el-button>
             <el-button @click="getpricechange(scope.$index)" type="text" class="btn-font-default bnt-font-color">价格走势</el-button>
           </template>
         </el-table-column>
@@ -169,21 +169,26 @@
           confirmButtonText: '确定',
           showCancelButton: false,
           type: 'warning'
-        }).then(() => {
-          let medicine = _that.medicinelist[$index];
-          console.log("这是"+medicine.medicineId);
-          _that.$http.delete('/medicineManage/deleteMedicine',{
-            params:{
-              medicineId: medicine.medicineId
+        })
+          .then(() => {
+            let medicine = _that.medicinelist[$index];
+            if(medicine.medicineId == "" || medicine.medicineId == null){
+              _that.deleteRow($index)
+              console.log("jinjinjin")
+            }else {
+              _that.$http.delete('/medicineManage/deleteMedicine',{
+                data:{
+                  medicineId: medicine.medicineId
+                }
+              })
+                .then(response => {
+                  if(response.code == 1){
+                    _that.deleteRow($index)
+                  }
+                }).catch(() => {
+                this.$message.error("删除失败")
+              })
             }
-          })
-            .then(response => {
-            if(response.code == 1){
-              _that.getmedicine()
-            }
-          }).catch(() => {
-            this.$message.error("删除失败")
-          })
         })
       },
       updatemedicine(){

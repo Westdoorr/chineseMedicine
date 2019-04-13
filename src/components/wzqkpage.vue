@@ -86,7 +86,7 @@
 </div>
 </template>
 <style lang="scss">
-  @import "../assets/css/wzqkpage.scss"
+  @import "../assets/css/wzqkpage.scss";
 </style>
 
 <script src="../assets/js/wzqkpage.js">

@@ -7,6 +7,14 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  .el-dialog__title {
+    line-height: 24px;
+    font-size: 30px;
+    color: #303133;
+  }
+  .el-form-item__label{
+    font-size: 30px;
+  }
     .logo-icon-div{
         width: 283px;
         height: 38px;

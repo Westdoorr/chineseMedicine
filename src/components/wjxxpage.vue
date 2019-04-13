@@ -85,7 +85,7 @@
                                     <el-option label="无异常" value="无异常"></el-option>
                                 </el-select>
                         </el-form-item>
-                        
+
                         <el-form-item>
                             <el-input v-model="basicWjxx.nhfz_remarks" placeholder="备注"></el-input>
                         </el-form-item>
@@ -629,9 +629,9 @@
     </div>
 </template>
 <style lang="scss">
-  @import '../assets/css/wjxxpage.scss'
+  @import '../assets/css/wjxxpage.scss';
 </style>
 
 <script src="../assets/js/wjxxpage.js">
-  
+
 </script>
