@@ -57,7 +57,7 @@ tablePrint.prototype = {
        for (let i=0;i<number1;i++){
          var headStr = '<div class="header_container">'+this.options.data.rangDate+'</div>';
          var content_head = '<div class="table_container" style="margin-bottom: 2px">';
-         var table_head = ' <table cellspacing="0" cellpadding="0" border="0" width="100%"> <colgroup> <col width="50" /> <col width="80" /> <col width="130" /> <col width="50" /> <col width="80" /> <col width="130" /> <col width="50" /> <col width="80" /> <col width="130" /> </colgroup> <tbody> <tr> <th>序号</th> <th>药名</th> <th>药量(g)</th> <th>序号</th> <th>药名</th> <th>药量(g)</th> <th>序号</th> <th>药名</th> <th>药量(g)</th> </tr>'
+         var table_head = ' <table cellspacing="0" cellpadding="0" border="0" width="100%"> <colgroup> <col width="50" /> <col width="70" /> <col width="70" /> <col width="70" /> <col width="50" /> <col width="70" /> <col width="70" /> <col width="70" /> <col width="50" /> <col width="70" /> <col width="70" /> <col width="70" /> </colgroup> <tbody> <tr> <th>序号</th> <th>药名</th> <th>药房用量(g)</th><th>药方用量(g)</th> <th>序号</th> <th>药名</th> <th>药房用量(g)</th> <th>药方用量(g)</th> <th>序号</th> <th>药名</th> <th>药房用量(g)</th> <th>药方用量(g)</th> </tr>'
          var str = '';
          for(let j = 0 ;j< 40 ;j++){
            var medicine = '';
@@ -69,22 +69,28 @@ tablePrint.prototype = {
            var index = '';
            var index1 = '';
            var index2 = '';
+           var notStock ='';
+           var notStock1 ='';
+           var notStock2 ='';
            if(j<data_obj[i].list1.length){
              index = data_obj[i].list1[j].yindex ? data_obj[i].list1[j].yindex : '';
              medicine = data_obj[i].list1[j].medicine ? data_obj[i].list1[j].medicine : '';
              dose = data_obj[i].list1[j].dose ? data_obj[i].list1[j].dose : '';
+             notStock = data_obj[i].list1[j].notStock == "0"?"" :"+"+data_obj[i].list1[j].notStock;
            }
            if (j<data_obj[i].list2.length) {
              index1 = data_obj[i].list2[j].yindex ? data_obj[i].list2[j].yindex : '';
              medicine1 = data_obj[i].list2[j].medicine ? data_obj[i].list2[j].medicine : '';
              dose1 = data_obj[i].list2[j].dose ? data_obj[i].list2[j].dose : '';
+             notStock1 = data_obj[i].list2[j].notStock == "0"?"" :"+"+data_obj[i].list2[j].notStock;
            }
            if(j<data_obj[i].list3.length){
              index2 = data_obj[i].list3[j].yindex ? data_obj[i].list3[j].yindex : '';
              medicine2 = data_obj[i].list3[j].medicine ? data_obj[i].list3[j].medicine : '';
              dose2 = data_obj[i].list3[j].dose ? data_obj[i].list3[j].dose : '';
+             notStock2 = data_obj[i].list3[j].notStock == "0"?"" :"+"+data_obj[i].list3[j].notStock;
            }
-           str = str+ '<tr><td>'+index+'</td><td>'+medicine+'</td><td>'+dose+'</td><td>'+index1+'</td><td>'+medicine1+'</td><td>'+dose1+'</td><td>'+index2+'</td><td>'+medicine2+'</td><td>'+dose2+'</td></tr>';
+           str = str+ '<tr><td>'+index+'</td><td>'+medicine+'</td><td>'+dose+'</td><td>'+notStock+'</td><td>'+index1+'</td><td>'+medicine1+'</td><td>'+dose1+'</td><td>'+notStock1+'</td><td>'+index2+'</td><td>'+medicine2+'</td><td>'+dose2+'</td><td>'+notStock2+'</td></tr>';
          }
          var end = '</tbody> </table> </div>'
          content_table= content_table+headStr+content_head+table_head+str+end;

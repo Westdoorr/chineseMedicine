@@ -27,7 +27,7 @@
           label="药名"
           width="250">
           <template scope="scope">
-            <el-input class="new-yfmc" v-model="scope.row.medicineName"></el-input>
+            <el-input class="new-ypmc" v-model="scope.row.medicineName"></el-input>
           </template>
         </el-table-column>
         <el-table-column
@@ -35,7 +35,7 @@
           label="价格（元/g）"
           width="270">
           <template scope="scope">
-            <el-input class="new-yfmc" v-model="scope.row.unitPrice"></el-input>
+            <el-input class="new-ypmc" v-model="scope.row.unitPrice"></el-input>
           </template>
         </el-table-column>
         <el-table-column
@@ -43,7 +43,7 @@
           label="来源"
           width="500">
           <template scope="scope">
-            <el-input class="new-yfmc" v-model="scope.row.source"></el-input>
+            <el-input class="new-ypmc" v-model="scope.row.source"></el-input>
           </template>
         </el-table-column>
         <el-table-column
@@ -169,6 +169,7 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           showCancelButton: true,
+          customClass:"qcMessage",
           type: 'warning'
         })
           .then(() => {
