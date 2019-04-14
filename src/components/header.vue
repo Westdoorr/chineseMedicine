@@ -66,6 +66,7 @@ export default {
             dialogFormVisible:false,
             rolename:"",
             roleuser:"",
+            nickname:"",
             tempUser:{
             username:'',
             nickname:'',
@@ -106,6 +107,7 @@ export default {
     // this.rolename=this.$store.getters.gettersrolename;
       this.roleuser = window.localStorage.getItem("role")
       this.rolename = window.localStorage.getItem("username")
+      this.nickname=this.$store.getters.gettersnickname;
     }
     ,watch: {
 
@@ -128,6 +130,7 @@ export default {
     showUpdate() {
       this.tempUser.role = this.roleuser;
       this.tempUser.password = '';
+      this.tempUser.nickname = this.nickname
       this.dialogFormVisible = true
     },
       updateUser() {
@@ -137,10 +140,12 @@ export default {
             type: 'error',
             message: '密码不一致'
           });
+          console.log("这是"+_that.nickname)
         }else {
           _that.$http.post('/userManage/updateUser',{
             username: _that.rolename,
             password: _that.tempUser.password,
+            nickname: _that.nickname,
             role : _that.tempUser.role
           }).then(response => {
             if(response.code == 1){

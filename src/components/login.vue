@@ -58,9 +58,12 @@
     },
     methods: {
       handleLogin() {
+        var loading = this.$common.openLoading("正在登陆!",this);
         this.$store.dispatch('Login', this.ruleForm).then(response =>{
+          loading.close()
           this.$store.dispatch('depositrole',response.data.role)
           this.$store.dispatch('depositname',response.data.username)
+          this.$store.dispatch('depositnickname',response.data.nickname)
           window.localStorage.setItem("role",response.data.role)
           window.localStorage.setItem("username",response.data.username)
               if(response.code == 1){

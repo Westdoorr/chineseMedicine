@@ -1,5 +1,5 @@
-export const medicineName = (state, payload) => {
-  state.medicineNamecurrent = payload;
+export const nickname = (state, payload) => {
+  state.nicknamecurrent = payload;
 };
 export const rolename = (state, payload) => {
   state.namecurrent = payload;

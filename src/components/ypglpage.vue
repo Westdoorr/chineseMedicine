@@ -96,7 +96,6 @@
       //获取页面的初始化数据
       document.title = '药品管理'
       this.getmedicine();
-      this.medicineName=this.$store.getters.gettersmedicineName;
     },
     methods: {
       getpricechange($index){
