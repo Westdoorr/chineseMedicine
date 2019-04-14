@@ -16,6 +16,7 @@
         :header-row-class-name="headerClassname"
         :row-class-name="rowClassname"
         stripe
+        :default-sort = "{prop: 'date', order: 'descending'}"
         style="border:1px solid #ebeef5;overflow-y:auto;">
         <el-table-column
           type="index"
@@ -25,7 +26,8 @@
         <el-table-column
           prop="medicineName"
           label="药名"
-          width="250">
+          width="250"
+          sortable>
           <template scope="scope">
             <el-input class="new-ypmc" v-model="scope.row.medicineName"></el-input>
           </template>
@@ -33,7 +35,8 @@
         <el-table-column
           prop="unitPrice"
           label="价格（元/g）"
-          width="270">
+          width="270"
+          sortable>
           <template scope="scope">
             <el-input class="new-ypmc" v-model="scope.row.unitPrice"></el-input>
           </template>
