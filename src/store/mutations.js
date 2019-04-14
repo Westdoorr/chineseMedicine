@@ -1,3 +1,6 @@
+export const medicineName = (state, payload) => {
+  state.medicineNamecurrent = payload;
+};
 export const rolename = (state, payload) => {
   state.namecurrent = payload;
 };
@@ -24,5 +27,4 @@ export const clearPrePathParams = (state, payload) =>{
     state.prePathParams = payload;
     window.localStorage.setItem('prePathParams', JSON.stringify(state.prePathParams));
 };
-
 

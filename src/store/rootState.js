@@ -6,6 +6,6 @@ const state = {
     pathParams:{},
     namecurrent:'',
     rolecurrent:'',
-
+    medicineNamecurrent:''
   }
   export default state;

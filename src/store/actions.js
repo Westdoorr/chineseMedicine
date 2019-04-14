@@ -67,3 +67,6 @@ export const depositrole = ({commit},payload) =>{
 export const depositname = ({commit},payload) =>{
   commit('rolename',payload)
 }
+export const depositmedicineName = ({commit},payload) =>{
+  commit('medicineName',payload)
+}

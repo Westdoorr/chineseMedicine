@@ -94,7 +94,7 @@ export default {
           }else{
             //国外
             var proNameList = this.$store.getters.gettersPlaceData.placeList;
-            this.province = proNameList.slice(36);
+            this.province = proNameList.slice(35);
           }
         },
         //重置外国的字段 不一致

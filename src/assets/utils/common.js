@@ -91,7 +91,7 @@ export default{
         }else{
           //国外
           var proNameList = _that.$store.getters.gettersPlaceData.placeList;
-          proNameList = proNameList.slice(36);
+          proNameList = proNameList.slice(35);
           return JSON.parse(JSON.stringify(proNameList));
         }
       },

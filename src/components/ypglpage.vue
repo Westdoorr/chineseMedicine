@@ -51,11 +51,11 @@
           width="600">
           <template slot-scope="scope">
             <el-button @click="removemedicine(scope.$index)" type="text" class="btn-font-default bnt-font-color">删除药品</el-button>
-            <el-button @click="getpricechange(scope.$index)" type="text" class="btn-font-default bnt-font-color">价格走势</el-button>
+            <el-button @click="getpricechange(scope.$index)" type="text" class="btn-font-default">价格走势</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="价格走势" :visible.sync ="dialogpriceVisible">
+      <el-dialog  :visible.sync ="dialogpriceVisible">
         <div id="price" style="width: 1000px;height: 500px">
         </div>
       </el-dialog>
@@ -82,6 +82,7 @@
           unitPrice:"",
           updateDate:""
         }],
+        medicineName:[],
         keyWords:"",
         medicinelist: [{
           medicineName:1,
@@ -95,6 +96,7 @@
       //获取页面的初始化数据
       document.title = '药品管理'
       this.getmedicine();
+      this.medicineName=this.$store.getters.gettersmedicineName;
     },
     methods: {
       getpricechange($index){
@@ -117,7 +119,12 @@
             unitPrice.push(_that.changes[i].unitPrice)
           }
           myChart.setOption({
-            title: { text: '价格走势' },
+            title: {
+              text: _that.medicinelist[$index].medicineName+'价格走势',
+              textStyle:{
+                fontSize:30,
+              }
+            },
             legend:{
               textStyle:{
                 fontSize:30,
@@ -237,7 +244,8 @@
           '/medicineManage/getMedicineList')
           .then(response =>{
             if(response.code == 1){
-              this.medicinelist = response.data.medicinelist
+              this.medicinelist = response.data.medicinelist;
+              this.$store.dispatch('depositmedicineName',response.data.medicinelist.medicineName)
             }
           })
           .catch(function (error) {
