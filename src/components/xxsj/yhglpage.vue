@@ -244,6 +244,7 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           showCancelButton: true,
+          customClass:"qcMessage",
           type: 'warning'
         }).then(() => {
           let user = _that.userlist[$index];

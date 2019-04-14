@@ -3,33 +3,7 @@
   font-size: 40px;
   color: #303133;
 }
-.el-message-box{
-  width: 600px;
-  height: 180px;
-  button.el-button--small {
-    height: 60px;
-    width: 120px;
-    font-size: 30px;
-    padding-left: 9px;
-  }
-  .el-message-box__title {
-    padding-left: 0;
-    margin-bottom: 0;
-    font-size: 30px;
-    line-height: 1;
-    color: #303133;
-  }
-  .el-message-box__status {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 30px!important;
-  }
-  .el-message-box__message {
-    margin-left: 20px;
-    font-size: 30px;
-  }
-}
+
 .el-form-item__label{
   font-size: 30px;
 }
@@ -57,12 +31,6 @@
   color: #1f2d3d;
   line-height: 40px;
   height: 40px;
-}
-button.el-button--small{
-  height: 50px;
-  width: 100px;
-  font-size: 20px;
-  padding-left: 9px;
 }
 
 .new-yfmc{
