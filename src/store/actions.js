@@ -46,7 +46,8 @@ export const LogOut = ({commit}) => {
   return new Promise((resolve) => {
     axios.get(
       '/index/logout').then(response => {
-      removeToken()
+      removeToken();
+      window.localStorage.clear();
       resolve(response);
     }).catch(() => {
       removeToken()
@@ -56,8 +57,22 @@ export const LogOut = ({commit}) => {
 // 前端 登出
 export const FedLogOut = ({commit}) =>{
   return new Promise(resolve => {
-    commit('RESET_USER')
-    removeToken()
+    //commit('RESET_USER')
+    removeToken();
+    window.localStorage.clear();
+    resolve()
+  })
+};
+// 前端由于新登用户将老用户覆盖，需要页面重定向到新登用户首页
+export const LogOutNoPermission = ({commit}) =>{
+  return new Promise(resolve => {
+    //commit('RESET_USER')
+    //removeToken();
+    //window.localStorage.clear();
+    //location.reload()
+    //window.localStorage.getItem("")
+    router.push({path:'/Login'})
+    //location.reload()
     resolve()
   })
 };

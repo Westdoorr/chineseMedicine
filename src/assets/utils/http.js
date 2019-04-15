@@ -1,6 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
-
+import store from '../../store'
+import {Message, MessageBox} from 'element-ui'
 
 // 测试地址
 const API = {
@@ -76,7 +77,42 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     response => {
         if(response.status == 200){
-            return response.data;
+            const res = response.data;
+            if (res.code == '20011') {
+              Message({
+                showClose: true,
+                message: "当前用户信息已失效，5秒后返回登录页面，请重新登录",
+                type: 'error',
+                duration: 5000,
+                onClose: () => {
+                  store.dispatch('FedLogOut').then(() => {
+                    location.reload()// 为了重新实例化vue-router对象 避免bug
+                  })
+                }
+              })
+              return res;
+            }else if (res.code == '502') {
+              Message({
+                showClose: true,
+                message: "该用户已被最新登陆用户覆盖，5秒后回到最新登录用户的首页",
+                type: 'error',
+                duration: 5000,
+                onClose: () => {
+                  // window.localStorage.getItem("username");
+                  // window.localStorage.getItem("password");
+                  // var ruleForm = {
+                  //   username:window.localStorage.getItem("username"),
+                  //   password:window.localStorage.getItem("password")
+                  // }
+                  store.dispatch('LogOutNoPermission' ).then(() => {
+                    console.log("已经出现警告")
+
+                  })
+                }
+              })
+              return null;
+            }
+            return res;
         }
     },
     error => {

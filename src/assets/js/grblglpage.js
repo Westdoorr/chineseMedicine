@@ -24,7 +24,8 @@ export default {
     created () {
         //获取页面的初始化数据
         this.initPage();
-        this.roleuser=this.$store.getters.gettersroleuser;
+        //this.roleuser=this.$store.getters.gettersroleuser;
+      this.roleuser=window.localStorage.getItem("role");
     },
     methods: {
       rowClassname() {

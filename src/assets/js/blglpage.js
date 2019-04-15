@@ -51,7 +51,7 @@ export default {
       document.title = '病历管理'
         this.initPage();
 /*        this.testAge();*/
-      this.roleuser=this.$store.getters.gettersroleuser;
+      this.roleuser=window.localStorage.getItem("role");
     },
     methods: {
       //日期改变

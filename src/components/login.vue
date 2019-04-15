@@ -58,12 +58,14 @@
     },
     methods: {
       handleLogin() {
+        var _that = this;
         this.$store.dispatch('Login', this.ruleForm).then(response =>{
           this.$store.dispatch('depositrole',response.data.role)
           this.$store.dispatch('depositname',response.data.username)
           this.$store.dispatch('depositnickname',response.data.nickname)
           window.localStorage.setItem("role",response.data.role)
           window.localStorage.setItem("username",response.data.username)
+          window.localStorage.setItem("password",_that.ruleForm.password);
               if(response.code == 1){
                 if (response.data.role == 1){
                   this.$router.push({path: '/xindex/yhglpage'})

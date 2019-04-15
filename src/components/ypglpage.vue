@@ -27,7 +27,7 @@
           prop="medicineName"
           label="药名"
           width="250"
-          sortable>
+          >
           <template scope="scope">
             <el-input class="new-ypmc" v-model="scope.row.medicineName"></el-input>
           </template>
@@ -36,7 +36,7 @@
           prop="unitPrice"
           label="价格（元/g）"
           width="270"
-          sortable>
+          >
           <template scope="scope">
             <el-input class="new-ypmc" v-model="scope.row.unitPrice"></el-input>
           </template>
@@ -104,7 +104,7 @@
       getpricechange($index){
         var _that = this;
         _that.dialogpriceVisible = true;
-        var medicine = _that.medicinelist[$index]
+        var medicine = _that.medicinelist[$index];
         _that.$http.get('/medicineManage/priceChange',{
           params :{
             medicineId : medicine.medicineId
@@ -122,7 +122,7 @@
           }
           myChart.setOption({
             title: {
-              text: _that.medicinelist[$index].medicineName+'价格走势',
+              text: medicine.medicineName+'价格走势',
               textStyle:{
                 fontSize:30,
               }

@@ -19,7 +19,8 @@ export default {
         //获取页面的初始化数据
       document.title = '数据统计-用药统计'
         this.initPage();
-      this.roleuser=this.$store.getters.gettersroleuser;
+      //this.roleuser=this.$store.getters.gettersroleuser;
+      this.roleuser=window.localStorage.getItem("role");
     },
     watch: {
       rangeDate:function(newQuestion, oldQuestion){
