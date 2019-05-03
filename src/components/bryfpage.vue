@@ -176,7 +176,7 @@
       </el-col>
       <el-col :span="22">
         <div class="xixi" v-for="(saveimage,index) in image" style="width: 330px;float: left">
-          <i @click="removepicture(index)" class="el-icon-close" style="height: 50px;width: 50px;margin-left: 305px"></i>
+          <i @click="removepicture(index)" class="el-icon-close" style="height: 50px;width: 50px;margin-left: 305px;font-size: 30px"></i>
           <img style="margin-left: 25px;margin-top: -50px" :src=saveimage.imageUrl @click="selectimage(index)">
 <!--          <div>
             <el-button @click="removepicture(index)" class="btn-border-red" style="margin-left:32%;width: 100px;height: 50px;font-size: 25px">删除</el-button>

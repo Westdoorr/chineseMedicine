@@ -9,10 +9,15 @@
               <span @click = "showUpdate()">{{rolename}}</span>
             <span style="color: #20a0ff;" @click="logout">注销</span>
           </div>
-          <div class="now-date-div">
-            <span class="now-date">
+          <div class="now-date-div" style="margin-top: -20px">
+            <span class="now-date" style="font-size: 25px">
               <!-- 2017/06/27  19:30 -->
-              {{formateDate}}
+              <div>
+                {{formateDate}}
+              </div>
+              <div style="margin-left: 30%">
+                {{formateday}}
+              </div>
             </span>
           </div>
       </div>
@@ -115,6 +120,7 @@ export default {
     }
     ,data() {
         return {
+            weekday:new Date(),
             dialogFormVisible:false,
             tempUser:{},
             rolename:{},
@@ -131,6 +137,32 @@ export default {
     //计算属性 设置属性 获取属性值
     ,computed: {
         //格式化日期
+        formateday:function(){
+          var date = this.weekday;
+          var mat ={};
+          mat.W = date.getDay();
+          if(mat.W == 0){
+            mat.W = "日";
+          }else if(mat.W == 1){
+            mat.W = "一";
+          }
+          else if(mat.W == 2){
+            mat.W = "二";
+          }
+          else if(mat.W == 3){
+            mat.W = "三";
+          }
+          else if(mat.W == 4){
+            mat.W = "四";
+          }
+          else if(mat.W == 5){
+            mat.W = "五";
+          }
+          else if(mat.W == 6){
+            mat.W = "六";
+          }
+          return "星期"+mat.W;
+        },
         formateDate:function(){
             var date = this.nowdate;
             var mat={};

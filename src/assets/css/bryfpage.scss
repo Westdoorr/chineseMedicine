@@ -1,5 +1,11 @@
 /*全局样式  主要是修改element的样式 局部样式无法修改element 组件样式 通过添加最外层的容器避免重盖*/
 .bryf-container {
+  .el-icon-close{
+    opacity:0;
+  }
+  .el-icon-close:hover{
+    opacity:1.0;
+  }
   .el-dialog {
     position: relative;
     margin: 0 auto 50px;
