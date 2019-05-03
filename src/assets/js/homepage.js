@@ -2,7 +2,12 @@ export default {
     name: 'xjczbr',
     data() {
         return {
+          canvas:"",
+          saveImage:"",
+          mediaStreamTrack :null,
+          dialogphotoVisible: false,
           form: {
+            picture:'',
             country:'',
             sourceProvince:null,
             sourceCity:null,
@@ -59,6 +64,44 @@ export default {
       },
 
       methods: {
+      getMedia() {
+        var _that = this;
+        _that.form.picture = [];
+        let constraints = {
+          video: {width: 280, height: 400},
+        };
+        //获得video摄像头区域
+        //这里介绍新的方法，返回一个 Promise对象
+        // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+        // then()是Promise对象里的方法
+        // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+        // 避免数据没有获取到
+        let promise = navigator.mediaDevices.getUserMedia(constraints);
+        promise.then(function (MediaStream) {
+          _that.mediaStreamTrack = MediaStream.getTracks()[0];
+          _that.$refs.video.src = URL.createObjectURL(MediaStream);
+/*          video.src = URL.createObjectURL(MediaStream);*/
+          _that.$refs.video.play();
+        });
+        _that.dialogphotoVisible = true;
+        },
+      funclose(){
+        this.mediaStreamTrack.stop()
+        },
+      takePhoto() {
+      //获得Canvas对象
+      let video = document.getElementById("video");
+      this.canvas = document.getElementById("canvas");
+      let ctx = this.canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, 280, 400);
+      },
+        confirmphoto(){
+        var _that = this;
+          var saveImage = _that.canvas.toDataURL('image/png');
+          _that.form.picture = saveImage;
+          _that.dialogphotoVisible = false;
+          _that.mediaStreamTrack.stop();
+        },
         opencomfigMethod(msg,method_name,method_params){
 
             this.$common.openComfigDialog(msg,method_name,method_params,this);
@@ -344,8 +387,6 @@ export default {
               this.$common.openErrorMsgBox("请完整填写基本信息!",_that);
               return;
             }
-
-
           // else if(this.form.age == 0){
           //   // console.log("不能为0")
           //   this.$message({
@@ -363,7 +404,21 @@ export default {
           //     param.sourceCity = param.sourceProvince;
           //     param.sourceProvince = param.country;
           // }
-          this.$http.post('/index/firstDiag',param).then(function (response) {
+          var formdata1 = new FormData();
+            param.picture =  _that.$common.base64Tofile(param.picture,"111.jpg");
+            console.log("1111"+param.picture)
+            formdata1.append('picture',param.picture,"111.png")
+            formdata1.append('country',param.country);
+            formdata1.append('sourceProvince',param.sourceProvince);
+            formdata1.append('sourceCity',param.sourceCity);
+            formdata1.append('age',param.age);
+            formdata1.append('pname',param.pname);
+            formdata1.append('birthday',param.birthday);
+            formdata1.append('gender',param.gender);
+          let config = {
+            post_type: "form-data"
+          };
+          this.$http.post('/index/firstDiag',formdata1,config).then(function (response) {
             loading.close();
             if(response.code == "1"){
               //新建病人信息完成，再次新增问诊信息

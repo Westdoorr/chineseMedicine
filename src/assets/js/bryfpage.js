@@ -2,6 +2,14 @@ export default {
   name:"bryfpage"
   ,data() {
     return {
+      seen:false,
+      current:0,
+      counter : [0,0,0,0,0,0,0,0],
+      indexs:[],
+      image:[],
+      mediaStreamTrack:null,
+      dialogphotoVisible:false,
+      picture:[],
       ppname:'',
       count:0, //第几次
       allTotal:0,
@@ -709,6 +717,7 @@ export default {
       return confirmationMessage;                                // Gecko and WebKit
     });
     this.getinformation();
+    this.getInquiryImages();
     //返回按钮
     /* window.addEventListener("popstate", function(){
        console.log("监听返回");
@@ -763,9 +772,165 @@ export default {
   },
 
   methods: {
-    clearupdata(){
-      this.dialogStatus = false;
+    selectimage(index){
+      let _that = this;
+      let xixi = document.getElementsByClassName("xixi");
+      _that.counter[index]=_that.counter[index]+1;
+      if(_that.counter[index] %2 == 0){
+        xixi[index].style.backgroundColor = "white";
+        for(let i = 0;i< _that.indexs.length;i++)
+        {
+          if(_that.indexs[i] == index){
+            _that.indexs.splice(i,1)
+          }else {
+            continue
+          }
+        }
+      }else {
+        xixi[index].style.backgroundColor = "#66CCFF  ";
+        _that.indexs.push(index)
+      }
     },
+    removesomepicture() {
+      let picture = [];
+      let id=[];
+      var _that = this;
+      this.$confirm('确定删除这些照片?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showCancelButton: true,
+        customClass:"qcMessage",
+        type: 'warning'
+      }).then(() => {
+        for(let i = 0 ; i< _that.indexs.length; i++){
+          let count = "";
+          count = _that.indexs[i];
+          picture.push(_that.image[count]);
+          id.push(picture[i].id)
+        }
+        let url = '/inquiry/deleteInquiryImage?';
+/*        url+="images="+id*/
+        id.forEach((p)=>{
+          url+="images="+p+"&"
+        })
+;        _that.$http.post(url,{
+        }).then(response => {
+          if(response.code == 1){
+            let xixi = document.getElementsByClassName("xixi");
+            for (let n =0; n<_that.indexs.length;n++){
+              xixi[n].style.backgroundColor = "white";
+            }
+            _that.getInquiryImages()
+            _that.indexs=[]
+          }
+        }).catch(() => {
+          _that.$message.error("删除失败")
+        })
+      })
+    },
+    removepicture(index) {
+      let picture = [];
+      let id=[];
+      var _that = this;
+      this.$confirm('确定删除此照片?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        showCancelButton: true,
+        customClass:"qcMessage",
+        type: 'warning'
+      }).then(() => {
+        picture.push(_that.image[index]);
+        id.push(picture[0].id);
+        let url = '/inquiry/deleteInquiryImage?images='+id;
+        _that.$http.post(url,{
+        }).then(response => {
+          if(response.code == 1){
+            _that.getInquiryImages()
+            let xixi = document.getElementsByClassName("xixi");
+            xixi[index].style.backgroundColor = "white";
+          }
+        }).catch(() => {
+          _that.$message.error("删除失败")
+        })
+      })
+    },
+    getInquiryImages(){
+      var _that = this;
+      _that.params = _that.$route.query
+      var url = "/inquiry/getInquiryImages";
+      _that.$http.get(url,{
+        params: {
+          inquiryId: _that.params.inquiryId
+        }
+      }).then(function (response) {
+        if(response.code == "1"){
+          _that.image = response.data.images
+        }else{
+          _that.$common.openErrorMsgBox(response.msg,_that);
+        }
+      }).catch(function (error) {
+        _that.$common.openErrorMsgBox(error,_that);
+      });
+    },
+    getMedia() {
+      var _that = this;
+      let constraints = {
+        video: {width: 280, height: 400},
+      };
+      //获得video摄像头区域
+      let video = document.getElementById("video");
+      //这里介绍新的方法，返回一个 Promise对象
+      // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+      // then()是Promise对象里的方法
+      // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+      // 避免数据没有获取到
+      let promise = navigator.mediaDevices.getUserMedia(constraints);
+      promise.then(function (MediaStream) {
+        _that.mediaStreamTrack = MediaStream.getTracks()[0];
+        _that.$refs.video.src = URL.createObjectURL(MediaStream);
+        /*          video.src = URL.createObjectURL(MediaStream);*/
+        _that.$refs.video.play();
+      });
+      _that.dialogphotoVisible = true;
+    },
+    funclose(){
+      this.mediaStreamTrack.stop()
+    },
+    takePhoto() {
+      var _that = this;
+      //获得Canvas对象
+      let video = document.getElementById("video");
+      let canvas = document.getElementById("canvas");
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, 280, 400);
+      var saveImage = canvas.toDataURL('image/png');
+      _that.picture = saveImage;
+      _that.image.push(_that.picture);
+      var formdata1 = new FormData();
+      _that.picture =  _that.$common.base64Tofile(_that.picture,"111.jpg");
+      formdata1.append('image',_that.picture,"111.png")
+      formdata1.append('inquiryId',_that.yfdata.inquiryId)
+      let config = {
+        post_type: "form-data"
+      };
+      _that.$http.post('/inquiry/uploadInquiryImage',formdata1,config).then(function (response) {
+        if(response.code == "1"){
+          _that.getInquiryImages()
+        }else{
+          _that.$common.openErrorMsgBox(response.msg,_that);
+        }
+      }).catch(function (error) {
+        setTimeout(function(){
+          _that.$common.openErrorMsgBox(error,_that);
+        }, 1000);
+      });
+    },
+    confirmphoto(){
+      var _that = this;
+      _that.dialogphotoVisible = false;
+      _that.mediaStreamTrack.stop()
+    },
+
     getrecipePrice(){
       var _that = this
       _that.$http.get(
@@ -858,10 +1023,6 @@ export default {
     },
     getinformation:function(){
       this.params = this.$route.query
-      console.log("地址后台挂的值",this.params )
-      var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-      console.log("地址后台缓存",r_params)
-      var that = this
       this.$http.get(
         '/inquiry/getInquiryInfo',{
           params:{
@@ -1164,7 +1325,6 @@ export default {
       if(this.diagnoseLabels){
         var str = this.diagnoseLabels.replace(/\u3002/g, "。");
         var d_arry = str.split("。");
-        console.log("嘻嘻嘻嘻"+d_arry)
         if(d_arry){
           s_parms.diagnoseLabels = d_arry;
         }else{
@@ -1202,21 +1362,21 @@ export default {
             btn_switch = true;
           }else{
             _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
-              console.log(response)
-              loading.close();
-              if(response.code =="1"){
-                _that.$common.openSuccessMsgBox("操作成功",_that);
-                _that.dialogStatus = 'print';
-                _that.getrecipePrice()
-/*                _that.dialogFormVisible = true;*/
-              }else{
-                _that.$common.openErrorMsgBox(response.msg,_that);
-              }
-            }).catch(function (error) {
-              loading.close();
-              setTimeout(function(){
-                _that.$amount.openErrorMsgBox(error,_that);
-              }, 1000);
+                console.log(response)
+                loading.close();
+                if(response.code =="1"){
+                  _that.$common.openSuccessMsgBox("操作成功",_that);
+                  _that.dialogStatus = 'print';
+                  _that.getrecipePrice()
+                  /*                _that.dialogFormVisible = true;*/
+                }else{
+                  _that.$common.openErrorMsgBox(response.msg,_that);
+                }
+              }).catch(function (error) {
+                loading.close();
+                setTimeout(function(){
+                  _that.$amount.openErrorMsgBox(error,_that);
+                }, 1000);
             });
           }
         }, (error) => {

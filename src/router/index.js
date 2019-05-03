@@ -53,6 +53,11 @@ export default new Router({
           component: resolve => require(['@/components/brxxpage'],resolve)
          },
          {
+           path:'yxglpage',
+           name:'yxglpage',
+           component: resolve => require(['@/components/yxglpage'],resolve)
+         },
+         {
           path:'wjxxpage',
           name:'wjxxpage',
           component: resolve => require(['@/components/wjxxpage'],resolve)

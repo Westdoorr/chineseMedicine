@@ -22,6 +22,9 @@ export default {
       };
       return {
           //来源地
+        mediaStreamTrack :null,
+        canvas:"",
+        dialogphotoVisible:false,
         ppname:'',
         b_country:null,
         placeDate:{},
@@ -55,6 +58,7 @@ export default {
             ],
           },
         basicInfo: {
+            "headImage":null,
             "id": null,
             "patientId": null,
             "certificatesType": null,
@@ -133,6 +137,62 @@ export default {
        this.getinformation();
     },
     methods: {
+      //修改照片
+      getMedia() {
+        var _that = this;
+        let constraints = {
+          video: {width: 280, height: 400},
+        };
+        //获得video摄像头区域
+        //这里介绍新的方法，返回一个 Promise对象
+        // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+        // then()是Promise对象里的方法
+        // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+        // 避免数据没有获取到
+        let promise = navigator.mediaDevices.getUserMedia(constraints);
+        promise.then(function (MediaStream) {
+          _that.mediaStreamTrack = MediaStream.getTracks()[0];
+          _that.$refs.video.src = URL.createObjectURL(MediaStream);
+          /*          video.src = URL.createObjectURL(MediaStream);*/
+          _that.$refs.video.play();
+        });
+        _that.dialogphotoVisible = true;
+      },
+      funclose(){
+        this.mediaStreamTrack.stop()
+      },
+      takePhoto() {
+        //获得Canvas对象
+        let video = document.getElementById("video");
+        this.canvas = document.getElementById("canvas");
+        let ctx = this.canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, 280, 400);
+      },
+      confirmphoto(){
+        var _that = this;
+        var saveImage = _that.canvas.toDataURL('image/png');
+        _that.basicInfo.headImage = saveImage;
+        _that.dialogphotoVisible = false;
+        _that.mediaStreamTrack.stop()
+        var formdata1 = new FormData();
+        _that.basicInfo.headImage =  _that.$common.base64Tofile(_that.basicInfo.headImage,"111.jpg");
+        formdata1.append('picture',_that.basicInfo.headImage,"111.png")
+        formdata1.append('patientId',_that.basicInfo.patientId)
+        let config = {
+          post_type: "form-data"
+        };
+        _that.$http.post('/patientManage/updatePatientHeadImage',formdata1,config).then(function (response) {
+          if(response.code == "1"){
+            _that.basicInfo.headImage = saveImage
+          }else{
+            _that.$common.openErrorMsgBox(response.msg,_that);
+          }
+        }).catch(function (error) {
+          setTimeout(function(){
+            _that.$common.openErrorMsgBox(error,_that);
+          }, 1000);
+        });
+      },
       getinformation:function(){
         this.params = this.$route.query
         console.log("地址后台挂的值",this.params )

@@ -59,12 +59,12 @@
         <el-table-column prop="age" label="年龄" width="120"></el-table-column>
         <el-table-column prop="residence" label="来源地" width="260"></el-table-column>
         <el-table-column label="操作" width="510">
-       <template slot-scope="scope">
+        <template slot-scope="scope">
             <!--<el-button @click="delDailyPatient(scope.row)" type="text" class="btn-font-default bnt-font-color">删除病历</el-button>-->
-           <el-button @click="opencomfigMethod('请确认删除病例',delDailyPatient,scope.row)" type="text" class="btn-font-default bnt-font-color">删除病历</el-button>
+            <el-button @click="opencomfigMethod('请确认删除病例',delDailyPatient,scope.row)" type="text" class="btn-font-default bnt-font-color">删除病历</el-button>
             <el-button @click="gotoWzxxPage(scope.row)" type="text" class="btn-font-default">查看四诊</el-button>
             <el-button @click="gotoyfpage(scope.row)" type="text" class="btn-font-default">查看病历</el-button>
-       </template>
+        </template>
         </el-table-column>
     </el-table>
   </div>

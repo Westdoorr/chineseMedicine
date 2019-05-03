@@ -4,6 +4,7 @@ export default {
         brxxpage:"brxxpage",
         grblglpage:"grblglpage",
         bryfpage:'bryfpage',
+        yxglpage:'yxglpage',
         table_edit:'bryfpage',
         search_obj:{
           pname:"",
@@ -50,8 +51,6 @@ export default {
         var prePathParams = {path:"brglpage",data:_that.search_obj};
         _that.$store.dispatch("setPrePathParams", JSON.stringify(prePathParams));
         _that.$common.GotoPage(pagename,params,_that);
-
-
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);

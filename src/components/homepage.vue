@@ -51,13 +51,34 @@
                </el-col>
              </el-row>
           </el-form-item>
+          <el-form-item label="头像">
+            <div>
+              <div>
+                <el-button @click="getMedia()" style="font-size: 15px;padding: 10px">开启摄像头</el-button>
+              </div>
+              <img :src=form.picture  @click="getMedia()">
+              <el-dialog  :visible.sync ="dialogphotoVisible" @close = "funclose()" style="width: 1300px;margin-left: 12%">
+                <div>
+                  <div style="margin-left: 20px">
+                    <video  ref="video" id="video" width="280px" height="400px" preload="auto"></video>
+                    <canvas id="canvas" width="280px" height="400px" style="margin-top: 1px"></canvas>
+                  </div>
+                  <div style="margin-left:35%;margin-top: 10px">
+                    <el-button id="snap" @click="takePhoto()" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">拍照</el-button>
+                    <el-button @click="confirmphoto()" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">确定</el-button>
+                  </div>
+                </div>
+              </el-dialog>
+            </div>
+          </el-form-item>
           <div class="el-form-item">
             <div class="el-form-item__content" style="height:70px;text-align:center;line-height:70px;">
               <!--<button type="button" class="el-button el-button--primary normal-btn-primary" @click="czSubmit"><span>初诊</span></button> -->
               <button type="button" class="el-button el-button--primary normal-btn-primary" @click="opencomfigMethod('请问是否进行初访?',czSubmit)"><span>初诊</span></button>
               <!--<button type="button" class="el-button el-button--default normal-btn-default" @click="fzSubmit"><span>复诊</span></button>-->
               <button type="button" class="el-button el-button--default normal-btn-default" @click="opencomfigMethod('请问是否进行复访?',fzSubmit)"><span>复诊</span></button>
-
             </div>
           </div>
         </el-form>

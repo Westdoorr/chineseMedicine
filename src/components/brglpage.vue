@@ -23,27 +23,27 @@
         <el-table-column
           prop="index"
           label="序号"
-          width="150">
+          width="130">
         </el-table-column>
         <el-table-column
         prop="pName"
         label="姓名"
-        width="200">
+        width="180">
         </el-table-column>
         <el-table-column
         prop="latestDate"
         label="最近就诊时间"
-        width="320">
+        width="310">
         </el-table-column>
         <el-table-column
         prop="gender"
         label="性别"
-        width="110">
+        width="85">
         </el-table-column>
         <el-table-column
         prop="age"
         label="年龄"
-        width="110">
+        width="85">
         </el-table-column>
         <el-table-column
         prop="residence"
@@ -54,6 +54,7 @@
         label="操作">
         <template slot-scope="scope">
             <el-button @click="gotoyfpage(scope.row,brxxpage)" type="text" class="btn-font-default">基本信息</el-button>
+            <el-button @click="gotoyfpage(scope.row,yxglpage)" type="text" class="btn-font-default">影像管理</el-button>
             <el-button @click="gotoyfpage(scope.row,grblglpage)" type="text" class="btn-font-default">查看药方</el-button>
             <!--<el-button @click="newInquiry_new(scope.row.pId)" type="text" class="btn-font-default">新建复诊</el-button>-->
             <el-button @click="opencomfigMethod('是否新建复诊?',newInquiry_new,scope.row.pId)" type="text" class="btn-font-default">新建复诊</el-button>

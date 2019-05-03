@@ -2,7 +2,23 @@
     <div class="brxx-info-container">
         <el-form ref="formName" :rules="rules" :model="basicInfo" label-width="170px">
           <div class="picture">
-            <img style="height: 400px;width: 280px" src="../assets/img/zhongyi1.jpg">
+            <img style="height: 400px;width: 280px" :src=basicInfo.headImage>
+            <div>
+<!--              <el-button style="margin-left:30%; width:40%; height: 60px;font-size: 25px;
+              background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white" @click="getMedia()">修改</el-button>-->
+            </div>
+            <el-dialog  :visible.sync ="dialogphotoVisible" @close = "funclose()" style="width: 1300px;margin-left: 12%">
+              <div style="margin-left: 20px">
+                <video  ref="video" id="video" width="280px" height="400px" preload="auto"></video>
+                <canvas id="canvas" width="280px" height="400px" style="margin-top: 1px"></canvas>
+              </div>
+              <div style="margin-left:35%;margin-top: 10px">
+                <el-button id="snap" @click="takePhoto()" style="width: 80px;height: 40px;font-size: 25px;
+                background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">拍照</el-button>
+                <el-button @click="confirmphoto()" style="width: 80px;height: 40px;font-size: 25px;
+                background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">确定</el-button>
+              </div>
+            </el-dialog>
           </div>
             <el-row :gutter="20">
               <el-col :span="8">
@@ -45,9 +61,9 @@
                 <el-col :span="12">
                     <el-form-item label="婚姻史">
                         <el-radio-group v-model="basicInfo.marriage">
-                            <el-radio label="已婚" value='已婚'></el-radio>
-                            <el-radio label="未婚" value='未婚'></el-radio>
-                            <el-radio label="离异" value='离异'></el-radio>
+                            <el-radio   label="已婚" value='已婚'></el-radio>
+                            <el-radio  style="margin-left: 50px" label="未婚" value='未婚'></el-radio>
+                            <el-radio  style="margin-left: 50px" label="离异" value='离异'></el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -79,8 +95,8 @@
             </el-row>
             <div class="two-col-container">
                 <div class="frist-col-container">
-                    <el-row :gutter="20">
-                      <el-col :span="16">
+                    <el-row :gutter="20" style="width: 575px">
+                      <el-col :span="24">
                         <el-form-item label="国籍">
                           <el-select v-model="basicInfo.nationality" placeholder="请选择国籍" style="width: 86%">
                             <el-option label="中国" value="中国"></el-option>
@@ -109,8 +125,8 @@
                         </el-form-item>
                       </el-col>
                     </el-row>
-                     <el-row :gutter="20">
-                       <el-col :span="16">
+                     <el-row :gutter="20" style="width: 575px">
+                       <el-col :span="24">
                          <el-form-item label="证件类型">
                            <el-select v-model="basicInfo.certificatesType" placeholder="请选择证件类型" style="width: 86%">
                              <el-option label="身份证" value="身份证"></el-option>

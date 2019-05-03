@@ -1,5 +1,33 @@
 export default{
   /**
+   *   将base64转换为file
+   */
+  //将base64转换为blob
+  dataURLtoBlob(dataurl) {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  },
+  //将blob转换为file
+  blobToFile(theBlob, fileName){
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    console.log("zheshi"+theBlob.name)
+    return theBlob;
+  },
+  //调用
+  base64Tofile(base64Data,imgName){
+    var blob = this.dataURLtoBlob(base64Data);
+    var file = this.blobToFile(blob, imgName);
+    return file
+  },
+  /**
    * 字符串 转义 " 转义为 \"
    * @param {*} str
    */
@@ -223,7 +251,8 @@ export default{
           customClass:"qcMessage"
         }).then(() => {
           callback(cal_params);
-        }).catch(() => {
+        }).catch((err) => {
+          console.log("error"+err)
           _that.$message({
             type: 'info',
             message: '操作已取消'
