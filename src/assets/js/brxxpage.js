@@ -22,6 +22,9 @@ export default {
       };
       return {
           //来源地
+        countryList:[],
+        provinceList:[],
+        cityList:[],
         mediaStreamTrack :null,
         canvas:"",
         dialogphotoVisible:false,
@@ -133,7 +136,8 @@ export default {
     　　}
     },
     created () {
-       this.$common.getPlace(this,this.getBrxxinfo);
+/*       this.getPlace(this,this.getBrxxinfo);*/
+       this.getBrxxinfo();
        this.getinformation();
     },
     methods: {
@@ -285,7 +289,7 @@ export default {
      *
      * @param {any} type
      */
-    setCityList(type){
+    showCityList(type){
         if(type == 1){
             this.city = this.$common.setCityList(this.basicInfo.incuProvince,this);
             this.basicInfo.incuCity = null;
@@ -301,9 +305,9 @@ export default {
       *
       * @param {any} type
       */
-     setProList(type){
+     showProList(type){
         if(type  == 1){
-            this.province = this.$common.setProList(this.b_country,this);
+            this.province = this.setProList(this.b_country,this);
             this.basicInfo.incuProvince = null;
             this.basicInfo.incuCity = null;
         }else{
@@ -312,6 +316,37 @@ export default {
             this.basicInfo.sourceCity = null;
         }
      },
+      setProList(value){
+        //依据值修改省份的下拉值
+        for(let i =0 ; i< this.countryList.length; i++){
+          if(value == this.countryList[i].continentId){
+            this.provinceList = this.countryList[i].placeList;
+            break;
+          }
+        }
+        this.selectProvinceId="";
+        this.selectCityId="";
+      },
+      getPlace(){
+        var placeData = this.$store.getters.gettersPlaceData;
+        if(placeData && JSON.stringify(placeData) == "{}"){
+          var _that = this;
+          this.$http.get('/index/getPlace').then(function (response) {
+            console.log("地址",response);
+            if(response.code=="1"){
+              placeData = response.data.placeList;
+              _that.$store.dispatch("changePlaceData", placeData);
+              _that.placeDate = _that.$store.getters.gettersPlaceData;
+              _that.countryList = placeData;
+            }else{
+              _that.$common.openErrorMsgBox(response.msg,_that);
+            }
+          })
+            .catch(function (error) {
+              _that.$common.openErrorMsgBox(error,_that);
+            });
+        }
+      },
       /**
        * 处理病人的出生地和来源地数据的绑定
        *
@@ -329,7 +364,6 @@ export default {
                 this.s_country = 0;
                 this.sourceProvince = this.$common.setProList(this.s_country,this);
                 this.sourceCity = this.$common.setCityList(obj.sourceProvince,this);
-
             }
         }
         if(obj.incuProvince){
@@ -337,7 +371,6 @@ export default {
             this.province = this.$common.setProList(this.b_country,this);
             this.city = this.$common.setCityList(obj.incuProvince,this);
         }
-
       },
       /**
        * 设置空数组
@@ -410,10 +443,10 @@ export default {
             }).then(function (response) {
                  //得到个人信息的数据，对个人信息进行处理后绑定
                  if(response.code == "1"){
-                     _that.detailBrbrth(response.data.patientInfo);
+/*                     _that.detailBrbrth(response.data.patientInfo);*/
                      _that.basicInfo = _that.setNullArray(response.data.patientInfo);
                      console.log("1"+_that.basicInfo.sourceProvince)
-                   console.log("2"+_that.basicInfo.sourceCity)
+                     console.log("2"+_that.basicInfo.sourceCity)
                     // _that.basicInfo = response.data.patientInfo;
                  }else{
                      _that.$common.openErrorMsgBox(response.msg,_that);

@@ -87,7 +87,7 @@ export default{
        *
        * @param {any} selectvalue
        */
-    setCityList(value,_that){
+/*    setCityList(value,_that){
         //第一次遍历省份列表
          var proNameList = _that.$store.getters.gettersPlaceData.placeList;
           var city_list = new Array();
@@ -98,14 +98,14 @@ export default{
             }
           }
          return JSON.parse(JSON.stringify(city_list));
-      },
+      },*/
 
       /**
        * 联动设置， 依据国家 更新省份一栏的值
        *
        * @param {any} selectvalue
        */
-      setProList(selectvalue,_that){
+/*      setProList(selectvalue,_that){
         //依据值修改省份的下拉值
         // _that.province = [];
         // _that.city = [];
@@ -122,14 +122,14 @@ export default{
           proNameList = proNameList.slice(35);
           return JSON.parse(JSON.stringify(proNameList));
         }
-      },
+      },*/
       /**
        * 处理外国字段名 和 国内省份的命名规则不一致的问题
        *
        * @param {any} proList
        * @returns
        */
-      updateWgzdm(proList){
+/*      updateWgzdm(proList){
         var newList = new Array();
         for(var key in proList){
           var tmpObj = new Object();
@@ -139,12 +139,12 @@ export default{
           newList.push(tmpObj);
         }
         return newList;
-      },
+      },*/
       /**
        * 获取国家 省份 城市数据
        *
        */
-      getPlace(_that,callback,urlpath){
+/*      getPlace(_that,callback,urlpath){
          var url = '/index/getPlace';
          if(urlpath){
           url = urlpath;
@@ -154,9 +154,10 @@ export default{
             _that.$http.get(url)
             .then(function (response) {
               placeData = response.data;
-/*              placeData.placeList[0].cityList = _that.$common.updateWgzdm(placeData.placeList[0].cityList);*/
+/!*              placeData.placeList[0].cityList = _that.$common.updateWgzdm(placeData.placeList[0].cityList);*!/
               _that.$store.dispatch("changePlaceData", placeData);
               _that.placeDate = _that.$store.getters.gettersPlaceData;
+              _that.countryList = placeData;
               if(typeof callback  == 'function'){
                 callback();
               }
@@ -170,7 +171,7 @@ export default{
               callback();
             }
           }
-      },
+      },*/
     /**
      * 组件路径跳转
      * @param {String} pagename 路径名称

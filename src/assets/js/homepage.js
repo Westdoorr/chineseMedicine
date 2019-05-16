@@ -2,13 +2,20 @@ export default {
     name: 'xjczbr',
     data() {
         return {
+          selectCountryId:1,
+          selectProvinceId:24,
+          selectCityId:1348,
+          countryList:[],
+          provinceList:[],
+          cityList:[],
+          dissbutton:false,
           canvas:"",
           saveImage:"",
           mediaStreamTrack :null,
           dialogphotoVisible: false,
           form: {
-            picture:'',
-            country:'',
+            picture:"",
+            sourceContinent:'',
             sourceProvince:null,
             sourceCity:null,
             age:null,
@@ -29,17 +36,20 @@ export default {
         }
       },
       created () {
-        document.title = '首页'
-        this.setProList("0");
-        this.setCityList("24");
-        this.form.country = "0";
-        this.form.sourceProvince = 24;
-        this.form.sourceCity =1348;
+        document.title = '首页';
+/*         this.getPlace();
+         this.setProList(0);
+         this.setCityList(24);*/
+        // this.form.country = "0";
+        // this.form.sourceProvince = 24;
+        // this.form.sourceCity =1348;
       },
 
       beforeMount () {
          //获取地址请求
         this.getPlace();
+/*        this.setProList(0);
+        this.setCityList(24);*/
       },
 
       computed: {
@@ -53,19 +63,20 @@ export default {
       　　　　var age  = this.$common.GetAgeByBrithday(newValue);
               this.form.age = age;
       　　},
-         placeDate(newValue,oldValue){
+/*         placeDate(newValue,oldValue){
             //默认 患者来源地 0 24 1348
             this.setProList("0");
             this.setCityList("24");
             this.form.country = "0";
             this.form.sourceProvince = 24;
             this.form.sourceCity =1348;
-         }
+         }*/
       },
 
       methods: {
-      getMedia() {
+        getMedia() {
         var _that = this;
+        _that.dissbutton = false;
         _that.form.picture = [];
         let constraints = {
           video: {width: 280, height: 400},
@@ -85,10 +96,32 @@ export default {
         });
         _that.dialogphotoVisible = true;
         },
-      funclose(){
-        this.mediaStreamTrack.stop()
+        getMedia1() {
+          var _that = this;
+          _that.form.picture = _that.canvas.toDataURL('image/png');
+          let constraints = {
+            video: {width: 280, height: 400},
+          };
+          //获得video摄像头区域
+          //这里介绍新的方法，返回一个 Promise对象
+          // 这个Promise对象返回成功后的回调函数带一个 MediaStream 对象作为其参数
+          // then()是Promise对象里的方法
+          // then()方法是异步执行，当then()前的方法执行完后再执行then()内部的程序
+          // 避免数据没有获取到
+          let promise = navigator.mediaDevices.getUserMedia(constraints);
+          promise.then(function (MediaStream) {
+            _that.mediaStreamTrack = MediaStream.getTracks()[0];
+            _that.$refs.video.src = URL.createObjectURL(MediaStream);
+            /*          video.src = URL.createObjectURL(MediaStream);*/
+            _that.$refs.video.play();
+          });
+          _that.dialogphotoVisible = true;
         },
-      takePhoto() {
+        funclose(){
+        var _that = this;
+        _that.mediaStreamTrack.stop();
+        },
+        takePhoto() {
       //获得Canvas对象
       let video = document.getElementById("video");
       this.canvas = document.getElementById("canvas");
@@ -101,44 +134,41 @@ export default {
           _that.form.picture = saveImage;
           _that.dialogphotoVisible = false;
           _that.mediaStreamTrack.stop();
+          _that.dissbutton = true;
         },
         opencomfigMethod(msg,method_name,method_params){
-
-            this.$common.openComfigDialog(msg,method_name,method_params,this);
-
+          this.$common.openComfigDialog(msg,method_name,method_params,this);
         },
         //联动设置 城市 设置为外国时表单的值
         setCityList(value){
           //第一次遍历省份列表
-           var proNameList = this.$store.getters.gettersPlaceData.placeList;
-           this.form.sourceCity=null;
-           this.city = [];
-           for(var key in proNameList){
-             if(proNameList[key].id == value){
-               this.city = proNameList[key].cityList;
-               break;
-             }
-           }
+          for(let i =0 ; i< this.provinceList.length; i++){
+            if(value == this.provinceList[i].id){
+              this.cityList = this.provinceList[i].cityList;
+              break;
+            }
+          }
+          this.selectCityId="";
+        },
+        initCityList() {
+          //第一次遍历省份列表
+              this.cityList = this.provinceList[22].cityList;
         },
         //联动设置 省份
-        setProList(selectvalue){
-          console.log(selectvalue);
+        setProList(value){
           //依据值修改省份的下拉值
-            this.province = [];
-            this.city = [];
-            this.form.sourceProvince=null;
-            this.form.sourceCity=null;
-          if(selectvalue=="0"){
-            //代表国内
-            var proNameList = this.$store.getters.gettersPlaceData.placeList;
-            // proNameList = proNameList.slice(1,proNameList.length-1); //这个没有截取完字符串
-            proNameList = proNameList.slice(1,35); //
-            this.province = proNameList;
-          }else{
-            //国外
-            var proNameList = this.$store.getters.gettersPlaceData.placeList;
-            this.province = proNameList.slice(35);
-          }
+            for(let i =0 ; i< this.countryList.length; i++){
+              if(value == this.countryList[i].continentId){
+                this.provinceList = this.countryList[i].placeList;
+                break;
+              }
+            }
+          this.selectProvinceId="";
+          this.selectCityId="";
+        },
+        initProList() {
+          //依据值修改省份的下拉值
+              this.provinceList = this.countryList[0].placeList;
         },
         //重置外国的字段 不一致
         updateWgzdm(proList){
@@ -158,12 +188,15 @@ export default {
             if(placeData && JSON.stringify(placeData) == "{}"){
               var _that = this;
               this.$http.get('/index/getPlace').then(function (response) {
-                console.log("地址",response)
+                console.log("地址",response);
                 if(response.code=="1"){
-                  placeData = response.data;
+                  placeData = response.data.placeList;
 /*                  placeData.placeList[0].cityList = _that.updateWgzdm(placeData.placeList[0].cityList);*/
                   _that.$store.dispatch("changePlaceData", placeData);
                   _that.placeDate = _that.$store.getters.gettersPlaceData;
+                  _that.countryList = placeData;
+                  _that.initProList();
+                  _that.initCityList();
                 }else{
                   _that.$common.openErrorMsgBox(response.msg,_that);
                 }
@@ -373,6 +406,12 @@ export default {
         czSubmit() {
            var _that = this;
           //初诊数据提交，都必须填写 数据项校验
+          _that.form.sourceProvince = _that.selectProvinceId;
+          _that.form.sourceCity = _that.selectCityId;
+          _that.form.sourceContinent = _that.selectCountryId;
+          console.log("province  "+_that.form.sourceProvince)
+          console.log("city  "+_that.form.sourceCity)
+          console.log("continent  "+_that.form.sourceContinent)
           var swt_btn = this.allRequired(this.form);
           console.log(this.form)
           if(this.form.age < 0){
@@ -408,7 +447,7 @@ export default {
             param.picture =  _that.$common.base64Tofile(param.picture,"111.jpg");
             console.log("1111"+param.picture)
             formdata1.append('picture',param.picture,"111.png")
-            formdata1.append('country',param.country);
+            formdata1.append('sourceContinent',param.sourceContinent);
             formdata1.append('sourceProvince',param.sourceProvince);
             formdata1.append('sourceCity',param.sourceCity);
             formdata1.append('age',param.age);

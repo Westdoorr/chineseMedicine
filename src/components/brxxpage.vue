@@ -159,11 +159,11 @@
                      <el-row :gutter='20'>
                          <el-col :span="24">
                              <el-form-item label="出生地点">
-                                <el-select v-model="b_country" placeholder="请选择" style="width:32%;" @change="setProList(1)">
+                                <el-select v-model="b_country" placeholder="请选择" style="width:32%;" @change="showProList(1)">
                                     <el-option label="中国" :value = 0></el-option>
                                     <el-option label="外国" :value = 1></el-option>
                                 </el-select>
-                                <el-select v-model="basicInfo.incuProvince" placeholder="请选择" style="width:32%;" @change="setCityList(1)">
+                                <el-select v-model="basicInfo.incuProvince" placeholder="请选择" style="width:32%;" @change="showCityList(1)">
                                     <el-option
                                         v-for="item in province"
                                         :key="item.id"
@@ -185,11 +185,11 @@
                      <el-row :gutter='20'>
                          <el-col :span="24">
                              <el-form-item label="来源地">
-                                 <el-select v-model="s_country" placeholder="请选择" style="width:32%;" @change="setProList(2)">
+                                 <el-select v-model="s_country" placeholder="请选择" style="width:32%;" @change="showProList(2)">
                                     <el-option label="中国" :value = 0></el-option>
                                     <el-option label="外国" :value = 1></el-option>
                                 </el-select>
-                                <el-select v-model="basicInfo.sourceProvince" placeholder="请选择" style="width:32%;" @change="setCityList(2)">
+                                <el-select v-model="basicInfo.sourceProvince" placeholder="请选择" style="width:32%;" @change="showCityList(2)">
                                     <el-option
                                         v-for="item in sourceProvince"
                                         :key="item.id"

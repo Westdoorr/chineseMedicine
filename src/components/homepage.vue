@@ -24,54 +24,35 @@
           <el-form-item label="来源地">
              <el-row class="lyd">
                <el-col :span="8">
-                  <el-select v-model="form.country" style="margin-right:10px;width(100% - 10px);" @change="setProList">
-                    <el-option label="中国" value="0"></el-option>
-                    <el-option label="外国" value="1"></el-option>
+                  <el-select v-model="selectCountryId" style="margin-right:10px;width(100% - 10px);" @change="setProList">
+                    <el-option v-for="country in countryList"
+                    :key = "country.continentId"
+                    :label = "country.continentName"
+                    :value = "country.continentId">
+                    </el-option>
                   </el-select>
                </el-col>
                <el-col :span="8">
-                 <el-select v-model="form.sourceProvince" filterable popper-class="city" style="margin-right:10px;margin-left:10px;width(100% - 20px);" @change="setCityList">
+                 <el-select v-model="selectProvinceId"  style="margin-right:10px;margin-left:10px;width(100% - 20px);" @change="setCityList">
                      <el-option
-                        v-for="item in province"
-                        :key="item.id"
-                        :label="item.provName"
-                        :value="item.id">
+                        v-for="province in provinceList"
+                        :key="province.id"
+                        :label="province.provName"
+                        :value="province.id">
                       </el-option>
                   </el-select>
                </el-col>
                <el-col :span="8">
-                 <el-select filterable popper-class="city" v-model="form.sourceCity" style="margin-left:10px;width:185px;">
+                 <el-select filterable popper-class="city" v-model="selectCityId" style="margin-left:10px;width:185px;">
                     <el-option
-                        v-for="item in city"
-                        :key="item.cityId"
-                        :label="item.cityName"
-                        :value="item.cityId">
+                        v-for="city in cityList"
+                        :key="city.cityId"
+                        :label="city.cityName"
+                        :value="city.cityId">
                       </el-option>
                   </el-select>
                </el-col>
              </el-row>
-          </el-form-item>
-          <el-form-item label="头像">
-            <div>
-              <div>
-                <el-button @click="getMedia()" style="font-size: 15px;padding: 10px">开启摄像头</el-button>
-              </div>
-              <img :src=form.picture  @click="getMedia()">
-              <el-dialog  :visible.sync ="dialogphotoVisible" @close = "funclose()" style="width: 1300px;margin-left: 12%">
-                <div>
-                  <div style="margin-left: 20px">
-                    <video  ref="video" id="video" width="280px" height="400px" preload="auto"></video>
-                    <canvas id="canvas" width="280px" height="400px" style="margin-top: 1px"></canvas>
-                  </div>
-                  <div style="margin-left:35%;margin-top: 10px">
-                    <el-button id="snap" @click="takePhoto()" style="width: 80px;height: 40px;font-size: 25px;
-                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">拍照</el-button>
-                    <el-button @click="confirmphoto()" style="width: 80px;height: 40px;font-size: 25px;
-                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">确定</el-button>
-                  </div>
-                </div>
-              </el-dialog>
-            </div>
           </el-form-item>
           <div class="el-form-item">
             <div class="el-form-item__content" style="height:70px;text-align:center;line-height:70px;">
@@ -82,6 +63,26 @@
             </div>
           </div>
         </el-form>
+        <div style="position: absolute;margin-left: 900px;margin-top: -520px">
+          <div v-if="dissbutton == false">
+            <el-button @click="getMedia()" style="font-size: 100px;padding: 10px;width: 280px;height: 400px">+</el-button>
+          </div>
+          <img :src=form.picture  @click="getMedia1()">
+          <el-dialog  :visible.sync ="dialogphotoVisible" @close = "funclose()" style="width: 1300px;margin-left: 12%">
+            <div>
+              <div style="margin-left: 20px">
+                <video  ref="video" id="video" width="280px" height="400px" preload="auto"></video>
+                <canvas id="canvas" width="280px" height="400px" style="margin-top: 1px"></canvas>
+              </div>
+              <div style="margin-left:35%;margin-top: 10px">
+                <el-button id="snap" @click="takePhoto()" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">拍照</el-button>
+                <el-button @click="confirmphoto()" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">确定</el-button>
+              </div>
+            </div>
+          </el-dialog>
+        </div>
       </div>
     </div>
 </template>

@@ -2,6 +2,7 @@ export default {
   name:"bryfpage"
   ,data() {
     return {
+      standardList:[],
       seen:false,
       current:0,
       counter : [0,0,0,0,0,0,0,0],
@@ -1355,28 +1356,47 @@ export default {
 
         console.log("共计",param)
         var loading = this.$common.openLoading("正在新增/修改问诊信息，请稍候",_that);
-        this.SubmitDiagnoseLabels().then((data) => {
+        _that.SubmitDiagnoseLabels().then((data) => {
           if(typeof data.code == "undefined" || data.code!="1"){
             loading.close();
             _that.$common.openErrorMsgBox("基本信息的诊断标签保存失败！",_that);
             btn_switch = true;
-          }else{
-            _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
-                console.log(response)
-                loading.close();
-                if(response.code =="1"){
-                  _that.$common.openSuccessMsgBox("操作成功",_that);
-                  _that.dialogStatus = 'print';
-                  _that.getrecipePrice()
-                  /*                _that.dialogFormVisible = true;*/
-                }else{
-                  _that.$common.openErrorMsgBox(response.msg,_that);
-                }
-              }).catch(function (error) {
-                loading.close();
-                setTimeout(function(){
-                  _that.$amount.openErrorMsgBox(error,_that);
-                }, 1000);
+          }else {
+            _that.$http.get(
+              "/medicineManage/getMedicinesWithName",).then(function (response) {
+              console.log(response)
+              if(response.code == 1){
+               /* _that.standardList = response.data;
+                console.log("zheshishenme"+_that.standardList);
+                var reg = /[\u4e00-\u9fa5]/g;
+                var MainNameList = [];
+                for(let i = 0; i< param.mainReList.length; i++){
+                  var List1 = param.mainReList.mainMeList;
+
+                  MainNameList[i] = param.mainReList[i].mainMeList[j];
+                }*/
+                _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
+                  console.log(response)
+                  loading.close();
+                  if(response.code =="1"){
+                    _that.$common.openSuccessMsgBox("操作成功",_that);
+                    _that.dialogStatus = 'print';
+                    _that.getrecipePrice()
+                    /*                _that.dialogFormVisible = true;*/
+                  }else{
+                    _that.$common.openErrorMsgBox(response.msg,_that);
+                  }
+                }).catch(function (error) {
+                  loading.close();
+                  setTimeout(function(){
+                    _that.$amount.openErrorMsgBox(error,_that);
+                  }, 1000);
+                });
+              }else{
+                _that.$common.openErrorMsgBox(response.msg,_that);
+              }
+            }).catch(function (error) {
+              _that.$common.openErrorMsgBox(error,_that);
             });
           }
         }, (error) => {
@@ -1557,6 +1577,7 @@ export default {
      */
     printYfPage(){
       var _that = this;
+      _that.dialogFormVisible = false;
       var loading = _that.$common.openLoading("请稍后!",_that);
       // var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
       // var inquiryId = r_params.data.inquiryId;
@@ -1978,6 +1999,7 @@ export default {
       var brid= {pId:r_params.pId,inquiryId:r_params.inquiryId}
       console.log("新建问诊的ids",brid)
       this.$common.newInquiry_new(brid,this);
+      this.image = [];
       this.is_display_xjzd = true;
       this.is_display_xj = true;
       this.is_display_fh = true;

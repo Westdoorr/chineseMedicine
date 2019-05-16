@@ -30,14 +30,14 @@
         :row-class-name="rowClassname"
         stripe>
         <el-table-column
-         prop="yindex"
-        label="序号"
-        width="100">
+          prop="yindex"
+          label="序号"
+          width="100">
         </el-table-column>
         <el-table-column
         prop="medicine"
         label="药名"
-        width="160">
+        width="130">
         </el-table-column>
         <el-table-column
         prop="dose"
@@ -46,7 +46,7 @@
         </el-table-column>
           <el-table-column
             label="药方用量"
-            width="155">
+            width="191">
             <template slot-scope="scope">
               {{scope.row.notStock =="0" ? "" :"+"+scope.row.notStock}}
             </template>

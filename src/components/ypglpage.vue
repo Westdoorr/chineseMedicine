@@ -11,6 +11,11 @@
       </div>
     </div>
     <div class="table-continer">
+      <el-button @click = "sortmedicineName" v-if="medicineNamebutton == false">药名排序</el-button>
+      <el-button @click = "sortmedicineName1" v-if="medicineNamebutton == true">药名排序</el-button>
+      <el-button @click = "sortmedicinePrice" v-if="unitPricebutton == false">单价排序</el-button>
+      <el-button @click = "sortmedicinePrice1" v-if="unitPricebutton == true">单价排序</el-button>
+      <el-button @click = "sortmedicinecount" >用量排序</el-button>
       <el-table
         :data="medicinelist"
         :header-row-class-name="headerClassname"
@@ -26,8 +31,7 @@
         <el-table-column
           prop="medicineName"
           label="药名"
-          width="250"
-          >
+          width="250">
           <template scope="scope">
             <el-input class="new-ypmc" v-model="scope.row.medicineName"></el-input>
           </template>
@@ -76,6 +80,8 @@
   export default {
     data() {
       return {
+        unitPricebutton:true,
+        medicineNamebutton:true,
         dialogpriceVisible: false,
         search_obj:{
         },
@@ -97,10 +103,60 @@
     },
     created () {
       //获取页面的初始化数据
-      document.title = '药品管理'
+      document.title = '药品管理';
       this.getmedicine();
     },
     methods: {
+      objectArraySort(keyName){
+        return function (objectN,objectM) {
+          var valueN = objectN[keyName];
+          var valueM = objectM[keyName];
+          if(valueN < valueM)
+            return 1;
+          else
+            return -1;
+        }
+      },
+      objectArraySort1(keyName){
+        return function (objectN,objectM) {
+          var valueN = objectN[keyName];
+          var valueM = objectM[keyName];
+          if(valueN > valueM)
+            return 1;
+          else
+            return -1;
+        }
+      },
+      sortmedicineName(){
+        this.medicinelist.sort(this.objectArraySort('medicineName'));
+        this.medicineNamebutton = true;
+      },
+      sortmedicineName1(){
+        this.medicinelist.sort(this.objectArraySort1('medicineName'));
+        this.medicineNamebutton = false;
+      },
+      sortmedicinePrice(){
+        this.medicinelist.sort(this.objectArraySort('unitPrice'));
+        this.unitPricebutton = true;
+      },
+      sortmedicinePrice1(){
+        this.medicinelist.sort(this.objectArraySort1('unitPrice'));
+        this.unitPricebutton = false;
+      },
+      sortmedicinecount(){
+        var _that = this;
+        _that.$http.get(
+          "/medicineManage/getMedicineListOrderByUse",).then(function (response) {
+          console.log(response)
+          if(response.code == 1){
+            _that.medicinelist = response.data.medicines;
+          }else{
+            _that.$common.openErrorMsgBox(response.msg,_that);
+          }
+        }).catch(function (error) {
+          _that.$common.openErrorMsgBox(error,_that);
+        });
+      },
       getpricechange($index){
         var _that = this;
         _that.dialogpriceVisible = true;

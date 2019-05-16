@@ -130,21 +130,18 @@
             <!--<el-button  @click="gotoLastPage" :class="[{'isdisplaynone': is_display_fh },'btn-default']" >返回</el-button>-->
             <div><el-button :class="[{'isdisplaynone': false },'btn-default']" @click="getrecipePrice" style="margin-left: 85px">药方价格</el-button>
               <el-dialog class="pricing" title="药方价格" center :visible.sync="dialogFormVisible" style="width: 600px;margin-left: 700px" @close="dialogStatus = false;">
-                <el-row style="font-size: 35px;margin-bottom: 50px;width: 500px;margin-left: 190px">
-                  <el-col  :span="12">
-                    <span>实际价格</span>
-                  </el-col>
-                  <el-col  :span="4" style="text-align: left">
-                    {{priceData.originalPrice}}
-                  </el-col>
-                </el-row>
-                <el-row style="font-size: 35px;width: 500px;margin-left: 190px">
-                  <el-col  :span="12">
-                    <span>实收价格</span>
-                  </el-col>
-                  <el-col  :span="4" style="text-align: left">
-                    {{priceData.actualPrice}}
-                  </el-col>
+                <el-row style="font-size: 35px;margin-bottom: 50px;width: 500px;margin-left: 100px">
+                    <span>
+                      {{yfdata.amount}}
+                    </span>
+                  <span>付药，</span>
+                  <span>共计</span>
+                  <span>
+                      {{priceData.originalPrice}}
+                  </span>
+                  <span>
+                      元
+                  </span>
                 </el-row>
                 <span slot="footer" class="dialog-footer">
               <el-button type="primary" @click="printYfPage()" v-if="dialogStatus == 'print'">打 印</el-button>
