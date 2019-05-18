@@ -34,7 +34,7 @@ export default {
         province:[],
         city:[],
         //出生地
-        s_country:null,
+        sourceContinent:[],
         sourceProvince:[],
         sourceCity:[],
         rules: {
@@ -110,7 +110,9 @@ export default {
             "prematureLabour": null,
             "abortion": null,
             "insertDate": 1534608000000,
+            "sourceContinent": null,
             "sourceProvince": null,
+            "incuContinent": null,
             "sourceCity": null,
             "incuProvince": null,
             "incuCity": null,
@@ -137,6 +139,7 @@ export default {
     },
     created () {
 /*       this.getPlace(this,this.getBrxxinfo);*/
+       this.getPlace();
        this.getBrxxinfo();
        this.getinformation();
     },
@@ -291,15 +294,24 @@ export default {
      */
     showCityList(type){
         if(type == 1){
-            this.city = this.$common.setCityList(this.basicInfo.incuProvince,this);
+            this.city = this.setCityList(this.basicInfo.incuProvince);
             this.basicInfo.incuCity = null;
             console.log( this.city)
 
         }else{
-            this.sourceCity = this.$common.setCityList(this.basicInfo.sourceProvince,this);
+            this.sourceCity = this.setCityList(this.basicInfo.sourceProvince);
             this.basicInfo.sourceCity = null;
         }
     },
+      setCityList(value){
+        //第一次遍历省份列表
+        for(let i =0 ; i< this.provinceList.length; i++){
+          if(value == this.provinceList[i].id){
+            this.cityList = this.provinceList[i].cityList;
+            break;
+          }
+        }
+      },
      /**
       * 依据选择的国家渲染 省份
       *
@@ -307,11 +319,11 @@ export default {
       */
      showProList(type){
         if(type  == 1){
-            this.province = this.setProList(this.b_country,this);
+            this.province = this.setProList(this.basicInfo.incuContinent);
             this.basicInfo.incuProvince = null;
             this.basicInfo.incuCity = null;
         }else{
-            this.sourceProvince = this.$common.setProList(this.s_country,this);
+            this.sourceProvince = this.setProList(this.basicInfo.sourceContinent);
             this.basicInfo.sourceProvince = null;
             this.basicInfo.sourceCity = null;
         }
@@ -324,8 +336,6 @@ export default {
             break;
           }
         }
-        this.selectProvinceId="";
-        this.selectCityId="";
       },
       getPlace(){
         var placeData = this.$store.getters.gettersPlaceData;
@@ -338,6 +348,8 @@ export default {
               _that.$store.dispatch("changePlaceData", placeData);
               _that.placeDate = _that.$store.getters.gettersPlaceData;
               _that.countryList = placeData;
+              _that.setProList(_that.basicInfo.sourceContinent);
+              _that.setCityList(_that.basicInfo.sourceProvince);
             }else{
               _that.$common.openErrorMsgBox(response.msg,_that);
             }
@@ -351,7 +363,7 @@ export default {
        * 处理病人的出生地和来源地数据的绑定
        *
        */
-      detailBrbrth(obj){
+/*      detailBrbrth(obj){
         if(obj.sourceProvince){
             var ischina = this.$common.isChinaProvince(obj.sourceProvince,this);
             if(ischina == 1){
@@ -371,7 +383,7 @@ export default {
             this.province = this.$common.setProList(this.b_country,this);
             this.city = this.$common.setCityList(obj.incuProvince,this);
         }
-      },
+      },*/
       /**
        * 设置空数组
       /**
@@ -445,6 +457,7 @@ export default {
                  if(response.code == "1"){
 /*                     _that.detailBrbrth(response.data.patientInfo);*/
                      _that.basicInfo = _that.setNullArray(response.data.patientInfo);
+                     console.log("0"+_that.basicInfo.sourceContinent)
                      console.log("1"+_that.basicInfo.sourceProvince)
                      console.log("2"+_that.basicInfo.sourceCity)
                     // _that.basicInfo = response.data.patientInfo;

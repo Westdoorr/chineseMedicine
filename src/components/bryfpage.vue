@@ -127,6 +127,16 @@
           <div class="yf-foot-container">
             <div><el-button  @click="gotoLastPage" :class="[{'isdisplaynone': is_display_fh },'btn-default']">返回</el-button></div>
             <div><el-button :class="[{'isdisplaynone': false },'btn-default btn-blue']" @click="submitYfData">确认</el-button></div>
+            <el-dialog  :visible.sync ="dialogerrorVisible"  style="width: 650px;margin-left: 35%;margin-top: 200px">
+              <div style="margin-top: -50px;font-size: 30px">{{"药品名有误"}}</div>
+              <div style="margin-top: 10px;font-size: 20px;margin-left: 50px;width: 550px">
+                <span v-for="i in errorName">{{i+"，"}}</span>
+              </div>
+              <div style="margin-left: 24%;margin-top: 20px">
+                <el-button @click="errorName = []; dialogerrorVisible = false" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px;">确定</el-button>
+              </div>
+            </el-dialog>
             <!--<el-button  @click="gotoLastPage" :class="[{'isdisplaynone': is_display_fh },'btn-default']" >返回</el-button>-->
             <div><el-button :class="[{'isdisplaynone': false },'btn-default']" @click="getrecipePrice" style="margin-left: 85px">药方价格</el-button>
               <el-dialog class="pricing" title="药方价格" center :visible.sync="dialogFormVisible" style="width: 600px;margin-left: 700px" @close="dialogStatus = false;">

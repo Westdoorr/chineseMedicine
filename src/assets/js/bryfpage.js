@@ -2,6 +2,7 @@ export default {
   name:"bryfpage"
   ,data() {
     return {
+      errorName:[],
       standardList:[],
       seen:false,
       current:0,
@@ -10,6 +11,7 @@ export default {
       image:[],
       mediaStreamTrack:null,
       dialogphotoVisible:false,
+      dialogerrorVisible:false,
       picture:[],
       ppname:'',
       count:0, //第几次
@@ -1364,34 +1366,87 @@ export default {
           }else {
             _that.$http.get(
               "/medicineManage/getMedicinesWithName",).then(function (response) {
-              console.log(response)
+              console.log(response);
               if(response.code == 1){
-               /* _that.standardList = response.data;
-                console.log("zheshishenme"+_that.standardList);
+                _that.standardList = response.data;
                 var reg = /[\u4e00-\u9fa5]/g;
                 var MainNameList = [];
+                var ViceNameList = [];
+                var totalMain = [];
+                var totalVice = [];
+                var List1 = [];
+                var List2 = [];
                 for(let i = 0; i< param.mainReList.length; i++){
-                  var List1 = param.mainReList.mainMeList;
-
-                  MainNameList[i] = param.mainReList[i].mainMeList[j];
-                }*/
-                _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
-                  console.log(response)
-                  loading.close();
-                  if(response.code =="1"){
-                    _that.$common.openSuccessMsgBox("操作成功",_that);
-                    _that.dialogStatus = 'print';
-                    _that.getrecipePrice()
-                    /*                _that.dialogFormVisible = true;*/
-                  }else{
-                    _that.$common.openErrorMsgBox(response.msg,_that);
+                  List1 = param.mainReList[i];
+                  for(let j = 0;j<List1.mainMeList.length;j++){
+                    MainNameList[j] = List1.mainMeList[j].match(reg).join("");
+                    totalMain.push(MainNameList[j]);
                   }
-                }).catch(function (error) {
+                  for(let m = 0; m< List1.viceReList.length;m++){
+                    List2 = List1.viceReList[m];
+                    for(let n = 0;n< List2.viceMeList.length; n++){
+                      ViceNameList[n] = List2.viceMeList[n].match(reg).join("");
+                      totalVice.push((ViceNameList[n]))
+                    }
+                  }
+                }
+                for(let i = 0;i<totalMain.length;i++){
+                  if(totalMain[i].substring(0,2) == "自加"){
+                    totalMain[i] = totalMain[i].slice(2);
+                  }
+                    for (let j = 0; j<totalVice.length;j++){
+                      if(totalVice[j].substring(0,2) == "自加"){
+                        totalVice[j] = totalVice[j].slice(2);
+                      }
+                    }
+                }
+                var count = 0;
+                for(let i =0;i<totalMain.length;i++){
+                  for(let j = 0 ;j<_that.standardList.length;j++){
+                    if(totalMain[i] == _that.standardList[j]){
+                      count++;
+                    }
+                  }
+                  if(count === 0){
+                    _that.errorName.push(totalMain[i])
+                  }else {
+                    count = 0;
+                  }
+                }
+                for(let i =0;i<totalVice.length;i++){
+                  for(let j = 0 ;j<_that.standardList.length;j++){
+                    if(totalVice[i] == _that.standardList[j]){
+                      count++;
+                    }
+                  }
+                  if(count === 0){
+                    _that.errorName.push(totalVice[i])
+                  }else {
+                    count = 0;
+                  }
+                }
+                if(_that.errorName.length ==0){
+                  _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
+                    console.log(response)
+                    loading.close();
+                    if(response.code =="1"){
+                      _that.$common.openSuccessMsgBox("操作成功",_that);
+                      _that.dialogStatus = 'print';
+                      _that.getrecipePrice()
+                      /*                _that.dialogFormVisible = true;*/
+                    }else{
+                      _that.$common.openErrorMsgBox(response.msg,_that);
+                    }
+                  }).catch(function (error) {
+                    loading.close();
+                    setTimeout(function(){
+                      _that.$amount.openErrorMsgBox(error,_that);
+                    }, 1000);
+                  });
+                }else {
+                  _that.dialogerrorVisible = true;
                   loading.close();
-                  setTimeout(function(){
-                    _that.$amount.openErrorMsgBox(error,_that);
-                  }, 1000);
-                });
+                }
               }else{
                 _that.$common.openErrorMsgBox(response.msg,_that);
               }

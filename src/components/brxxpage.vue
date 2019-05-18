@@ -159,25 +159,28 @@
                      <el-row :gutter='20'>
                          <el-col :span="24">
                              <el-form-item label="出生地点">
-                                <el-select v-model="b_country" placeholder="请选择" style="width:32%;" @change="showProList(1)">
-                                    <el-option label="中国" :value = 0></el-option>
-                                    <el-option label="外国" :value = 1></el-option>
+                                <el-select v-model="basicInfo.incuContinent" placeholder="请选择" style="width:32%;" @change="showProList(1)">
+                                  <el-option v-for="country in countryList"
+                                             :key = "country.continentId"
+                                             :label = "country.continentName"
+                                             :value = "country.continentId">
+                                  </el-option>
                                 </el-select>
                                 <el-select v-model="basicInfo.incuProvince" placeholder="请选择" style="width:32%;" @change="showCityList(1)">
-                                    <el-option
-                                        v-for="item in province"
-                                        :key="item.id"
-                                        :label="item.provName"
-                                        :value="item.id">
-                                    </el-option>
+                                  <el-option
+                                    v-for="province in provinceList"
+                                    :key="province.id"
+                                    :label="province.provName"
+                                    :value="province.id">
+                                  </el-option>
                                 </el-select>
                                 <el-select v-model="basicInfo.incuCity" placeholder="请选择" style="width:32%;">
-                                    <el-option
-                                        v-for="item in city"
-                                        :key="item.cityId"
-                                        :label="item.cityName"
-                                        :value="item.cityId">
-                                    </el-option>
+                                  <el-option
+                                    v-for="city in cityList"
+                                    :key="city.cityId"
+                                    :label="city.cityName"
+                                    :value="city.cityId">
+                                  </el-option>
                                 </el-select>
                              </el-form-item>
                          </el-col>
@@ -185,25 +188,28 @@
                      <el-row :gutter='20'>
                          <el-col :span="24">
                              <el-form-item label="来源地">
-                                 <el-select v-model="s_country" placeholder="请选择" style="width:32%;" @change="showProList(2)">
-                                    <el-option label="中国" :value = 0></el-option>
-                                    <el-option label="外国" :value = 1></el-option>
+                                 <el-select v-model="basicInfo.sourceContinent" placeholder="请选择" style="width:32%;" @change="showProList(2)">
+                                   <el-option v-for="country in countryList"
+                                              :key = "country.continentId"
+                                              :label = "country.continentName"
+                                              :value = "country.continentId">
+                                   </el-option>
                                 </el-select>
                                 <el-select v-model="basicInfo.sourceProvince" placeholder="请选择" style="width:32%;" @change="showCityList(2)">
-                                    <el-option
-                                        v-for="item in sourceProvince"
-                                        :key="item.id"
-                                        :label="item.provName"
-                                        :value="item.id">
-                                    </el-option>
+                                  <el-option
+                                    v-for="province in provinceList"
+                                    :key="province.id"
+                                    :label="province.provName"
+                                    :value="province.id">
+                                  </el-option>
                                 </el-select>
                                 <el-select v-model="basicInfo.sourceCity" placeholder="请选择" style="width:32%;">
-                                    <el-option
-                                        v-for="item in sourceCity"
-                                        :key="item.cityId"
-                                        :label="item.cityName"
-                                        :value="item.cityId">
-                                    </el-option>
+                                  <el-option
+                                    v-for="city in cityList"
+                                    :key="city.cityId"
+                                    :label="city.cityName"
+                                    :value="city.cityId">
+                                  </el-option>
                                 </el-select>
                              </el-form-item>
                          </el-col>

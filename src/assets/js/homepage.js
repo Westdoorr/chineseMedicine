@@ -37,8 +37,8 @@ export default {
       },
       created () {
         document.title = '首页';
-/*         this.getPlace();
-         this.setProList(0);
+        this.getPlace();
+/*         this.setProList(0);
          this.setCityList(24);*/
         // this.form.country = "0";
         // this.form.sourceProvince = 24;
@@ -47,7 +47,7 @@ export default {
 
       beforeMount () {
          //获取地址请求
-        this.getPlace();
+/*        this.getPlace();*/
 /*        this.setProList(0);
         this.setCityList(24);*/
       },
@@ -169,18 +169,6 @@ export default {
         initProList() {
           //依据值修改省份的下拉值
               this.provinceList = this.countryList[0].placeList;
-        },
-        //重置外国的字段 不一致
-        updateWgzdm(proList){
-          var newList = new Array();
-          for(var key in proList){
-            var tmpObj = new Object();
-            tmpObj.id = proList[key].cityId;
-            tmpObj.provName = proList[key].cityName;
-            tmpObj.cityList = [];
-            newList.push(tmpObj);
-          }
-          return newList;
         },
         //获取相应的国家省份地址
         getPlace(){
