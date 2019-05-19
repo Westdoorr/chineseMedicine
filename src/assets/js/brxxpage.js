@@ -25,12 +25,15 @@ export default {
         countryList:[],
         provinceList:[],
         cityList:[],
+        incuCountryList:[],
+        incuProvinceList:[],
+        incuCityList:[],
         mediaStreamTrack :null,
         canvas:"",
         dialogphotoVisible:false,
         ppname:'',
         b_country:null,
-        placeDate:{},
+        // placeData:{},
         province:[],
         city:[],
         //出生地
@@ -138,10 +141,8 @@ export default {
     　　}
     },
     created () {
-/*       this.getPlace(this,this.getBrxxinfo);*/
-       this.getPlace();
        this.getBrxxinfo();
-       this.getinformation();
+       //this.getPlace();
     },
     methods: {
       //修改照片
@@ -200,28 +201,7 @@ export default {
           }, 1000);
         });
       },
-      getinformation:function(){
-        this.params = this.$route.query
-        console.log("地址后台挂的值",this.params )
-        var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
-        console.log("地址后台缓存",r_params)
-        var that = this
-        this.$http.get(
-          '/patientManage/getPatientInfo',{
-            params:{
-              pId:this.params.pId
-            }
-          })
-          .then(response =>{
-            this.ppname=response.data.patientInfo.pname;
-            document.title=this.ppname+"的基本信息";
-            console.log("名字是嘿嘿嘿" + this.ppname)
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-      },
-         /**
+      /**
      * 跳转病历管理页面
      *
      */
@@ -294,9 +274,8 @@ export default {
      */
     showCityList(type){
         if(type == 1){
-            this.city = this.setCityList(this.basicInfo.incuProvince);
+            this.city = this.setIncuCityList(this.basicInfo.incuProvince);
             this.basicInfo.incuCity = null;
-            console.log( this.city)
 
         }else{
             this.sourceCity = this.setCityList(this.basicInfo.sourceProvince);
@@ -312,6 +291,15 @@ export default {
           }
         }
       },
+      setIncuCityList(value){
+        //第一次遍历省份列表
+        for(let i =0 ; i< this.incuProvinceList.length; i++){
+          if(value == this.incuProvinceList[i].id){
+            this.incuCityList = this.incuProvinceList[i].cityList;
+            break;
+          }
+        }
+      },
      /**
       * 依据选择的国家渲染 省份
       *
@@ -319,7 +307,7 @@ export default {
       */
      showProList(type){
         if(type  == 1){
-            this.province = this.setProList(this.basicInfo.incuContinent);
+            this.province = this.setIncuProList(this.basicInfo.incuContinent);
             this.basicInfo.incuProvince = null;
             this.basicInfo.incuCity = null;
         }else{
@@ -328,6 +316,15 @@ export default {
             this.basicInfo.sourceCity = null;
         }
      },
+      setIncuProList(value){
+        //依据值修改省份的下拉值
+        for(let i =0 ; i< this.incuCountryList.length; i++){
+          if(value == this.incuCountryList[i].continentId){
+            this.incuProvinceList = this.incuCountryList[i].placeList;
+            break;
+          }
+        }
+      },
       setProList(value){
         //依据值修改省份的下拉值
         for(let i =0 ; i< this.countryList.length; i++){
@@ -340,13 +337,17 @@ export default {
       getPlace(){
         var placeData = this.$store.getters.gettersPlaceData;
         if(placeData && JSON.stringify(placeData) == "{}"){
+          console.log("从后台获取地址数据")
           var _that = this;
           this.$http.get('/index/getPlace').then(function (response) {
             console.log("地址",response);
             if(response.code=="1"){
               placeData = response.data.placeList;
               _that.$store.dispatch("changePlaceData", placeData);
-              _that.placeDate = _that.$store.getters.gettersPlaceData;
+              _that.incuCountryList = placeData;
+              _that.setIncuProList(_that.basicInfo.incuContinent);
+              _that.setIncuCityList(_that.basicInfo.incuProvince);
+
               _that.countryList = placeData;
               _that.setProList(_that.basicInfo.sourceContinent);
               _that.setCityList(_that.basicInfo.sourceProvince);
@@ -357,6 +358,15 @@ export default {
             .catch(function (error) {
               _that.$common.openErrorMsgBox(error,_that);
             });
+        }else {
+          console.log("从缓存中获取地址数据");
+          this.incuCountryList = placeData;
+          this.setIncuProList(this.basicInfo.incuContinent);
+          this.setIncuCityList(this.basicInfo.incuProvince);
+
+          this.countryList = placeData;
+          this.setProList(this.basicInfo.sourceContinent);
+          this.setCityList(this.basicInfo.sourceProvince);
         }
       },
       /**
@@ -455,12 +465,10 @@ export default {
             }).then(function (response) {
                  //得到个人信息的数据，对个人信息进行处理后绑定
                  if(response.code == "1"){
-/*                     _that.detailBrbrth(response.data.patientInfo);*/
                      _that.basicInfo = _that.setNullArray(response.data.patientInfo);
-                     console.log("0"+_that.basicInfo.sourceContinent)
-                     console.log("1"+_that.basicInfo.sourceProvince)
-                     console.log("2"+_that.basicInfo.sourceCity)
-                    // _that.basicInfo = response.data.patientInfo;
+                     _that.ppname=response.data.patientInfo.pname;
+                     document.title=_that.ppname+"的基本信息";
+                     _that.getPlace();
                  }else{
                      _that.$common.openErrorMsgBox(response.msg,_that);
                  }

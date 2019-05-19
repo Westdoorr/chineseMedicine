@@ -775,6 +775,42 @@ export default {
   },
 
   methods: {
+    /**
+     * 将对应主方新加一行
+     * @param mindex
+     * @param findex
+     */
+    addMainNewRow(mindex,findex){
+      for (let i = 0; i < 4; i++) {
+        var emptyMedicine = {
+          "detailId": null,
+          "recipeId": null,
+          "medicine": "",
+          "dose": null,
+          "remark": null
+        };
+        this.yfdata.mainReList[mindex].recipeDetailList.push(emptyMedicine);
+      }
+    },
+    /**
+     * 将对应副方新加一行
+     * @param mindex
+     * @param vindex
+     * @param findex
+     */
+    addViceNewRow(mindex,vindex,findex){
+      for (let i = 0; i < 4; i++) {
+        var emptyMedicine = {
+          "detailId": null,
+          "recipeId": null,
+          "medicine": "",
+          "dose": null,
+          "remark": null
+        };
+        this.yfdata.mainReList[mindex].viceReList[vindex].viceRecipeDetailList.push(emptyMedicine);
+      }
+
+    },
     selectimage(index){
       let _that = this;
       let xixi = document.getElementsByClassName("xixi");
@@ -890,7 +926,13 @@ export default {
       let promise = navigator.mediaDevices.getUserMedia(constraints);
       promise.then(function (MediaStream) {
         _that.mediaStreamTrack = MediaStream.getTracks()[0];
-        _that.$refs.video.src = URL.createObjectURL(MediaStream);
+        try{
+          _that.$refs.video.src = URL.createObjectURL(MediaStream);
+        }catch (e) {
+          console.log(e);
+          _that.$refs.video.srcObject = MediaStream;
+        }
+        //_that.$refs.video.src = URL.createObjectURL(MediaStream);
         /*          video.src = URL.createObjectURL(MediaStream);*/
         _that.$refs.video.play();
       });
@@ -1355,7 +1397,6 @@ export default {
       var param = _that.setSubmitYfData(_that.yfdata);
       console.log(param)
       if(param !=false){
-
         console.log("共计",param)
         var loading = this.$common.openLoading("正在新增/修改问诊信息，请稍候",_that);
         _that.SubmitDiagnoseLabels().then((data) => {
@@ -1440,7 +1481,7 @@ export default {
                   }).catch(function (error) {
                     loading.close();
                     setTimeout(function(){
-                      _that.$amount.openErrorMsgBox(error,_that);
+                      _that.$common.openErrorMsgBox(error,_that);
                     }, 1000);
                   });
                 }else {

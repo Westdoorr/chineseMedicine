@@ -23,7 +23,7 @@ export default {
       return {
           //来源地
         b_country:null,
-        placeDate:{},
+        placeData:{},
         province:[],
         city:[],
         //出生地

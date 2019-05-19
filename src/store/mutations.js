@@ -9,7 +9,7 @@ export const roleuser = (state, payload) => {
 };
 
 export const mutationsPlace = (state, payload) => {
-   state.placeDate = payload;
+   state.placeData = payload;
 };
 export const setPathParams = (state, payload) =>{
     state.pathParams = payload;

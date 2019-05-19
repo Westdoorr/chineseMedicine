@@ -74,13 +74,10 @@
                 <el-button class="btn-default icon icon_xz" @click="addZyfff(mrindex)" type="primary" style="padding: 0px; border: none">
                   <img src="../assets/img/ic_xinzeng.png">
                 </el-button>
-                <!--<el-checkbox name="isStock" v-model="item.isStock" class="rk-checkbox">入库</el-checkbox>-->
-                <!--<el-button class="btn-default" type="primary" @click="addZyfff(mrindex)">加副方</el-button>-->
-                <!--<el-button icon="el-icon-delete" @click="openMegBox('是否删除主方','deleteZf',mrindex,'')" class="zf-btn-delete"></el-button>-->
               </div>
               <div class="mainMeList-container" >
                 <div class="yp-item" v-for="(h, i) in item.recipeDetailList" :key="i">
-                  <input v-model="h.medicine" @blur="updateMainYw(mrindex,i)" @keyup.enter="addMainEmpty(mrindex,i)"/>
+                  <input v-model="h.medicine" @blur="updateMainYw(mrindex,i)" @keyup.enter.exact="addMainEmpty(mrindex,i)" @keyup.ctrl.enter="addMainNewRow(mrindex,i)"/>
                 </div>
               </div>
               <div class="viceReList-container" v-for="(vice, vindex) in item.viceReList" :key="vindex">
@@ -106,7 +103,7 @@
                 </div>
                 <div class="mainMeList-container" >
                   <div class="yp-item" v-for="(vim, m) in vice.viceRecipeDetailList" :key="m">
-                    <input v-model="vim.medicine" @blur="updateViceYw(mrindex,vindex,m)" @keyup.enter="addViceEmpty(mrindex,vindex,m)"/></div>
+                    <input v-model="vim.medicine" @blur="updateViceYw(mrindex,vindex,m)" @keyup.enter.exact="addViceEmpty(mrindex,vindex,m)" @keyup.ctrl.enter="addViceNewRow(mrindex,vindex,m)"/></div>
                 </div>
               </div>
             </div>
@@ -147,7 +144,7 @@
                   <span>付药，</span>
                   <span>共计</span>
                   <span>
-                      {{priceData.originalPrice}}
+                      {{priceData.actualPrice}}
                   </span>
                   <span>
                       元

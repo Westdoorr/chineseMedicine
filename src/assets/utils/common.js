@@ -156,7 +156,7 @@ export default{
               placeData = response.data;
 /!*              placeData.placeList[0].cityList = _that.$common.updateWgzdm(placeData.placeList[0].cityList);*!/
               _that.$store.dispatch("changePlaceData", placeData);
-              _that.placeDate = _that.$store.getters.gettersPlaceData;
+              _that.placeData = _that.$store.getters.gettersPlaceData;
               _that.countryList = placeData;
               if(typeof callback  == 'function'){
                 callback();
@@ -166,7 +166,7 @@ export default{
               console.log(error);
             });
           }else{
-            _that.placeDate = placeData;
+            _that.placeData = placeData;
             if(typeof callback  == 'function'){
               callback();
             }
@@ -278,13 +278,17 @@ export default{
                 age='0';
             }else{
                 if(todayMonth*1-birthdayMonth*1<0){
-                    age = (todayYear*1-birthdayYear*1);
+                    age = (todayYear*1-birthdayYear*1-1);
                 }else{
-                    if(todayDay-birthdayDay>=0){//alert(thisDay+'-'+brithd+"_ddd");
-                        age = (todayYear*1-birthdayYear*1);
-                    }else{
-                        age = (todayYear*1-birthdayYear*1);
+                  if (todayMonth*1-birthdayMonth*1 == 0) {
+                    if (todayDay*1-birthdayDay*1<0) {
+                      age = (todayYear*1-birthdayYear*1-1);
+                    }else {
+                      age = (todayYear*1-birthdayYear*1);
                     }
+                  }else {
+                    age = (todayYear*1-birthdayYear*1);
+                  }
                 }
             }
             return age*1;

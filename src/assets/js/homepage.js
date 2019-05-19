@@ -23,7 +23,7 @@ export default {
             birthday: null,
             gender: '男',
           },
-          placeDate:{},
+          // placeData:{},
           country:[],
           province:[],
           city:[],
@@ -38,18 +38,6 @@ export default {
       created () {
         document.title = '首页';
         this.getPlace();
-/*         this.setProList(0);
-         this.setCityList(24);*/
-        // this.form.country = "0";
-        // this.form.sourceProvince = 24;
-        // this.form.sourceCity =1348;
-      },
-
-      beforeMount () {
-         //获取地址请求
-/*        this.getPlace();*/
-/*        this.setProList(0);
-        this.setCityList(24);*/
       },
 
       computed: {
@@ -63,14 +51,6 @@ export default {
       　　　　var age  = this.$common.GetAgeByBrithday(newValue);
               this.form.age = age;
       　　},
-/*         placeDate(newValue,oldValue){
-            //默认 患者来源地 0 24 1348
-            this.setProList("0");
-            this.setCityList("24");
-            this.form.country = "0";
-            this.form.sourceProvince = 24;
-            this.form.sourceCity =1348;
-         }*/
       },
 
       methods: {
@@ -90,7 +70,12 @@ export default {
         let promise = navigator.mediaDevices.getUserMedia(constraints);
         promise.then(function (MediaStream) {
           _that.mediaStreamTrack = MediaStream.getTracks()[0];
-          _that.$refs.video.src = URL.createObjectURL(MediaStream);
+          try{
+            _that.$refs.video.src = URL.createObjectURL(MediaStream);
+          }catch (e) {
+            console.log(e);
+            _that.$refs.video.srcObject = MediaStream;
+          }
 /*          video.src = URL.createObjectURL(MediaStream);*/
           _that.$refs.video.play();
         });
@@ -111,8 +96,12 @@ export default {
           let promise = navigator.mediaDevices.getUserMedia(constraints);
           promise.then(function (MediaStream) {
             _that.mediaStreamTrack = MediaStream.getTracks()[0];
-            _that.$refs.video.src = URL.createObjectURL(MediaStream);
-            /*          video.src = URL.createObjectURL(MediaStream);*/
+            try{
+              _that.$refs.video.src = URL.createObjectURL(MediaStream);
+            }catch (e) {
+              console.log(e);
+              _that.$refs.video.srcObject = MediaStream;
+            }
             _that.$refs.video.play();
           });
           _that.dialogphotoVisible = true;
@@ -179,9 +168,8 @@ export default {
                 console.log("地址",response);
                 if(response.code=="1"){
                   placeData = response.data.placeList;
-/*                  placeData.placeList[0].cityList = _that.updateWgzdm(placeData.placeList[0].cityList);*/
                   _that.$store.dispatch("changePlaceData", placeData);
-                  _that.placeDate = _that.$store.getters.gettersPlaceData;
+                  //_that.placeData = _that.$store.getters.gettersPlaceData;
                   _that.countryList = placeData;
                   _that.initProList();
                   _that.initCityList();
@@ -192,6 +180,10 @@ export default {
               .catch(function (error) {
                  _that.$common.openErrorMsgBox(error,_that);
               });
+            }else {
+              this.countryList = placeData;
+              this.initProList();
+              this.initCityList();
             }
         },
         putinname(){

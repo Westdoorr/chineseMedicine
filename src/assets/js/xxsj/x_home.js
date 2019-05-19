@@ -11,7 +11,7 @@ export default {
               iqDate: null,
               gender: '男',
             },
-            placeDate:{},
+            placeData:{},
             country:[],
             province:[],
             city:[],
@@ -89,7 +89,7 @@ export default {
                   placeData = response.data;
                   placeData.placeList[0].cityList = _that.updateWgzdm(placeData.placeList[0].cityList);
                   _that.$store.dispatch("changePlaceData", placeData);
-                  _that.placeDate = _that.$store.getters.gettersPlaceData;
+                  _that.placeData = _that.$store.getters.gettersPlaceData;
                 }else{
                    _that.$common.openLoading(response.msg,_that);
                 }
