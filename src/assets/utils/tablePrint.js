@@ -57,7 +57,7 @@ tablePrint.prototype = {
        for (let i=0;i<number1;i++){
          var headStr = '<div class="header_container">'+this.options.data.rangDate+'</div>';
          var content_head = '<div class="table_container" style="margin-bottom: 2px">';
-         var table_head = ' <table cellspacing="0" cellpadding="0" border="0" width="100%"> <colgroup> <col width="50" /> <col width="70" /> <col width="70" /> <col width="70" /> <col width="50" /> <col width="70" /> <col width="70" /> <col width="70" /> <col width="50" /> <col width="70" /> <col width="70" /> <col width="70" /> </colgroup> <tbody> <tr> <th>序号</th> <th>药名</th> <th>药房用量(g)</th><th>药方用量(g)</th> <th>序号</th> <th>药名</th> <th>药房用量(g)</th> <th>药方用量(g)</th> <th>序号</th> <th>药名</th> <th>药房用量(g)</th> <th>药方用量(g)</th> </tr>'
+         var table_head = ' <table cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-bottom: 40px"> <colgroup> <col width="30" /> <col width="50" /> <col width="90" /> <col width="100" /> <col width="30" /> <col width="50" /> <col width="90" /> <col width="100" /> <col width="30" /> <col width="50" /> <col width="90" /> <col width="100" /> </colgroup> <tbody> <tr> <th>序号</th> <th>药名</th> <th>药房用量(g)</th><th>药方用量(g)</th> <th>序号</th> <th>药名</th> <th>药房用量(g)</th> <th>药方用量(g)</th> <th>序号</th> <th>药名</th> <th>药房用量(g)</th> <th>药方用量(g)</th> </tr>'
          var str = '';
          for(let j = 0 ;j< 40 ;j++){
            var medicine = '';
