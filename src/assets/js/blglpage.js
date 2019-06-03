@@ -212,9 +212,6 @@ export default {
         if(i_params.data.gender){
           this.search_obj.gender = i_params.data.gender;
         }
-
-
-
         this.getblList();
       },
       opencomfigMethod(msg,method_name,method_params){

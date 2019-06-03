@@ -12,6 +12,21 @@
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    .search-input-item{
+      input.el-input__inner{
+        height: 70px;
+        border-radius: 8px;
+        border: solid 1px #c0ccda;
+        background-color: #ffffff;
+        //font-family: PingFangSC-Medium;
+        font-size: 34px;
+        line-height: 34px;
+        font-weight: normal;
+        font-stretch: normal;
+        letter-spacing: 0px;
+        color: #1f2d3d;
+      }
+    }
     .search-row-input-item{
       width: 352px;
       input.el-input__inner{

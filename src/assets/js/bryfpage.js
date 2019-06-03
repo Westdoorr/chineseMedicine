@@ -734,13 +734,14 @@ export default {
 
   //离开之前
   beforeRouteLeave(to, from, next){
-    this.$confirm('是否离开当前页面', '提示', {
+    this.$confirm('是否离开当前页面并保存', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
       customClass:"qcMessage"
     }).then(() => {
       console.log("取消绑定")
+      this.quitsubmitYfData();
       // window.removeEventListener("beforeunload", this.beforeunload(e));
       next();
 
@@ -811,6 +812,10 @@ export default {
       }
 
     },
+    /**
+     * 多选图片对照片进行标记
+     * @param index
+     */
     selectimage(index){
       let _that = this;
       let xixi = document.getElementsByClassName("xixi");
@@ -830,6 +835,9 @@ export default {
         _that.indexs.push(index)
       }
     },
+    /**
+     * 批量删除照片
+     */
     removesomepicture() {
       let picture = [];
       let id=[];
@@ -867,6 +875,9 @@ export default {
         })
       })
     },
+    /**
+     * 删除一张照片
+     */
     removepicture(index) {
       let picture = [];
       let id=[];
@@ -893,6 +904,9 @@ export default {
         })
       })
     },
+    /**
+     * 从后台获取对应药方的照片
+     */
     getInquiryImages(){
       var _that = this;
       _that.params = _that.$route.query
@@ -911,6 +925,9 @@ export default {
         _that.$common.openErrorMsgBox(error,_that);
       });
     },
+    /**
+     * 打开摄像头
+     */
     getMedia() {
       var _that = this;
       let constraints = {
@@ -938,9 +955,15 @@ export default {
       });
       _that.dialogphotoVisible = true;
     },
+    /**
+     * 关闭摄像头
+     */
     funclose(){
       this.mediaStreamTrack.stop()
     },
+    /**
+     * 拍照
+     */
     takePhoto() {
       var _that = this;
       //获得Canvas对象
@@ -970,12 +993,17 @@ export default {
         }, 1000);
       });
     },
+    /**
+     * 确定拍照的照片
+     */
     confirmphoto(){
       var _that = this;
       _that.dialogphotoVisible = false;
       _that.mediaStreamTrack.stop()
     },
-
+    /**
+     * 获取药方价格
+     */
     getrecipePrice(){
       var _that = this
       _that.$http.get(
@@ -1066,8 +1094,11 @@ export default {
         }
       }
     },
+    /**
+     * 获取病人信息
+     */
     getinformation:function(){
-      this.params = this.$route.query
+      this.params = this.$route.query;
       this.$http.get(
         '/inquiry/getInquiryInfo',{
           params:{
@@ -1077,20 +1108,19 @@ export default {
         .then(response =>{
           this.ppname=response.data.inquiryInfo.pName;
           document.title=this.ppname+"的药方";
-          console.log("名字是嘿嘿嘿" + this.ppname)
         })
         .catch(function (error) {
           console.log(error);
         })
     },
     fetchData(){
-      console.log("兼听路由改变了")
+      console.log("兼听路由改变了");
       // this.initDiagnoseLabel();
       this.initPage();
       //请求药方数据
       //
-      this.params = this.$route.query
-      console.log("地址后台挂的值",this.params )
+      this.params = this.$route.query;
+      console.log("地址后台挂的值",this.params );
       var r_params = JSON.parse(window.localStorage.getItem('pathParams'));
       console.log("地址后台缓存",r_params)
       this.getyfDate();
@@ -1110,7 +1140,7 @@ export default {
 
 
     beforeunload(e){
-      console.log("刷新")
+      console.log("刷新");
       window.onbeforeunload = function(){ return false; }
     },
 
@@ -1391,6 +1421,46 @@ export default {
     /**
      * 完成诊断 提交数据
      */
+    quitsubmitYfData:function(){
+      var _that = this;
+      var btn_switch = false;
+      var param = _that.setSubmitYfData(_that.yfdata);
+      console.log(param)
+      if(param !=false){
+        console.log("共计",param)
+        var loading = this.$common.openLoading("正在新增/修改问诊信息，请稍候",_that);
+        _that.SubmitDiagnoseLabels().then((data) => {
+          if(typeof data.code == "undefined" || data.code!="1"){
+            loading.close();
+            _that.$common.openErrorMsgBox("基本信息的诊断标签保存失败！",_that);
+            btn_switch = true;
+          }else {
+                if(_that.errorName.length ==0){
+                  _that.$http.post('/inquiry/postInquiryInfo',param).then(function (response) {
+                    console.log(response)
+                    loading.close();
+                    if(response.code =="1"){
+                      _that.$common.openSuccessMsgBox("操作成功",_that);
+                      _that.dialogStatus = 'print';
+                      _that.getrecipePrice()
+                      /*                _that.dialogFormVisible = true;*/
+                    }else{
+                      _that.$common.openErrorMsgBox(response.msg,_that);
+                    }
+                  }).catch(function (error) {
+                    loading.close();
+                    setTimeout(function(){
+                      _that.$common.openErrorMsgBox(error,_that);
+                    }, 1000);
+                  });
+                }
+              }
+            }).catch(function (error) {
+              _that.$common.openErrorMsgBox(error,_that);
+            });
+          }
+
+    },
     submitYfData:function(){
       var _that = this;
       var btn_switch = false;
@@ -1703,7 +1773,7 @@ export default {
               _that.allTotal = _that.getAllTotal(yfdataInfo);
             }
             _that.yfdata.allTotal = _that.allTotal;
-            _that.$Print(_that.yfdata,{'n_height':760});
+            _that.$Print(_that.yfdata,{'n_height':750});
           }else{
             _that.$common.openErrorMsgBox(response.msg,_that);
           }

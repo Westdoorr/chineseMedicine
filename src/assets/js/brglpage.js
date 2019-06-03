@@ -72,24 +72,34 @@ export default {
         if(i_params.data.pageSize){
             this.search_obj.pageSize = i_params.data.pageSize;
         }
-        this.getBrList(this.search_obj);
+        if(i_params.data.startAge){
+          this.search_obj.startAge = i_params.data.startAge;
+        }
+        if(i_params.data.endAge){
+          this.search_obj.endAge = i_params.data.endAge;
+        }
+        if(i_params.data.residence){
+          this.search_obj.residence = i_params.data.residence;
+        }
+        if(i_params.data.gender){
+          this.search_obj.gender = i_params.data.gender;
+        }
+        this.getBrList();
       },
       /**
        * 获取病人列表
        * @param {object} search_obj  查询参数 姓名，当前页 当前页大小
        */
-      getBrList(search_obj){
+      getBrList(){
         var _that = this;
-        if(search_obj != _that.search_obj){
-           search_obj = _that.search_obj;
-        }
+        _that.search_obj.source = _that.search_obj.residence;
         var url = "/patientManage/getPatientList";
         _that.$http.get(url,{
-            params: search_obj
+            params: _that.search_obj
            }).then(function (response) {
-             console.log("病人管理列表",response)
+             console.log("病人管理列表",response);
              if(response.code =="1"){
-                    _that.tableData = response.data.pageInfo;
+               _that.tableData = response.data.pageInfo;
              }else{
                _that.$common.openErrorMsgBox(response.msg,_that);
              }

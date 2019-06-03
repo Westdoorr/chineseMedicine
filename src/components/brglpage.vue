@@ -1,11 +1,22 @@
 <template>
 <div class="brgl-container">
     <div class="search-row">
-        <div class="search-row-input-item">
-          <el-input placeholder="请输入病人名字" v-model="search_obj.pname" @keyup.enter.native="getBrList">
-              <el-button slot="append" icon="el-icon-search" @click="getBrList"></el-button>
-          </el-input>
-        </div>
+      <div class="search-input-item">
+        <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.pname" placeholder="病人姓名" @keyup.enter.native="getBrList"></el-input>
+      </div>
+      <div class="search-input-item">
+        <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.gender" placeholder="性别" @keyup.enter.native="getBrList"></el-input>
+      </div>
+      <div class="search-input-item">
+        <el-input style="width:180px;margin-right:10px;margin-left: 1px;" v-model="search_obj.residence" placeholder="来源地" @keyup.enter.native="getBrList"></el-input>
+      </div>
+      <div class="search-input-item">
+        <el-input style="width:127px;margin-right:10px;margin-left: 1px; display: inline-block" v-model="search_obj.startAge" placeholder="年龄"  @keyup.enter.native="getBrList"></el-input>-
+        <el-input style="width:127px;margin-right:10px;margin-left: 1px;" v-model="search_obj.endAge" placeholder="年龄"  @keyup.enter.native="getBrList"></el-input>
+      </div>
+      <div class="search-row-btn-group">
+        <el-button class="btn-default btn-deault-size btn-color-blue" @click="getBrList">查询</el-button>
+      </div>
         <div class="search-row-btn-group">
           <el-button class="btn-default" @click="triggerSelect">同步基本信息</el-button>
           <input type="file"
@@ -24,16 +35,17 @@
           prop="index"
           label="序号"
           width="130">
+          <template scope="scope"><span>{{scope.$index+(tableData.pageNum - 1) * tableData.pageSize + 1}} </span></template>
         </el-table-column>
         <el-table-column
         prop="pName"
         label="姓名"
-        width="180">
+        width="175">
         </el-table-column>
         <el-table-column
         prop="latestDate"
         label="最近就诊时间"
-        width="310">
+        width="320">
         </el-table-column>
         <el-table-column
         prop="gender"
@@ -48,7 +60,7 @@
         <el-table-column
         prop="residence"
         label="来源地"
-        width="300">
+        width="295">
         </el-table-column>
         <el-table-column
         label="操作">

@@ -11,10 +11,10 @@
       </div>
     </div>
     <div class="table-continer">
-      <el-button @click = "sortmedicineName" v-if="medicineNamebutton == false">药名排序</el-button>
-      <el-button @click = "sortmedicineName1" v-if="medicineNamebutton == true">药名排序</el-button>
-      <el-button @click = "sortmedicinePrice" v-if="unitPricebutton == false">单价排序</el-button>
-      <el-button @click = "sortmedicinePrice1" v-if="unitPricebutton == true">单价排序</el-button>
+      <el-button @click = "sortmedicineNamedown" v-if="medicineNamebutton == false">药名排序</el-button>
+      <el-button @click = "sortmedicineNameup" v-if="medicineNamebutton == true">药名排序</el-button>
+      <el-button @click = "sortmedicinePricedown" v-if="unitPricebutton == false">单价排序</el-button>
+      <el-button @click = "sortmedicinePriceup" v-if="unitPricebutton == true">单价排序</el-button>
       <el-button @click = "sortmedicinecount" >用量排序</el-button>
       <el-table
         :data="medicinelist"
@@ -107,7 +107,7 @@
       this.getmedicine();
     },
     methods: {
-      objectArraySort(keyName){
+      objectArraySortdown(keyName){
         return function (objectN,objectM) {
           var valueN = objectN[keyName];
           var valueM = objectM[keyName];
@@ -117,7 +117,7 @@
             return -1;
         }
       },
-      objectArraySort1(keyName){
+      objectArraySortup(keyName){
         return function (objectN,objectM) {
           var valueN = objectN[keyName];
           var valueM = objectM[keyName];
@@ -127,20 +127,20 @@
             return -1;
         }
       },
-      sortmedicineName(){
-        this.medicinelist.sort(this.objectArraySort('medicineName'));
+      sortmedicineNamedown(){
+        this.medicinelist.sort((a,b) => b.medicineName.localeCompare(a.medicineName, 'zh'));
         this.medicineNamebutton = true;
       },
-      sortmedicineName1(){
-        this.medicinelist.sort(this.objectArraySort1('medicineName'));
+      sortmedicineNameup(){
+        this.medicinelist.sort((a, b)=> a.medicineName.localeCompare(b.medicineName, 'zh'));
         this.medicineNamebutton = false;
       },
-      sortmedicinePrice(){
-        this.medicinelist.sort(this.objectArraySort('unitPrice'));
+      sortmedicinePricedown(){
+        this.medicinelist.sort(this.objectArraySortdown('unitPrice'));
         this.unitPricebutton = true;
       },
-      sortmedicinePrice1(){
-        this.medicinelist.sort(this.objectArraySort1('unitPrice'));
+      sortmedicinePriceup(){
+        this.medicinelist.sort(this.objectArraySortup('unitPrice'));
         this.unitPricebutton = false;
       },
       sortmedicinecount(){

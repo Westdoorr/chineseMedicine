@@ -22,6 +22,7 @@ export default {
       };
       return {
           //来源地
+        headImagenor:false,
         countryList:[],
         provinceList:[],
         cityList:[],
@@ -160,7 +161,12 @@ export default {
         let promise = navigator.mediaDevices.getUserMedia(constraints);
         promise.then(function (MediaStream) {
           _that.mediaStreamTrack = MediaStream.getTracks()[0];
-          _that.$refs.video.src = URL.createObjectURL(MediaStream);
+          try{
+            _that.$refs.video.src = URL.createObjectURL(MediaStream);
+          }catch (e) {
+            console.log(e);
+            _that.$refs.video.srcObject = MediaStream;
+          }
           /*          video.src = URL.createObjectURL(MediaStream);*/
           _that.$refs.video.play();
         });
@@ -181,11 +187,12 @@ export default {
         var saveImage = _that.canvas.toDataURL('image/png');
         _that.basicInfo.headImage = saveImage;
         _that.dialogphotoVisible = false;
-        _that.mediaStreamTrack.stop()
+        _that.mediaStreamTrack.stop();
+        _that.headImagenor = false;
         var formdata1 = new FormData();
         _that.basicInfo.headImage =  _that.$common.base64Tofile(_that.basicInfo.headImage,"111.jpg");
-        formdata1.append('picture',_that.basicInfo.headImage,"111.png")
-        formdata1.append('patientId',_that.basicInfo.patientId)
+        formdata1.append('picture',_that.basicInfo.headImage,"111.png");
+        formdata1.append('patientId',_that.basicInfo.patientId);
         let config = {
           post_type: "form-data"
         };
@@ -468,6 +475,9 @@ export default {
                      _that.basicInfo = _that.setNullArray(response.data.patientInfo);
                      _that.ppname=response.data.patientInfo.pname;
                      document.title=_that.ppname+"的基本信息";
+                     if(_that.basicInfo.headImage == null || _that.basicInfo.headImage ==""){
+                       _that.headImagenor = true;
+                     }
                      _that.getPlace();
                  }else{
                      _that.$common.openErrorMsgBox(response.msg,_that);

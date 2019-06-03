@@ -2,10 +2,30 @@
     <div class="brxx-info-container">
         <el-form ref="formName" :rules="rules" :model="basicInfo" label-width="170px">
           <div class="picture">
+            <div v-if="headImagenor == true">
+              <el-button @click="getMedia()" style="font-size: 100px;padding: 10px;width: 280px;height: 400px">+</el-button>
+            </div>
+            <img  v-else :src=basicInfo.headImage  @click="getMedia()">
+            <el-dialog  :visible.sync ="dialogphotoVisible" @close = "funclose()" style="width: 1300px;margin-left: 12%">
+              <div>
+                <div style="margin-left: 20px">
+                  <video  ref="video" id="video" width="280px" height="400px" preload="auto"></video>
+                  <canvas id="canvas" width="280px" height="400px" style="margin-top: 1px"></canvas>
+                </div>
+                <div style="margin-left:35%;margin-top: 10px">
+                  <el-button id="snap" @click="takePhoto()" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">拍照</el-button>
+                  <el-button @click="confirmphoto()" style="width: 80px;height: 40px;font-size: 25px;
+                     background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">确定</el-button>
+                </div>
+              </div>
+            </el-dialog>
+          </div>
+<!--          <div class="picture">
             <img style="height: 400px;width: 280px" :src=basicInfo.headImage>
             <div>
-<!--              <el-button style="margin-left:30%; width:40%; height: 60px;font-size: 25px;
-              background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white" @click="getMedia()">修改</el-button>-->
+&lt;!&ndash;              <el-button style="margin-left:30%; width:40%; height: 60px;font-size: 25px;
+              background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white" @click="getMedia()">修改</el-button>&ndash;&gt;
             </div>
             <el-dialog  :visible.sync ="dialogphotoVisible" @close = "funclose()" style="width: 1300px;margin-left: 12%">
               <div style="margin-left: 20px">
@@ -19,38 +39,23 @@
                 background-color:#20a0ff;border: solid 1px #20a0ff;border-radius:4px;color: white;padding: 5px">确定</el-button>
               </div>
             </el-dialog>
-          </div>
-            <el-row :gutter="20">
-              <el-col :span="8">
+          </div>-->
+            <el-row :gutter="20" style="width: 575px">
+              <el-col :span="24">
                 <el-form-item label="病人编号">
                   <el-input v-model="basicInfo.patientId" placeholder="" :readonly="true" style="width: 86%"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="6" :offset="4">
-                <el-form-item label="身高" prop="height">
-                  <el-input v-model.number="basicInfo.height" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">cm</span>
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="体重" prop="weight">
-                  <el-input v-model.number="basicInfo.weight" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">kg</span>
-                </el-form-item>
-              </el-col>
             </el-row>
-            <el-row :gutter="20">
-              <el-col :span="8">
+            <el-row :gutter="20" style="width: 575px">
+              <el-col :span="24">
                 <el-form-item label="姓名">
                   <el-input v-model="basicInfo.pname" placeholder="" style="width: 86%"></el-input>
                 </el-form-item>
               </el-col>
-                <el-col :span="12" :offset="4">
-                    <el-form-item label="职业">
-                        <el-input v-model="basicInfo.occupation" placeholder=""></el-input>
-                    </el-form-item>
-                </el-col>
             </el-row>
-            <el-row :gutter="20">
-              <el-col :span="12">
+            <el-row :gutter="20" style="width: 575px">
+              <el-col :span="24">
                 <el-form-item label="性别">
                   <el-radio-group v-model="basicInfo.gender">
                     <el-radio label="男" value='男'></el-radio>
@@ -58,18 +63,9 @@
                   </el-radio-group>
                 </el-form-item>
               </el-col>
-                <el-col :span="12">
-                    <el-form-item label="婚姻史">
-                        <el-radio-group v-model="basicInfo.marriage">
-                            <el-radio   label="已婚" value='已婚'></el-radio>
-                            <el-radio  style="margin-left: 50px" label="未婚" value='未婚'></el-radio>
-                            <el-radio  style="margin-left: 50px" label="离异" value='离异'></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
             </el-row>
-            <el-row :gutter="20">
-              <el-col :span="8">
+            <el-row :gutter="20" style="width: 575px">
+              <el-col :span="24">
                 <el-form-item label="民族">
                   <el-select v-model="basicInfo.national" placeholder="请选择民族" style="width: 86%">
                     <el-option label="汉" value="汉"></el-option>
@@ -81,17 +77,6 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-                <el-col :span="12" :offset="4">
-                    <el-form-item label="宗教信仰">
-                        <el-select v-model="basicInfo.religiousBelief" placeholder="请选择宗教">
-                            <el-option label="无" value="无"></el-option>
-                            <el-option label="佛教" value="佛教"></el-option>
-                            <el-option label="道教" value="道教"></el-option>
-                            <el-option label="基督教" value="基督教"></el-option>
-                            <el-option label="其他宗教" value="其他宗教"></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
             </el-row>
             <div class="two-col-container">
                 <div class="frist-col-container">
@@ -215,7 +200,50 @@
                          </el-col>
                      </el-row>
                 </div>
-                <div class="seconde-col-container">
+                <div class="seconde-col-container" style="margin-top: -327px">
+                  <el-row :gutter="20">
+                    <el-col :span="12">
+                      <el-form-item label="身高" prop="height">
+                        <el-input v-model.number="basicInfo.height" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">cm</span>
+                      </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                      <el-form-item label="体重" prop="weight">
+                        <el-input v-model.number="basicInfo.weight" placeholder="" class="suffix-input-width"></el-input><span class="suffix-input-span">kg</span>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="20">
+                    <el-col :span="24" >
+                      <el-form-item label="职业">
+                        <el-input v-model="basicInfo.occupation" placeholder=""></el-input>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="20">
+                    <el-col :span="24">
+                      <el-form-item label="婚姻史">
+                        <el-radio-group v-model="basicInfo.marriage">
+                          <el-radio   label="已婚" value='已婚'></el-radio>
+                          <el-radio  style="margin-left: 50px" label="未婚" value='未婚'></el-radio>
+                          <el-radio  style="margin-left: 50px" label="离异" value='离异'></el-radio>
+                        </el-radio-group>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
+                  <el-row :gutter="20">
+                    <el-col :span="24">
+                      <el-form-item label="宗教信仰">
+                        <el-select v-model="basicInfo.religiousBelief" placeholder="请选择宗教">
+                          <el-option label="无" value="无"></el-option>
+                          <el-option label="佛教" value="佛教"></el-option>
+                          <el-option label="道教" value="道教"></el-option>
+                          <el-option label="基督教" value="基督教"></el-option>
+                          <el-option label="其他宗教" value="其他宗教"></el-option>
+                        </el-select>
+                      </el-form-item>
+                    </el-col>
+                  </el-row>
                     <el-row :gutter="20">
                         <el-col :span="24">
                             <el-form-item label="饮食习惯" style="margin-bottom:0px;">

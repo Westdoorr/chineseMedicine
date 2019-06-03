@@ -8,7 +8,7 @@ const Print =function(YfData, options) {
  //配置参数 不打印的样式 处方内容高度
   this.options = this.extend({
     'noPrint': '.no-print',
-    'n_height':760
+    'n_height':950
   }, options);
   //设置相应打印对象
   if ((typeof this.YfData) === "undefined") {
@@ -109,11 +109,21 @@ Print.prototype = {
     },
     //自动计算列表高度
     autoTableHeight:function(t_arry){
+      var new_length;
+      var line_count;
+      line_count = t_arry.length/4;
       if(JSON.stringify(t_arry)!='[]'){
+        for(let i =0;i<line_count;i++){
+          if(t_arry[4*i].medicine == "" || t_arry[4*i].medicine == null){
+            new_length = t_arry.length-(line_count-i)*4
+          }else {
+            new_length = t_arry.length
+          }
+        }
         //添加间距以及标题高度
         var tmp_height = 50;
-        var line_num = Math.ceil(t_arry.length/4);
-        return tmp_height + line_num*53;
+        var line_num = Math.ceil(new_length/4);
+        return tmp_height + line_num*50;
       }else{
         return 0;
       }
@@ -134,8 +144,10 @@ Print.prototype = {
         r_obj.ywStr = y_str;
         r_obj.content_str = '';
         r_obj.tmp_height = height;
+        console.log("r_obj.tmp_height++"+r_obj.tmp_height)
         if(JSON.stringify(t_arry) != '[]'){
           var tmp_height = r_obj.tmp_height + this.autoTableHeight(t_arry);
+          console.log("tmp_height++"+tmp_height)
           if(tmp_height <= this.options.n_height){
               //不需分页 封装参数生成Str
               var obj= this.createdYwParams(type,index,t_arry,remarks,amount);
@@ -146,7 +158,7 @@ Print.prototype = {
               //需要分页  拆分主方的药物列表
               //第一步 拆分药物列表
               var a_height = tmp_height-this.options.n_height;
-              var num = Math.ceil(a_height/53);
+              var num = Math.ceil(a_height/50);
               var s_index = num*4;
               var f_arry = t_arry.slice(0,t_arry.length - s_index);
               var new_arry = t_arry.slice(t_arry.length - s_index,t_arry.length);
@@ -175,6 +187,7 @@ Print.prototype = {
         //     for(var i = 0; i<mainReList.length; i++){
               //循环生成主方样式
               if(JSON.stringify(mainRe.recipeDetailList)!='[]'){
+                console.log("zhelishi1")
                   var t_obj = this.createTable(1,i,mainRe.recipeDetailList,ywStr,tmp_height,mainRe.remarks,mainRe.amount,null);
                   content_str = content_str + t_obj.content_str;
                   ywStr = t_obj.ywStr;
@@ -182,6 +195,7 @@ Print.prototype = {
               }
               if(JSON.stringify(mainRe.viceReList)!='[]'){
               //第二步再来生成字符串
+                console.log("zhelishi2")
                   for(var j=0;j<mainRe.viceReList.length;j++){
                        if(JSON.stringify(mainRe.viceReList[j].viceRecipeDetailList)!='[]'){
                            var t_obj = this.createTable(2,j,mainRe.viceReList[j].viceRecipeDetailList,ywStr,tmp_height,mainRe.viceReList[j].remarks,mainRe.viceReList[j].amount,mainRe);
