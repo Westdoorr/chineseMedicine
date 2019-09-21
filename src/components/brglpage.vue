@@ -35,7 +35,6 @@
           prop="index"
           label="序号"
           width="130">
-          <template scope="scope"><span>{{scope.$index+(tableData.pageNum - 1) * tableData.pageSize + 1}} </span></template>
         </el-table-column>
         <el-table-column
         prop="pName"
