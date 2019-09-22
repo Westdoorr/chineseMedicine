@@ -65,22 +65,6 @@ export default {
           this.rangeDate  = null
         }
       },
-/*
-      testAge(){
-        console.log("endAge"+ endAge)
-        var age = [/(^[\-0-9][0-9]*(.[0-9]+)?)$/]
-        var beginage = this.this.search_obj.startAge
-        var cutage = this.search_obj.endAge
-        if (age.test(beginage)){
-          this.search_obj.startAge = beginage + "岁";
-        }else{}
-        if(age.test(cutage)){
-          this.search_obj.endAge = cutage + "岁";
-        }
-        console.log("endAge"+ this.search_obj.endAge)
-        console.log("startAge"+ this.search_obj.startAge)
-      },
-*/
 
       // 序号
       typeIndex(index){
@@ -310,8 +294,8 @@ export default {
           var temp_arry = new Array();
           var params_obj = {};
           params_obj.inquiryIdList ="";
-		  params_obj.all = false;
-		  params_obj.patientId = null;
+		      params_obj.all = false;
+		      params_obj.patientId = null;
         if(JSON.stringify(this.multipleSelectionAll)=='[]'){
             _that.$common.openErrorMsgBox("请选中要导出的病历信息",_that);
             return false;
@@ -321,7 +305,6 @@ export default {
             }
         }
         params_obj.inquiryIdList = temp_arry;
-        console.log(JSON.stringify(params_obj));
         var url = "/dataStatistics/getInquiryInfoList";
 		var loading = _that.$common.openLoading("病历导出中，请耐心等待",_that);
         //修改以post方式下载文件
@@ -336,15 +319,69 @@ export default {
                         _that.$common.openErrorMsgBox(response.msg,_that);
                     }
                     //打印的请求数据成功 把数据传递给打印控件；
-
                 }else{
                     _that.$common.openErrorMsgBox(response.msg,_that);
                 }
             }).catch(function (error) {
-				loading.close();
+				        loading.close();
                 _that.$common.openErrorMsgBox(error,_that);
 
             });
+      },
+
+      /**
+       * 根据筛选条件一键导出病历到PDF
+       */
+      allExportBlList(){
+        var _that = this;
+        var search_obj = this.search_obj;
+        console.log(search_obj)
+        var url = "/dataStatistics/getAllInquiryInfoList";
+        var loading = _that.$common.openLoading("病历导出中，请耐心等待",_that);
+        _that.$http.get(url,{params: search_obj}).then(function (response) {
+          loading.close();
+          if(response.code == "1"){
+            if(JSON.stringify(response.data)!="{}"){
+              if(response.data.inquiryInfo && JSON.stringify(response.data.inquiryInfo)!="{}"){
+                _that.$exportPrint(response.data.inquiryInfo,{});
+              }
+            }else{
+              _that.$common.openErrorMsgBox(response.msg,_that);
+            }
+            //打印的请求数据成功 把数据传递给打印控件；
+          }else{
+            _that.$common.openErrorMsgBox(response.msg,_that);
+          }
+        }).catch(function (error) {
+          loading.close();
+          _that.$common.openErrorMsgBox(error,_that);
+
+        });
+      },
+      /**
+       * 根据筛选条件一键导出病历到WORD
+       */
+      allExportWord(){
+        var _that = this;
+        var search_obj = this.search_obj;
+        var url = "/index/getAllPatientInfoWord";
+        var loading = _that.$common.openLoading("病历WORD导出中，请耐心等待",_that);
+        _that.$http.get(url,{params: search_obj}).then(function (response) {
+          loading.close();
+          let blob = new Blob([response], {type: `application/msword` //word文档为msword,pdf文档为pdf
+          });
+          let objectUrl = URL.createObjectURL(blob);
+          let link = document.createElement("a");
+          let fname = `病人病例`; //下载文件的名字
+          link.href = objectUrl;
+          link.setAttribute("download", fname);
+          document.body.appendChild(link);
+          link.click();
+        }).catch(function (error) {
+          loading.close();
+          _that.$common.openErrorMsgBox(error,_that);
+
+        });
       },
       /**
        * 导出word

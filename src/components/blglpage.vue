@@ -70,6 +70,10 @@
   </div>
 
   <div class="foot-container">
+      <div class="search-row-btn-group" v-if="roleuser == 2">
+        <el-button class="btn-default  btn-color-blue"  @click="allExportBlList">一键导出病历</el-button>
+        <el-button class="btn-default  btn-color-blue" @click="allExportWord">一键导出word</el-button>
+      </div>
       <div class="page-container">
         <el-pagination background
         @size-change="handleSizeChange"
