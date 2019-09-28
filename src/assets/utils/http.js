@@ -8,12 +8,6 @@ const API = {
     //问诊
     local:'http://127.0.0.1:8087',
     online:'http://127.0.0.1:8087'
-    //信息收集
-    // local:'http://139.129.118.14:8086',
-    // online:'http://139.129.118.14:8086'
-    //本地测试地址
-    // local:'http://127.0.0.1:8080',
-    // online:'http://127.0.0.1:8080'
 }
 
 //production 为生产环境
@@ -98,12 +92,6 @@ axios.interceptors.response.use(
                 type: 'error',
                 duration: 5000,
                 onClose: () => {
-                  // window.localStorage.getItem("username");
-                  // window.localStorage.getItem("password");
-                  // var ruleForm = {
-                  //   username:window.localStorage.getItem("username"),
-                  //   password:window.localStorage.getItem("password")
-                  // }
                   store.dispatch('LogOutNoPermission' ).then(() => {
                     console.log("已经出现警告")
 
@@ -116,6 +104,6 @@ axios.interceptors.response.use(
         }
     },
     error => {
-        return Promise.reject(error.data)
+        return Promise.reject("与服务器断开连接")
     }
 )

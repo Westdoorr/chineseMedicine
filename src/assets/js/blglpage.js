@@ -15,10 +15,10 @@ export default {
             pageNum:1,
             pageSize:10,
            // 新增 1.3
-            startAge:"",
-            endAge:"",
-            residence:"",
-            gender:""
+            startAge:null,
+            endAge:null,
+            residence:null,
+            gender:null
         },
         multipleSelectionAll:[],//所有选中的数据包含跨页数据
         multipleSelection:[],// 当前页选中的数据
@@ -37,10 +37,6 @@ export default {
         }
       }
     },
-    //计算属性
-    computed: {
-
-    },
     watch: {
         rangeDate: function (newQuestion, oldQuestion) {
           this.search_obj.startDate = this.$common.dateFormatStr(this.rangeDate[0],'yyyy-MM-dd');
@@ -49,15 +45,13 @@ export default {
     },
     created ()  {
       document.title = '病历管理'
-        this.initPage();
-/*        this.testAge();*/
+      this.initPage();
       this.roleuser=window.localStorage.getItem("role");
     },
     methods: {
       //日期改变
       //日期控件选中时的回调
       changeDate(val){
-        console.log(val)
         let start,end
         if(val=="" || val==null) {
           this.search_obj.startDate = null
@@ -65,25 +59,12 @@ export default {
           this.rangeDate  = null
         }
       },
-
-      // 序号
-      typeIndex(index){
-        console.log('序号：',index)
-        return index + (this.pageNum - 1) * this.pageSize + 1;
-      },
       rowClassname() {
         return "rowClassname";
       },
       headerClassname() {
         return "headerClassname";
       },
-      handleClick(row) {
-        console.log(row);
-      },
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-
       handleCurrentChange(val) {
         this.changePageCoreRecordData();
         this.search_obj.pageNum = val;
@@ -96,7 +77,7 @@ export default {
                 this.changePageCoreRecordData();
             }, 50)
         },
-        setSelectRow() {
+      setSelectRow() {
                 if (!this.multipleSelectionAll || this.multipleSelectionAll.length <= 0) {
                     return;
                 }
@@ -116,8 +97,8 @@ export default {
                 }
             },
 
-            // 记忆选择核心方法
-            changePageCoreRecordData () {
+      // 记忆选择核心方法
+      changePageCoreRecordData () {
                 // 标识当前行的唯一键的名称
                 let idKey = this.idKey;
                 let that = this;
@@ -205,20 +186,16 @@ export default {
       getblList(){
         var _that = this;
         var search_obj = this.search_obj;
-        console.log("参数",search_obj)
         var url = "/MrManage/getMrList";
         _that.$http.get(url,{params: search_obj}).then(function (response) {
-             console.log(response)
                if(response.code=="1"){
                         _that.tableData = response.data.pageInfo;
-                        console.log( _that.tableData)
                         setTimeout(()=>{
                             _that.setSelectRow();
                         }, 50);
                }else{
                     _that.$common.openErrorMsgBox(response.msg,_that);
                }
-
             }).catch(function (error) {
                 _that.$common.openErrorMsgBox(error,_that);
             });
@@ -335,7 +312,6 @@ export default {
       allExportBlList(){
         var _that = this;
         var search_obj = this.search_obj;
-        console.log(search_obj)
         var url = "/dataStatistics/getAllInquiryInfoList";
         var loading = _that.$common.openLoading("病历导出中，请耐心等待",_that);
         _that.$http.get(url,{params: search_obj}).then(function (response) {
@@ -343,6 +319,7 @@ export default {
           if(response.code == "1"){
             if(JSON.stringify(response.data)!="{}"){
               if(response.data.inquiryInfo && JSON.stringify(response.data.inquiryInfo)!="{}"){
+                _that.$common.openSuccessMsgBox("病历导出到PDF成功！",_that)
                 _that.$exportPrint(response.data.inquiryInfo,{});
               }
             }else{
@@ -368,16 +345,39 @@ export default {
         var loading = _that.$common.openLoading("病历WORD导出中，请耐心等待",_that);
         _that.$http.get(url,{params: search_obj}).then(function (response) {
           loading.close();
-          let blob = new Blob([response], {type: `application/msword` //word文档为msword,pdf文档为pdf
-          });
-          let objectUrl = URL.createObjectURL(blob);
-          let link = document.createElement("a");
-          let fname = `病人病例`; //下载文件的名字
-          link.href = objectUrl;
-          link.setAttribute("download", fname);
-          document.body.appendChild(link);
-          link.click();
+          try{
+            //判断respose是否能够被JSON解析，若能解析，则说明从后台返回值为错误JSON信息；若不能解析则说明从后台返回值为WORD文件内容
+            if (JSON.stringify(response.data)=="{}"){
+              _that.$common.openErrorMsgBox(response.msg,_that);
+            }else {
+              _that.$common.openSuccessMsgBox("病历导出到WORD文件中成功！", _that)
+              let blob = new Blob([response], {
+                type: `application/msword` //word文档为msword,pdf文档为pdf
+              });
+              let objectUrl = URL.createObjectURL(blob);
+              let link = document.createElement("a");
+              let fname = `病人病例`; //下载文件的名字
+              link.href = objectUrl;
+              link.setAttribute("download", fname);
+              document.body.appendChild(link);
+              link.click();
+            }
+          }catch (e) {
+            console.log("进入异常处理")
+            _that.$common.openSuccessMsgBox("病历导出到WORD文件中成功！", _that)
+            let blob = new Blob([response], {
+              type: `application/msword` //word文档为msword,pdf文档为pdf
+            });
+            let objectUrl = URL.createObjectURL(blob);
+            let link = document.createElement("a");
+            let fname = `病人病例`; //下载文件的名字
+            link.href = objectUrl;
+            link.setAttribute("download", fname);
+            document.body.appendChild(link);
+            link.click();
+          }
         }).catch(function (error) {
+          console.log("进入最终处理")
           loading.close();
           _that.$common.openErrorMsgBox(error,_that);
 
@@ -401,17 +401,13 @@ export default {
             params_obj.inquiryIdList.push(this.multipleSelectionAll[i].inquiryId);
           }
         }
-        // console.log(JSON.stringify(params_obj));
-        console.log(params_obj);
         var url = "/index/getPatientInfoWord?all=false"
         params_obj.inquiryIdList.forEach((p)=>{
           url+="&inquiryIdList="+p
         })
-        console.log(url)
         // var url = "/index/getPatientInfoWord?inquiryIdList=533&inquiryIdList=534&all=false";
         var loading = _that.$common.openLoading("病历word文档导出中，请耐心等待",_that);
         _that.$http.post(url,{}).then(function (response) {
-          console.log(response)
           loading.close();
           let blob = new Blob([response], {type: `application/msword` //word文档为msword,pdf文档为pdf
           });
