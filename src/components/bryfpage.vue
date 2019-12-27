@@ -4,7 +4,7 @@
       <el-col :span="12">
         <div class="info-container">
           <div class="bqms-info-container">
-            <span class="person-info">{{yfdata.pName+","+getPersonInfo}}</span>
+            <span class="person-info" >{{yfdata.pName+","+getPersonInfo}}</span>
             <div class="titile-container"  style="display: flex; justify-content: space-between; ">
               <div class="container" @click="setActiveSyle(2)">
                 <span>病情描述</span>

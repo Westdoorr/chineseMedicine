@@ -1,4 +1,6 @@
 import qs from 'qs'
+import {setExportToken,removeExportToken} from "../utils/exportCookie";
+
 export default {
     data() {
       return {
@@ -20,6 +22,7 @@ export default {
             residence:null,
             gender:null
         },
+        patientCount:0,//筛选出的病历包含的病人数目
         multipleSelectionAll:[],//所有选中的数据包含跨页数据
         multipleSelection:[],// 当前页选中的数据
         idKey: 'inquiryId', // 标识列表数据中每一行的唯一键的名称
@@ -182,23 +185,34 @@ export default {
       opencomfigMethod(msg,method_name,method_params){
         this.$common.openComfigDialog(msg,method_name,method_params,this);
       },
+      //获取病历对应的病人数目
+      getPatientCount(search_obj){
+        var url = "/MrManage/getPatientCountByDailyPatients";
+        return this.$http.get(url,{params: search_obj});
+      },
+      //按照页面获取符合条件的病历列表
+      getDpList(search_obj){
+        var url = "/MrManage/getMrList";
+        return this.$http.get(url,{params: search_obj});
+      },
       //获取病例table列表
       getblList(){
         var _that = this;
         var search_obj = this.search_obj;
-        var url = "/MrManage/getMrList";
-        _that.$http.get(url,{params: search_obj}).then(function (response) {
-               if(response.code=="1"){
-                        _that.tableData = response.data.pageInfo;
-                        setTimeout(()=>{
-                            _that.setSelectRow();
-                        }, 50);
-               }else{
-                    _that.$common.openErrorMsgBox(response.msg,_that);
-               }
-            }).catch(function (error) {
-                _that.$common.openErrorMsgBox(error,_that);
-            });
+        this.$http.all([_that.getDpList(search_obj),_that.getPatientCount(search_obj)])
+          .then(this.$http.spread(function (list,count) {
+            if (list.code == "1" && count.code == "1"){
+              _that.patientCount = count.data.patientCount;
+              _that.tableData = list.data.pageInfo;
+              setTimeout(()=>{
+                _that.setSelectRow();
+              }, 50);
+            }else {
+              _that.$common.openErrorMsgBox(list.msg+count.msg,_that);
+            }
+          })).catch(function (error) {
+          _that.$common.openErrorMsgBox(error,_that);
+          })
       },
       /**
        * 查看病历的问诊信息
@@ -262,6 +276,77 @@ export default {
          _that.$common.GotoPage("bryfpage",brinfo,_that);
          // _that.$router.push({ name:'bryfpage',params:{pId:row.pId,inquiryId:row.inquiryId,lastinquiryId:''}})
       },
+
+      /**
+       *
+       * @param search_obj 生成主要筛选条件对应的字符串
+       * @param source 关闭卡片时用于终止导出请求
+       * @param uuid 通知后端是否终止导出请求的标识符
+       * @returns {{filename: string, notify: ElNotificationComponent | undefined}}
+       */
+      openNotify(search_obj,source,uuid) {
+        var message = '';
+        var filename = '';
+        if (search_obj.pname != null && search_obj.pname != ''){
+          message = message + "<div>姓名:"+search_obj.pname+"</div>";
+          filename = filename + "姓名:"+search_obj.pname;
+        }
+        if (search_obj.gender != null && search_obj.gender != ''){
+          message = message + "<div>性别："+search_obj.gender+"</div>";
+          filename = filename + "性别:"+search_obj.gender;
+        }
+        if (search_obj.residence != null && search_obj.residence != ''){
+          message = message + "<div>来源地："+search_obj.residence+"</div>";
+          filename = filename + "来源地:"+search_obj.residence;
+        }
+        if (search_obj.startAge != null && search_obj.startAge != ''){
+          message = message + "<div>起始年龄："+search_obj.startAge+"</div>";
+          filename = filename + "起始年龄:"+search_obj.startAge;
+        }
+        if (search_obj.endAge != null && search_obj.endAge != ''){
+          message = message + "<div>结束年龄："+search_obj.endAge+"</div>";
+          filename = filename + "结束年龄:"+search_obj.endAge;
+        }
+        if (search_obj.startDate != null && search_obj.startDate != ''){
+          message = message + "<div>开始日期："+search_obj.startDate+"</div>";
+          filename = filename + "开始日期:"+search_obj.startDate;
+        }
+        if (search_obj.endDate!= null && search_obj.endDate != ''){
+          message = message + "<div>结束日期："+search_obj.endDate+"</div>";
+          filename = filename + "结束日期:"+search_obj.endDate;
+        }
+        if (search_obj.keyWords != null && search_obj.keyWords != ''){
+          message = message + "<div>关键字:"+search_obj.keyWords+"</div>";
+          filename = filename + "关键字:"+search_obj.keyWords;
+        }
+        var notify = this.$notify({
+          title: '病历导出',
+          message: message,
+          duration: 0,
+          dangerouslyUseHTMLString: true,
+          onClose: (isSuccess)=>{
+            source.cancel('病历导出已终止！');
+            removeExportToken(uuid)
+            this.setExportTokenFalse(uuid,isSuccess)
+          }
+        });
+        return {notify,filename}
+      },
+      setExportTokenFalse(uuid,isSuccess){
+        console.log(isSuccess.toLocaleString());
+        var url = '/index/setUuidToFalse';
+        var _that = this;
+        var parameter = {
+          uuid: uuid
+        }
+        this.$http.get(url,{params: parameter}).then(function (response) {
+          if (response.code == '1'){
+            if (!isSuccess){
+              _that.$common.openSuccessMsgBox("病历导出任务已取消！",_that)
+            }
+          }
+        })
+      },
       /**
        * 导出病历
        *
@@ -300,7 +385,6 @@ export default {
                     _that.$common.openErrorMsgBox(response.msg,_that);
                 }
             }).catch(function (error) {
-				        loading.close();
                 _that.$common.openErrorMsgBox(error,_that);
 
             });
@@ -314,7 +398,7 @@ export default {
         var search_obj = this.search_obj;
         var url = "/dataStatistics/getAllInquiryInfoList";
         var loading = _that.$common.openLoading("病历导出中，请耐心等待",_that);
-        _that.$http.get(url,{params: search_obj}).then(function (response) {
+        _that.$http.get(url,{params: search_obj,timeout:0}).then(function (response) {
           loading.close();
           if(response.code == "1"){
             if(JSON.stringify(response.data)!="{}"){
@@ -340,45 +424,42 @@ export default {
        */
       allExportWord(){
         var _that = this;
+        var source = _that.$http.CancelToken.source()
         var search_obj = this.search_obj;
+        var uuid = this.$common.guid();
+        setExportToken(uuid)
+        var returnData = _that.openNotify(search_obj,source,uuid);
+        var notify = returnData.notify;
+        var filename = returnData.filename;
         var url = "/index/getAllPatientInfoWord";
-        var loading = _that.$common.openLoading("病历WORD导出中，请耐心等待",_that);
-        _that.$http.get(url,{params: search_obj}).then(function (response) {
-          loading.close();
+        search_obj["uuid"] = uuid;
+        _that.$http.get(url,{params: search_obj,timeout:0,cancelToken:source.token}).then(function (response) {
           try{
             //判断respose是否能够被JSON解析，若能解析，则说明从后台返回值为错误JSON信息；若不能解析则说明从后台返回值为WORD文件内容
             if (JSON.stringify(response.data)=="{}"){
               _that.$common.openErrorMsgBox(response.msg,_that);
+              notify.close(true);
             }else {
               _that.$common.openSuccessMsgBox("病历导出到WORD文件中成功！", _that)
               let blob = new Blob([response], {
                 type: `application/msword` //word文档为msword,pdf文档为pdf
               });
-              let objectUrl = URL.createObjectURL(blob);
-              let link = document.createElement("a");
-              let fname = `病人病例`; //下载文件的名字
-              link.href = objectUrl;
-              link.setAttribute("download", fname);
-              document.body.appendChild(link);
-              link.click();
+              let downloadElement = document.createElement("a");
+              let objectUrl = URL.createObjectURL(blob);//创建下载的链接
+              let fname = filename; //下载文件的名字
+              downloadElement.href = objectUrl;
+              downloadElement.download = fname;
+              document.body.appendChild(downloadElement);
+              downloadElement.click();//点击下载
+              document.body.removeChild(downloadElement);//下载完成后移除元素
+              URL.revokeObjectURL(objectUrl)
+              notify.close(true);//下载成功，删除提示卡片
             }
           }catch (e) {
-            console.log("进入异常处理")
-            _that.$common.openSuccessMsgBox("病历导出到WORD文件中成功！", _that)
-            let blob = new Blob([response], {
-              type: `application/msword` //word文档为msword,pdf文档为pdf
-            });
-            let objectUrl = URL.createObjectURL(blob);
-            let link = document.createElement("a");
-            let fname = `病人病例`; //下载文件的名字
-            link.href = objectUrl;
-            link.setAttribute("download", fname);
-            document.body.appendChild(link);
-            link.click();
+              console.log(e)
           }
         }).catch(function (error) {
           console.log("进入最终处理")
-          loading.close();
           _that.$common.openErrorMsgBox(error,_that);
 
         });

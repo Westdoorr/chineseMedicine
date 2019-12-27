@@ -68,7 +68,22 @@
         </el-table-column>
     </el-table>
   </div>
-
+  <div style="
+    text-align:right;
+    margin-left: 89%;
+    font-family: HelveticaNeue;
+    font-size: 22px;
+    height: 47px;
+    line-height: 47px;
+    font-weight: normal;
+    font-stretch: normal;
+    letter-spacing: 0px;
+    color: #475669;
+">
+      <span>共计</span>
+      <span style="color: red;">{{patientCount}}</span>
+      <span>名病人</span>
+  </div>
   <div class="foot-container">
       <div class="search-row-btn-group" v-if="roleuser == 2">
         <el-button class="btn-default  btn-color-blue"  @click="opencomfigMethod('确认将所有病例导出到PDF?',allExportBlList,null)">一键导出病历</el-button>

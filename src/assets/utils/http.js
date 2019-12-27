@@ -104,6 +104,11 @@ axios.interceptors.response.use(
         }
     },
     error => {
+        if (error.message == "病历导出已终止！") {
+          //为主动提前取消请求而引起的error
+          return Promise.reject(error.message);
+        }
+        console.log(error)
         return Promise.reject("与服务器断开连接")
     }
 )
