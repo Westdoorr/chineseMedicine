@@ -96,11 +96,11 @@
                     align-items: center;
                 }
                 .attention{
-                    width: 440px;
+                    width: 460px;
                     margin-top: 10px;
                     .attention-frist{
-                        padding-bottom: 10px;
-                        border-bottom: 2px dashed #d02929;
+                        padding-bottom: 2px;
+                        /*border-bottom: 2px dashed #d02929;*/
                     }
 
                     .attention-li{
@@ -112,7 +112,7 @@
                         color: #d02929;
                     }
                     .attention-address{
-                        margin-top: 10px;
+                        margin-top: 2px;
                     }
                 }
             }
@@ -248,13 +248,13 @@
               </div>
               <div class="attention">
                   <div class="attention-frist">
-                      <div class="attention-li">1、每张处方仅限患者本人用药；</div>
-                      <div class="attention-li">2、一天一副药，一天三次，服用时请加热；</div>
-                      <div class="attention-li">3、服药期间如有任何疑问，请及时咨询医师；</div>
-                      <div class="attention-li">4、药物服用完后，请勿自行继续服用原方；</div>
+                      <div class="attention-li">1、处方仅限本人使用，请勿自行重复服用原方。</div>
+                      <div class="attention-li">2、一天一付，一天三次，请加热服用。</div>
+                      <div class="attention-li">3、请勿重复发送短信，请注明预约卢崇汉教授或卢玮医生。</div>
+                      <div class="attention-li">4、根据相关规定，为保障用药安全，药品一经发出，不得退换。</div>
                   </div>
                   <div class="attention-li attention-address">
-                      地址：成都市武侯区丽都路2号附17号  短信预约电话：18010601111
+                      地址：成都市武侯区丽都路2号附14号  短信预约电话：18010601111
                   </div>
               </div>
           </div>

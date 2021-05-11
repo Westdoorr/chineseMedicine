@@ -1,4 +1,4 @@
-import titleImg from '@/assets/img/print/title.png';
+﻿import titleImg from '@/assets/img/print/title.png';
 import Logo from '@/assets/img/print/logo2.png'
 import qrcode from '@/assets/img/print/qr_code.png'
 // 打印插件
@@ -69,12 +69,71 @@ Print.prototype = {
         }else{
           date_arry = date.split("-");
         }
-        let printHeadStr = '<div class="print-header-container"><div class="print-img-container"><img src="'+titleImg+'" width="441" height="44"/></div><div class="print-br-info"><div class="br-info-item"><span class="label-tag">姓名</span><span class="font-content">'+pName+'</span></div><div class="br-info-item"><span class="label-tag">性别</span> <span class="font-content">'+gender+'</span> </div> <div class="br-info-item"> <span class="label-tag">年龄</span> <span class="font-content">'+age+'</span> </div> <div class="br-info-item"> <span class="font-content">'+address+'</span> </div> <div class="br-info-item"> <span class="font-content">'+date_arry[0]+'</span> <span class="font-color-red">年</span> <span class="font-content">'+date_arry[1]+'</span> <span class="font-color-red">月</span> <span class="font-content">'+date_arry[2]+'</span> <span class="font-color-red">日</span> </div> </div> </div>';
+        let printHeadStr =
+          '<div class="print-header-container">' +
+              '<div class="print-img-container">' +
+                  '<img src="'+titleImg+'" width="441" height="44"/>' +
+              '</div>' +
+              '<div class="print-br-info">' +
+                  '<div class="br-info-item">' +
+                      '<span class="label-tag">姓名</span>' +
+                      '<span class="font-content">'+pName+'</span>' +
+                  '</div>' +
+                  '<div class="br-info-item">' +
+                      '<span class="label-tag">性别</span>' +
+                      '<span class="font-content">'+gender+'</span>' +
+                  '</div>' +
+                  '<div class="br-info-item">' +
+                      '<span class="label-tag">年龄</span> ' +
+                      '<span class="font-content">'+age+'</span>' +
+                  '</div>' +
+                  '<div class="br-info-item"> ' +
+                      '<span class="font-content">'+address+'</span>' +
+                  '</div> ' +
+                  '<div class="br-info-item"> ' +
+                      '<span class="font-content">'+date_arry[0]+'</span> ' +
+                      '<span class="font-color-red">年</span> ' +
+                      '<span class="font-content">'+date_arry[1]+'</span> ' +
+                      '<span class="font-color-red">月</span>' +
+                      '<span class="font-content">'+date_arry[2]+'</span> ' +
+                      '<span class="font-color-red">日</span> ' +
+                  '</div>' +
+              ' </div>' +
+          ' </div>';
         return printHeadStr;
     },
     //打印样式尾部
     getPrintFoot:function(obj){
-        let printFoot = '<div class="print-foot-container"> <div class="frist-foot-item"> <div> <span class="label-tag">处方医师</span> <span class="underline"></span> </div> <div> <span class="label-tag">调配</span> <span class="yf-underline">'+obj.amount+'</span> <span class="font-color-red">付</span> </div> </div> <div class="seconed-foot-item"> <div class="logo-img-container"> <img src="'+qrcode+'" width="126" height="125" /> <img src="'+Logo+'" width="135" height="135" /> </div> <div class="attention"> <div class="attention-frist"> <div class="attention-li">1、每张处方仅限患者本人用药；</div> <div class="attention-li">2、一天一副药，一天三次，服用时请加热；</div> <div class="attention-li">3、服药期间如有任何疑问，请及时咨询医师；</div> <div class="attention-li">4、药物服用完后，请勿自行继续服用原方；</div> </div> <div class="attention-li attention-address"> 地址：成都市武侯区丽都路2号附17号  短信预约电话：18010601111 </div> </div> </div> </div>';
+        let printFoot =
+          '<div class="print-foot-container"> ' +
+              '<div class="frist-foot-item"> ' +
+                  '<div> ' +
+                      '<span class="label-tag">处方医师</span> ' +
+                      '<span class="underline"></span>' +
+                  ' </div> ' +
+                  '<div> ' +
+                      '<span class="label-tag">调配</span> ' +
+                      '<span class="yf-underline">'+obj.amount+'</span> ' +
+                      '<span class="font-color-red">付</span> ' +
+                  '</div> ' +
+              '</div> ' +
+              '<div class="seconed-foot-item"> ' +
+                  '<div class="logo-img-container"> ' +
+                      '<img src="'+qrcode+'" width="126" height="125" /> ' +
+                      '<img src="'+Logo+'" width="135" height="135" /> ' +
+                  '</div> ' +
+                  '<div class="attention"> ' +
+                      '<div class="attention-frist"> ' +
+                          '<div class="attention-li">1、处方仅限本人使用，请勿自行重复服用原方。</div> ' +
+                          '<div class="attention-li">2、一天一付，一天三次，请加热服用。</div>' +
+                          '<div class="attention-li">3、请勿重复发送短信，请注明预约卢崇汉教授或卢玮医生。</div>' +
+                          '<div class="attention-li">4、根据相关规定，为保障用药安全，药品一经发出，不得退换。</div>' +
+                      ' </div>' +
+                      ' <div class="attention-li attention-address"> 成都市武侯区丽都路2号附14号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;短信预约:18010601111 </div> ' +
+                  '</div> ' +
+              '</div> ' +
+          '</div>';
+    // <div class="attention-li">3、服药期间有任何疑问，请询问医师；</div>
         return printFoot;
     },
     //生成方子的对应Str

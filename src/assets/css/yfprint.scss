@@ -98,23 +98,23 @@
                 align-items: center;
             }
             .attention{
-                width: 440px;
+                width: 480px;
                 margin-top: 10px;
                 .attention-frist{
-                    padding-bottom: 10px;
-                    border-bottom: 2px dashed #d02929;
+                    padding-bottom: 2px;
+                    //border-bottom: 2px dashed #d02929;
                 }
 
                 .attention-li{
                     font-family: SourceHanSerifCN-Bold;
-                    font-size: 14px;
+                    font-size: 16px;
                     font-weight: normal;
                     font-stretch: normal;
                     letter-spacing: 0px;
                     color: #d02929;
                 }
                 .attention-address{
-                    margin-top: 10px;
+                    margin-top: 2px;
                 }
             }
         }
